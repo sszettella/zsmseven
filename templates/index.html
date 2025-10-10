@@ -47,6 +47,7 @@
 </head>
 <body>
     <h1>ZSM Properties, LTD - Market Insights</h1>
+     <hr/>
     <div class="toc-box">
         <h2>Index</h2>
         <ul>
@@ -58,9 +59,7 @@
     <hr>
     {% for post in posts[:1] %}
         <article id="{{ post.slug }}" class="main-content">
-            <h2>Latest Post: {{ post.date }}</h2>
-            <h2><a href="{% if is_static %}./{{ post.slug }}.html{% else %}/post/{{ post.slug }}{% endif %}">{{ post.title }}</a></h2>
-
+            <p>Published: {{ post.date }}</p>
             <div>{{ post.content | safe }}</div>
         </article>
     {% endfor %}

@@ -5,6 +5,7 @@ import frontmatter
 from datetime import datetime
 import shutil
 import sys
+import re
 
 app = Flask(__name__)
 
@@ -16,6 +17,13 @@ TEMPLATE_DIR = "templates"
 # Ensure output directory exists
 if not os.path.exists(OUTPUT_DIR):
     os.makedirs(OUTPUT_DIR)
+
+def shift_headings(content):
+    """Shift all Markdown headings down by one level."""
+    def repl(match):
+        level = len(match.group(1))
+        return '#' * (level + 1) + ' '
+    return re.sub(r'^(#+) ', repl, content, flags=re.MULTILINE)
 
 def convert_markdown_to_html():
     """Convert all Markdown posts to HTML."""
@@ -29,6 +37,8 @@ def convert_markdown_to_html():
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
                     post = frontmatter.load(f)
+                    # Shift headings down by one level
+                    post.content = shift_headings(post.content)
                     # Convert Markdown content to HTML
                     post.content = markdown.markdown(post.content, extensions=['fenced_code','tables'])
                     posts.append({

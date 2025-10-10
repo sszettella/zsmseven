@@ -24,10 +24,8 @@ We didn't go all-in (patience is a virtue, even for high-rollers), but that oppo
 Look, Friday's carnage? It's the market's version of a toddler's tantrum—loud, messy, and forgotten by nap time. Next week? We expect a V-shaped recovery, clawing back 80-100% of these losses. Why the optimism, you ask, with a side-eye at my crystal ball?
 
 * **Tariff Talk is Cheap**: Trump's bark has outpaced his bite since day one. Remember the 2016-2020 cycle? Threats galore, but actual implementations were surgical, not scorched-earth. Markets front-run the noise, then exhale when reality (read: negotiations) sets in. By Monday, expect cooler heads and bargain-hunting.
-* **BTC's Bouncy Castle Resilience**: Bitcoin doesn't care about your trade wars; it thrives on monetary mayhem. With ETF inflows hitting $2.8B last week alone and halving scars fully healed, this dip is catnip for institutions. Adjacent plays like HOOD (our fintech wildcard) tanked 4.1% Friday but could snap back 10%+ on volume. Hell, even PLTR and NVDA—our AI darlings—barely blinked, down under 1%, proving the ZSM Seven's tech core is tariff-proof.
+* **BTC's Bouncy Castle Resilience**: Bitcoin doesn't care about your trade wars; it thrives on monetary mayhem. With ETF inflows hitting $2.8B last week alone and halving scars fully healed, this dip is catnip for institutions. Adjacent plays like HOOD (our fintech wildcard) tanked 4.1% Friday but could snap back 6-8%+ on volume.
 * **Debasement Dial Turned to 11**: Inflation data out next week? Whispered at 3.2% core PCE. Fed's still dovish, yields compressing, and geopolitics ensuring the dollar's "reserve" status feels more like a suggestion. BTC and gold aren't hedges; they're accelerators in this environment. Expect BTC to kiss $125K by mid-week, leaving the VIX-chasers in the dust.
-
-In short: Equities might limp home green, but BTC and its orbit? They'll moonwalk right past Friday's ghosts. The ZSM Seven's macro buffer (BTC + IAU at nearly 40%) turned what could've been a -2% portfolio day into a flatline yawn. Resilient? Understatement. It's like having a force field in a knife fight.
 
 ## Tying It Back: The ZSM Seven Edge amid the Chaos
 
@@ -37,7 +35,7 @@ Tariff tantrums like today's are just speed bumps on the road to 2030s dominance
 
 ## Outlook: Stack Wins, Not Worries
 
-We see 3-6% upside for the ZSM Seven next week alone, versus flat-to-up 2% for the broader indices. Catalysts? Fading FUD, AI capex announcements, and that sweet, sweet debasement drip. For the aspiring (or already minted) high-net-worth crowd: Keep some powder dry. Volatility is the tollbooth on the wealth superhighway—pay it, then floor it.
+We see 3-5% upside for the ZSM Seven next week alone, versus flat-to-up 2% for the broader indices. Catalysts? Fading FUD, AI capex announcements, and that sweet, sweet debasement drip. For the aspiring (or already minted) high-net-worth crowd: Keep some powder dry. Volatility is the tollbooth on the wealth superhighway—pay it, then floor it.
 
 The future's programmable, alright. And right now, it's coding in green.
 

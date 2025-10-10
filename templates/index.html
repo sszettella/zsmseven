@@ -49,7 +49,7 @@
     <h1>ZSM Seven Blog</h1>
     {% for post in posts %}
         <article>
-            <h2><a href="/post/{{ post.slug }}">{{ post.title }}</a></h2>
+            <h2><a href="./post/{{ post.slug }}">{{ post.title }}</a></h2>
             <p><small>{{ post.date }}</small></p>
             <div>{{ post.content | safe }}</div>
         </article>

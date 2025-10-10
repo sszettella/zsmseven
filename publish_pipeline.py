@@ -39,6 +39,8 @@ def convert_markdown_to_html():
                     })
             except Exception as e:
                 print(f"Error processing {filename}: {e}")
+    # Sort posts by date in descending order (newest first)
+    posts.sort(key=lambda p: p['date'], reverse=True)
     return posts
 
 def generate_static_site():

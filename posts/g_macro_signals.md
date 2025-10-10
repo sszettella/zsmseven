@@ -30,7 +30,7 @@ With halvings reducing new supply every four years, Bitcoin's scarcity rivals go
 ### Gold's Enduring Appeal
 Don't sleep on physical gold, either. Its low stock-to-flow ratio—meaning new supply is a tiny fraction of existing stockpiles—makes it a timeless store of value. Unlike real estate, gold requires zero upkeep, no tenants, and zero liability. In a world of depreciating dollars, gold has preserved wealth through centuries of currency crises, from Roman denarii to Weimar hyperinflation.
 
-Current macro signals, like weakening dollar index (DXY) trends, suggest gold could rally toward $3,000 per ounce by year-end. It's the ultimate "set it and forget it" hedge, especially as central banks diversify away from USD reserves.
+Current macro signals, like weakening dollar index (DXY) trends, suggest gold could rally toward $4,500 per ounce by year-end. It's the ultimate "set it and forget it" hedge, especially as central banks diversify away from USD reserves.
 
 ### Wrapping Up: Position for the Inevitable
 The macro winds are shifting toward US dollar devaluation, and savvy investors will pivot accordingly. Ditch the real estate illusions and lean into Bitcoin's digital dominance and gold's proven resilience. Of course, I'm just sharing observations from the trenches—this isn't financial advice, but if it sparks your interest, who knows? You might thank me later.

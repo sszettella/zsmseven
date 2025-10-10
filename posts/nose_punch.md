@@ -41,5 +41,4 @@ The future's programmable, alright. And right now, it's coding in green.
 
 *Disclaimer: Not financial advice. Past performance doesn't guarantee future results. Invest at your own risk. Or don't—your call, but don't blame us when BTC hits another ATH.*
 
----
 

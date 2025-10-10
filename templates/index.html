@@ -47,8 +47,14 @@
 </head>
 <body>
     <h1>ZSM Properties Blog</h1>
+    <h2>Table of Contents</h2>
+    <ul>
     {% for post in posts %}
-        <article>
+        <li><a href="#{{ post.slug }}">{{ post.date }} - {{ post.title }}</a></li>
+    {% endfor %}
+    </ul>
+    {% for post in posts %}
+        <article id="{{ post.slug }}">
             <h2><a href="./{{ post.slug }}">{{ post.title }}</a></h2>
             <p><small>{{ post.date }}</small></p>
             <div>{{ post.content | safe }}</div>

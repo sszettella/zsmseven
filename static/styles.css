@@ -25,6 +25,7 @@ h1, h2 {
 }
 
 h1 {
+    color: var(--primary-blue);
     margin-top: 0;
 }
 
@@ -67,7 +68,7 @@ body {
 }
 
 h1, h2, h3 {
-    color: #333;
+
 }
 
 h1 + h2 {

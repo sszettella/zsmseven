@@ -30,7 +30,7 @@ def convert_markdown_to_html():
                 with open(file_path, 'r', encoding='utf-8') as f:
                     post = frontmatter.load(f)
                     # Convert Markdown content to HTML
-                    post.content = markdown.markdown(post.content, extensions=['fenced_code'])
+                    post.content = markdown.markdown(post.content, extensions=['fenced_code','tables'])
                     posts.append({
                         'title': post.get('title', 'Untitled'),
                         'date': post.get('date', datetime.now().strftime('%Y-%m-%d')),

@@ -1,17 +1,17 @@
 ---
-title: "The ZSM Seven: The Next Evolution Beyond the Magnificent Seven"
+title: "The ZSM Seven: Beyond the Magnificent Seven"
 date: "2025-10-10"
 description: "Introducing the ZSM Seven model portfolio, capturing AI growth, autonomous driving, humanoid robots, and the debasement trade."
 tags: ["investing", "portfolio", "AI", "bitcoin", "technology"]
 ---
 
-# The ZSM Seven: The Next Evolution Beyond the Magnificent Seven
+# The ZSM Seven: Beyond the Magnificent Seven
 
-In the ever-evolving landscape of investing, portfolios must adapt to seismic shifts in technology, economics, and global finance. The "Magnificent Seven" (MAG7)—Microsoft, Apple, Nvidia, Amazon, Alphabet, Meta, and Tesla—dominated headlines and returns, powering the bull market with cloud computing, consumer tech, and AI innovation.
+Portfolios must adapt to seismic shifts in technology, economics, and global finance to achieve outsized returns over time. The "Magnificent Seven" (MAG7)—Microsoft, Apple, Nvidia, Amazon, Alphabet, Meta, and Tesla—dominated headlines and returns over the past 2 years, powering the bull market with cloud computing, consumer tech, and AI innovation.
 
-As valuations stretch and new frontiers emerge, it's time for the next chapter. Enter the **ZSM Seven**: a model portfolio designed to capture the "debasement trade," autonomous driving, humanoid robotics, and the exponential growth of artificial intelligence.
+As valuations stretch and new frontiers emerge, it's time for the next chapter. Enter the **ZSM Seven**: a model portfolio designed to capture the debasement trade, autonomous driving, humanoid robotics, and the exponential growth of artificial intelligence.
 
-Named for **Z**ero-trust data (Palantir), **S**emiconductors (Broadcom and Nvidia), **M**obility (Tesla and Robinhood for fintech/crypto plays), and macro hedges (Bitcoin and Gold), the ZSM Seven is a reinvention. It retains core AI and mobility leaders from the MAG7 while betting on emerging megatrends.
+Named for **Z**ero-trust (Palantir, Bitcoin), **S**emiconductors (Broadcom and Nvidia), **M**obility (Tesla and Robinhood for fintech/crypto plays), and macro hedges (Bitcoin and Gold), the ZSM Seven is a reinvention. It retains core AI and mobility leaders from the MAG7 while betting on emerging megatrends.
 
 Below, we break down the portfolio, analyze its performance from October 10, 2024, to October 10, 2025, and explain why it will likely outperform over the next 12-18 months.
 

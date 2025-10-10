@@ -9,7 +9,6 @@
 <body>
     <h1><a href="{% if is_static %}./index.html{% else %}/{% endif %}" style="text-decoration: none; color: inherit;">ZSM Properties, LTD - Market Insights</a></h1>
     <hr/>
-    <p>Published: {{ post.date }}</p>
     <div class="main-content">{{ post.content | safe }}</div>
     <div class="toc-box">
         <h2>Latest</h2>

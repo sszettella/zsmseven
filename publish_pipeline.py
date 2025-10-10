@@ -67,7 +67,7 @@ def generate_static_site():
                 template = f.read()
             for post in posts:
                 with open(os.path.join(OUTPUT_DIR, f"{post['slug']}.html"), 'w', encoding='utf-8') as f:
-                    f.write(render_template_string(template, post=post, is_static=True))
+                    f.write(render_template_string(template, post=post, posts=posts, is_static=True))
 
 @app.route('/')
 def index():
@@ -79,7 +79,7 @@ def post(slug):
     posts = convert_markdown_to_html()
     post = next((p for p in posts if p['slug'] == slug), None)
     if post:
-        return render_template('post.html', post=post, is_static=False)
+        return render_template('post.html', post=post, posts=posts, is_static=False)
     return "Post not found", 404
 
 if __name__ == '__main__':

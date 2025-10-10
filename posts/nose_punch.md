@@ -1,11 +1,10 @@
 ---
-title: "Trump's Tariff Tantrum: Punching the Market (and Why We Bought the Dip)"
+title: "Trump's Tariff Tantrum & Why We Bought the Dip"
 date: "2025-10-11"
 description: "Donald Trump's latest tariff threats send markets into a Friday frenzy. ZSM stacks more BTC on the chaos—because debasement doesn't take weekends off."
 tags: ["investing", "portfolio", "AI", "bitcoin", "technology", "tariffs", "trump"]
 ---
-# Trump's Tariff Tantrum: Punching the Market
-### (and Why We Bought the Dip)
+# Trump's Tariff Tantrum & Why We Bought the Dip
 
 Ah, Fridays. That magical day when the workweek exhales, cocktails flow, and... apparently, presidents decide to swing haymakers at global trade. October 10, 2025, will go down as the day Donald Trump dusted off his tariff playbook and clocked the market square in the nose. Whispers of 60% levies on Chinese imports? Check. Renewed bluster on EU duties? Double check. The Dow plunged 1.9%, Nasdaq shed 2.5%, and even our old pal the S&P 500 looked like it had one too many at happy hour, down 2.1%. **After-hours trading shows early signs of stabilization, with futures ticking up 0.2%—a classic Friday exhale.**
 

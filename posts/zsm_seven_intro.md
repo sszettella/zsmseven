@@ -1,11 +1,11 @@
 ---
-title: "The ZSM Seven: Beyond the Magnificent Seven"
+title: "The ZSM Seven: Beyond the MAG7"
 date: "2025-10-10"
 description: "Introducing the ZSM Seven model portfolio, capturing AI growth, autonomous driving, humanoid robots, and the debasement trade."
 tags: ["investing", "portfolio", "AI", "bitcoin", "technology"]
 ---
 
-# The ZSM Seven: Beyond the Magnificent Seven
+# The ZSM Seven: a MAG7 for the Digital Age
 
 Investors must adapt to seismic shifts in technology, economics, and global finance to achieve outsized returns over time. The "Magnificent Seven" (MAG7)—Microsoft, Apple, Nvidia, Amazon, Alphabet, Meta, and Tesla—dominated headlines and returns over the past 2 years, powering the bull market with cloud computing, consumer tech, and AI innovation.
 

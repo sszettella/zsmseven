@@ -47,12 +47,15 @@
 </head>
 <body>
     <h1>ZSM Properties Blog</h1>
-    <h2>Table of Contents</h2>
-    <ul>
-    {% for post in posts %}
-        <li><a href="{% if is_static %}./{{ post.slug }}.html{% else %}/post/{{ post.slug }}{% endif %}">{{ post.date }} - {{ post.title }}</a></li>
-    {% endfor %}
-    </ul>
+    <div class="toc-box">
+        <h2>Index</h2>
+        <ul>
+        {% for post in posts %}
+            <li><a href="{% if is_static %}./{{ post.slug }}.html{% else %}/post/{{ post.slug }}{% endif %}">{{ post.date }} - {{ post.title }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+    <hr>
     {% for post in posts[:1] %}
         <article id="{{ post.slug }}">
             <h2>Latest Post: {{ post.date }}</h2>

@@ -50,7 +50,7 @@
     <h2>Table of Contents</h2>
     <ul>
     {% for post in posts %}
-        <li><a href="#{{ post.slug }}">{{ post.date }} - {{ post.title }}</a></li>
+        <li><a href="./{{ post.slug }}">{{ post.date }} - {{ post.title }}</a></li>
     {% endfor %}
     </ul>
     {% for post in posts %}

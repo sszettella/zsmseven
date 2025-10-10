@@ -5,7 +5,7 @@ description: "Introducing the ZSM Seven model portfolio, capturing AI growth, au
 tags: ["investing", "portfolio", "AI", "bitcoin", "technology"]
 ---
 
-# The ZSM Seven: a MAG7 for the Digital Age
+# The ZSM Seven: A MAG7 for the Digital Age
 
 Investors must adapt to seismic shifts in technology, economics, and global finance to achieve outsized returns over time. The "Magnificent Seven" (MAG7)—Microsoft, Apple, Nvidia, Amazon, Alphabet, Meta, and Tesla—dominated headlines and returns over the past 2 years, powering the bull market with cloud computing, consumer tech, and AI innovation.
 

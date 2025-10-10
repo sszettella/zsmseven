@@ -26,7 +26,7 @@ Look, Friday's carnage? It's the market's version of a toddler's tantrum—loud,
 
 - **Tariff Talk is Cheap**: Trump's bark has outpaced his bite since day one. Remember the 2016-2020 cycle? Threats galore, but actual implementations were surgical, not scorched-earth. Markets front-run the noise, then exhale when reality (read: negotiations) sets in. By Monday, expect cooler heads and bargain-hunting.
 
-- **BTC's Bouncy Castle Resilience**: Crypto doesn't care about your trade wars; it thrives on monetary mayhem. With ETF inflows hitting $2.5B last week alone and halving scars fully healed, this dip is catnip for institutions. Adjacent plays like HOOD (our fintech wildcard) tanked 4.1% Friday but could snap back 10%+ on volume. Hell, even PLTR and NVDA—our AI darlings—barely blinked, down under 1%, proving the ZSM Seven's tech core is tariff-proof.
+- **BTC's Bouncy Castle Resilience**: Bitcoin doesn't care about your trade wars; it thrives on monetary mayhem. With ETF inflows hitting $2.5B last week alone and halving scars fully healed, this dip is catnip for institutions. Adjacent plays like HOOD (our fintech wildcard) tanked 4.1% Friday but could snap back 10%+ on volume. Hell, even PLTR and NVDA—our AI darlings—barely blinked, down under 1%, proving the ZSM Seven's tech core is tariff-proof.
 
 - **Debasement Dial Turned to 11**: Inflation data out next week? Whispered at 3.2% core PCE. Fed's still dovish, yields compressing, and geopolitics ensuring the dollar's "reserve" status feels more like a suggestion. BTC and gold aren't hedges; they're accelerators in this environment. Expect BTC to kiss $125K by mid-week, leaving the VIX-chasers in the dust.
 

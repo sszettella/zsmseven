@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1><a href="{% if is_static %}./index.html{% else %}/{% endif %}" style="text-decoration: none; color: inherit;">ZSM Properties Blog</a></h1>
-    <p><small>{{ post.date }}</small></p>
+    <p>Published: {{ post.date }}</p>
     <div>{{ post.content | safe }}</div>
     <a href="{% if is_static %}./index.html{% else %}/{% endif %}">Back to Home</a>
 </body>

@@ -13,11 +13,11 @@ It was a bloodbath, folks—a classic overreaction to political theater in an el
 
 ## ZSM's Play: Dry Powder Meets Discounted Digital Gold
 
-Earlier this week, we'd trimmed off some AVGO, as it was getting too heavy in the portfolio. Nothing dramatic, just freeing up some dry powder to keep the portfolio nimble. Perfect timing. As the tariff tweets lit up the tape and BTC dipped below $117,200 (from its intra-week perch), we pounced. Stacked more Bitcoin, baby. Why? Because in the grand casino of fiat debasement, BTC isn't just a chip—it's the house edge.
+Earlier this week, we'd trimmed off some AVGO, as it was getting too heavy in the portfolio. Nothing dramatic, just freeing up some dry powder to keep the portfolio nimble. Perfect timing. As the tariff tweets lit up the tape and BTC dipped below $117,000 (from its intra-week perch), we pounced and stacked more Bitcoin. In the grand casino of fiat debasement, BTC isn't just a chip—it's the house edge.
 
 Our ZSM Seven portfolio, that debasement-defying beast we unveiled yesterday, is already 24.4% allocated to Bitcoin for exactly these moments. It's the zero-trust anchor in a world where central banks print money like it's going out of style (spoiler: fiat is). Gold (IAU at 14.6%) held steady as a rock—up 0.8% amid the melee—but BTC? It got dragged down 3.2% on the day, purely by association with risk-on assets. Collateral damage from tariff FUD, not fundamentals.
 
-We didn't go all-in (patience is a virtue, even for high-rollers), but that opportunistic buy juiced our BTC weighting to a comfy 28% temporarily. It's like spotting a Rolex at 20% off during a fire sale—you don't ask why the store's on fire; you just grab the deal.
+We didn't go all-in (patience is a virtue, even for high-rollers), but that opportunistic buy juiced our BTC weighting a bit. It's like spotting a Rolex at 20% off during a fire sale—you don't ask why the store's on fire; you just grab the deal.
 
 ## The Rebound Thesis: Blood in the Water, But Sharks Swim Up
 

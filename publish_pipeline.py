@@ -72,6 +72,10 @@ def generate_static_site():
 @app.route('/')
 def index():
     posts = convert_markdown_to_html()
+    # Adjust links in post contents for Flask
+    import re
+    for post in posts:
+        post['content'] = re.sub(r'href="\./(.*?)\.html"', r'href="/post/\1"', post['content'])
     return render_template('index.html', posts=posts, is_static=False)
 
 @app.route('/post/<slug>')
@@ -79,6 +83,9 @@ def post(slug):
     posts = convert_markdown_to_html()
     post = next((p for p in posts if p['slug'] == slug), None)
     if post:
+        # Adjust links in content for Flask (change ./slug.html to /post/slug)
+        import re
+        post['content'] = re.sub(r'href="\./(.*?)\.html"', r'href="/post/\1"', post['content'])
         return render_template('post.html', post=post, posts=posts, is_static=False)
     return "Post not found", 404
 

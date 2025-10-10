@@ -4,10 +4,13 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:  # For manual testing
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:  # Add this block to grant write access
+      contents: write
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python

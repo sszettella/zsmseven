@@ -33,7 +33,7 @@ In short: Equities might limp home green, but BTC and its orbit? They'll moonwal
 
 ## Tying It Back: ZSM Seven's Edge in the Chaos
 
-Yesterday's intro to the ZSM Seven wasn't just portfolio porn—it was a roadmap for exactly this. While the MAG7 chugs along on cloud dreams, we're laser-focused on AI's underbelly (NVDA, AVGO, PLTR), mobility's moonshot (TSLA), and the ultimate fiat fuck-you (BTC, IAU, HOOD). That 158.7% one-year rip we clocked? It's not luck; it's architecture for asymmetry.
+[Yesterday's intro to the ZSM Seven](./zsm_seven_intro) wasn't just hype—it was a roadmap for exactly this. While the MAG7 chugs along on cloud dreams, we're laser-focused on AI's underbelly (NVDA, AVGO, PLTR), mobility's moonshot (TSLA), and the ultimate fiat hedge (BTC, IAU, HOOD). That 158.7% one-year rip we clocked? It's not luck; it's architecture for asymmetry.
 
 Tariff tantrums like today's are just speed bumps on the road to 2030s dominance. Paradigm shifts don't pause for politics—they accelerate.
 

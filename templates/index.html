@@ -43,19 +43,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog</title>
-    <link rel="stylesheet" href="./static/styles.css">
+    <link rel="stylesheet" href="{% if is_static %}./static/styles.css{% else %}/static/styles.css{% endif %}">
 </head>
 <body>
     <h1>ZSM Properties Blog</h1>
     <h2>Table of Contents</h2>
     <ul>
     {% for post in posts %}
-        <li><a href="./{{ post.slug }}">{{ post.date }} - {{ post.title }}</a></li>
+        <li><a href="{% if is_static %}./{{ post.slug }}.html{% else %}/post/{{ post.slug }}{% endif %}">{{ post.date }} - {{ post.title }}</a></li>
     {% endfor %}
     </ul>
-    {% for post in posts %}
+    {% for post in posts[:1] %}
         <article id="{{ post.slug }}">
-            <h2><a href="./{{ post.slug }}">{{ post.title }}</a></h2>
+            <h2><a href="{% if is_static %}./{{ post.slug }}.html{% else %}/post/{{ post.slug }}{% endif %}">{{ post.title }}</a></h2>
             <p><small>{{ post.date }}</small></p>
             <div>{{ post.content | safe }}</div>
         </article>

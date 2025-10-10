@@ -1,14 +1,27 @@
+:root {
+    --primary-blue: #1565C0;
+    --dark-blue: #0D47A1;
+    --primary-orange: #FF7A00;
+    --dark-orange: #FF5722;
+    --text-dark: #333;
+    --text-light: #666;
+    --background-light: #f8f9fa;
+    --border-color: #e9ecef;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 900px;
     margin: 0 auto;
     padding: 20px;
+    color: var(--text-dark);
+    background: var(--background-light);
 }
 article {
     margin-bottom: 40px;
 }
 h1, h2 {
-    color: #333;
+    color: var(--dark-blue);
 }
 
 /* Styling for ZSM Seven blog post tables */
@@ -77,9 +90,10 @@ ul {
 
 /* Table of Contents box */
 .toc-box {
-    background-color: #f0f0f0;
+    background: white;
     padding: 5px 20px 20px 20px;
-    border-radius: 5px;
+    border-radius: 15px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
 }

@@ -39,7 +39,7 @@ We see 3-5% upside for the ZSM Seven next week alone, versus flat-to-up 2% for t
 
 The future's programmable, alright. And right now, it's coding in green.
 
-**Disclaimer**: Not financial advice. Past performance doesn't guarantee future results. Invest at your own risk. Or don't—your call, but don't blame us when BTC hits another ATH.
+*Disclaimer: Not financial advice. Past performance doesn't guarantee future results. Invest at your own risk. Or don't—your call, but don't blame us when BTC hits another ATH.*
 
 ---
 

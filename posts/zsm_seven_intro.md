@@ -7,7 +7,7 @@ tags: ["investing", "portfolio", "AI", "bitcoin", "technology"]
 
 # The ZSM Seven: Beyond the Magnificent Seven
 
-Portfolios must adapt to seismic shifts in technology, economics, and global finance to achieve outsized returns over time. The "Magnificent Seven" (MAG7)—Microsoft, Apple, Nvidia, Amazon, Alphabet, Meta, and Tesla—dominated headlines and returns over the past 2 years, powering the bull market with cloud computing, consumer tech, and AI innovation.
+Investors must adapt to seismic shifts in technology, economics, and global finance to achieve outsized returns over time. The "Magnificent Seven" (MAG7)—Microsoft, Apple, Nvidia, Amazon, Alphabet, Meta, and Tesla—dominated headlines and returns over the past 2 years, powering the bull market with cloud computing, consumer tech, and AI innovation.
 
 As valuations stretch and new frontiers emerge, it's time for the next chapter. Enter the **ZSM Seven**: a model portfolio designed to capture the debasement trade, autonomous driving, humanoid robotics, and the exponential growth of artificial intelligence.
 

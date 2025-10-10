@@ -5,7 +5,8 @@ description: "Donald Trump's latest tariff threats send markets into a Friday fr
 tags: ["investing", "portfolio", "AI", "bitcoin", "technology", "tariffs", "trump"]
 ---
 
-# Trump's Tariff Tantrum: Punching the Market (and Why We Just Bought the Dip)
+# Trump's Tariff Tantrum: Punching the Market 
+### (and Why We Just Bought the Dip)
 
 Ah, Fridays. That magical day when the workweek exhales, cocktails flow, and... apparently, former presidents decide to swing haymakers at global trade. October 10, 2025, will go down as the day Donald Trump dusted off his tariff playbook and clocked the market square in the nose. Whispers of 60% levies on Chinese imports? Check. Renewed bluster on EU duties? Double check. The Dow plunged 1.8%, Nasdaq shed 2.3%, and even our old pal the S&P 500 looked like it had one too many at happy hour, down 1.5%.
 
@@ -33,7 +34,7 @@ In short: Equities might limp home green, but BTC and its orbit? They'll moonwal
 
 ## Tying It Back: ZSM Seven's Edge in the Chaos
 
-[Yesterday's intro to the ZSM Seven](./zsm_seven_intro) wasn't just hype—it was a roadmap for exactly this. While the MAG7 chugs along on cloud dreams, we're laser-focused on AI's underbelly (NVDA, AVGO, PLTR), mobility's moonshot (TSLA), and the ultimate fiat hedge (BTC, IAU, HOOD). That 158.7% one-year rip we clocked? It's not luck; it's architecture for asymmetry.
+[Yesterday's intro to the ZSM Seven](./zsm_seven_intro.html) wasn't just hype—it was a roadmap for exactly this. While the MAG7 chugs along on cloud dreams, we're laser-focused on AI's underbelly (NVDA, AVGO, PLTR), mobility's moonshot (TSLA), and the ultimate fiat hedge (BTC, IAU, HOOD). That 158.7% one-year rip we clocked? It's not luck; it's architecture for asymmetry.
 
 Tariff tantrums like today's are just speed bumps on the road to 2030s dominance. Paradigm shifts don't pause for politics—they accelerate.
 

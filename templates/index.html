@@ -55,8 +55,9 @@
     </ul>
     {% for post in posts[:1] %}
         <article id="{{ post.slug }}">
+            <h2>Latest Post: {{ post.date }}</h2>
             <h2><a href="{% if is_static %}./{{ post.slug }}.html{% else %}/post/{{ post.slug }}{% endif %}">{{ post.title }}</a></h2>
-            <p><small>{{ post.date }}</small></p>
+            
             <div>{{ post.content | safe }}</div>
         </article>
     {% endfor %}

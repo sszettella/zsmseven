@@ -1,6 +1,6 @@
 ---
 title: "Argentine Pesos: A Risky Bet on a Sinking Currency"
-date: "2025-10-1121"
+date: "2025-10-12"
 description: "Analyzing the US Treasury's recent acquisition of Argentine pesos, its unlikely impact on peso devaluation, and why this move burdens taxpayers amid budget deficits. Explore Bitcoin as a hedge against currency risks and inflation."
 tags: ["US Treasury", "Argentine peso", "currency devaluation", "Bitcoin", "inflation", "economy"]
 ---

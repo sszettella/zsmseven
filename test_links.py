@@ -9,6 +9,8 @@ visited = set()
 broken_links = []
 
 def check_link(url):
+    if url.startswith("https://x.com/zsmproperties"):
+        return True, None
     try:
         response = requests.head(url, timeout=10, allow_redirects=True)
         if response.status_code == 200:

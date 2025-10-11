@@ -1,72 +1,15 @@
-<script type="text/javascript">
-var gk_isXlsx = false;
-var gk_xlsxFileLookup = {};
-var gk_fileData = {};
-function filledCell(cell) {
-  return cell !== '' && cell != null;
-}
-function loadFileData(filename) {
-  if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-    try {
-      var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-      var firstSheetName = workbook.SheetNames[0];
-      var worksheet = workbook.Sheets[firstSheetName];
-
-      // Convert sheet to JSON to filter blank rows
-      var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-      // Filter out blank rows (rows where all cells are empty, null, or undefined)
-      var filteredData = jsonData.filter(row => row.some(filledCell));
-
-      // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-      var headerRowIndex = filteredData.findIndex((row, index) =>
-        row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-      );
-      // Fallback
-      if (headerRowIndex === -1 || headerRowIndex > 25) {
-        headerRowIndex = 0;
-      }
-
-      // Convert filtered JSON back to CSV
-      var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-      csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-      return csv;
-    } catch (e) {
-      console.error(e);
-      return "";
-    }
-  }
-  return gk_fileData[filename] || "";
-}
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Insights from ZSM Properties, LTD.</title>
+    <title>Argentine Pesos: A Risky Bet on a Sinking Currency</title>
     <link rel="stylesheet" href="./static/styles.css">
 </head>
 <body>
-    <h1>ZSM Properties, LTD - Market Insights</h1>
-     <hr/>
-    <div class="toc-box">
-        <h2>Index</h2>
-        <ul>
-        
-            <li><a href="./g_argentine_peso_20251011.html">2025-10-1121 - Argentine Pesos: A Risky Bet on a Sinking Currency</a></li>
-        
-            <li><a href="./nose_punch.html">2025-10-11 - Trump&#39;s Tariff Tantrum &amp; Why We Bought the Dip</a></li>
-        
-            <li><a href="./zsm_seven_intro.html">2025-10-10 - The ZSM Seven: Beyond the MAG7</a></li>
-        
-            <li><a href="./g_macro_signals.html">2025-10-09 - Macro Signals Favor Bitcoin and Gold Over Real Estate</a></li>
-        
-        </ul>
-    </div>
-    <hr>
-    
-        <article id="g_argentine_peso_20251011" class="main-content">
-            <p>Published: 2025-10-1121</p>
-            <div><p>Posted on 2025-10-12 </p>
+    <h1><a href="./index.html" style="text-decoration: none; color: inherit;">ZSM Properties, LTD - Market Insights</a></h1>
+    <hr/>
+    <div class="main-content"><p>Posted on 2025-10-12 </p>
 <h2>Argentine Pesos: A Risky Bet on a Sinking Currency</h2>
 <p>In a move that's raising eyebrows across financial circles, the US Treasury has reportedly scooped up a significant stash of Argentine pesos. This intervention comes amid Argentina's ongoing battle with hyperinflation and currency woes, where the peso has been shedding value faster than a melting ice cube in July. The goal, at least on paper, is to provide some stability to the beleaguered currency and support broader economic ties. But let's peel back the layers: is this really going to halt the peso's downward spiral, or is it just another chapter in the tale of fiat follies?</p>
 <h4>The Unlikely Lifeline for the Peso</h4>
@@ -82,7 +25,20 @@ accomplish nothing - or worse.</p>
 <p>What do you think—another taxpayer squeeze, or a savvy geopolitical play? Head over to <a href="https://x.com/zsmproperties">@ZSMProperties</a> to join the conversation. </p>
 <p>Stay vigilant.</p>
 <p><em>Disclaimer: As always, this is for informational purposes only and not a recommendation to buy, sell, or hold any asset. Markets are unpredictable—do your own research.</em></p></div>
-        </article>
-    
+    <div class="toc-box">
+        <h2>Latest</h2>
+        <ul>
+        
+            <li><a href="./g_argentine_peso_20251011.html">2025-10-1121 - Argentine Pesos: A Risky Bet on a Sinking Currency</a></li>
+        
+            <li><a href="./nose_punch.html">2025-10-11 - Trump&#39;s Tariff Tantrum &amp; Why We Bought the Dip</a></li>
+        
+            <li><a href="./zsm_seven_intro.html">2025-10-10 - The ZSM Seven: Beyond the MAG7</a></li>
+        
+            <li><a href="./g_macro_signals.html">2025-10-09 - Macro Signals Favor Bitcoin and Gold Over Real Estate</a></li>
+        
+        </ul>
+    </div> 
+    <a href="./index.html">Back to Home</a>
 </body>
 </html>

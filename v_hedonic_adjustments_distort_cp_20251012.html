@@ -1,73 +1,15 @@
-<script type="text/javascript">
-var gk_isXlsx = false;
-var gk_xlsxFileLookup = {};
-var gk_fileData = {};
-function filledCell(cell) {
-  return cell !== '' && cell != null;
-}
-function loadFileData(filename) {
-  if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-    try {
-      var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-      var firstSheetName = workbook.SheetNames[0];
-      var worksheet = workbook.Sheets[firstSheetName];
-
-      // Convert sheet to JSON to filter blank rows
-      var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-      // Filter out blank rows (rows where all cells are empty, null, or undefined)
-      var filteredData = jsonData.filter(row => row.some(filledCell));
-
-      // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-      var headerRowIndex = filteredData.findIndex((row, index) =>
-        row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-      );
-      // Fallback
-      if (headerRowIndex === -1 || headerRowIndex > 25) {
-        headerRowIndex = 0;
-      }
-
-      // Convert filtered JSON back to CSV
-      var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-      csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-      return csv;
-    } catch (e) {
-      console.error(e);
-      return "";
-    }
-  }
-  return gk_fileData[filename] || "";
-}
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Insights from ZSM Properties, LTD.</title>
+    <title>Hedonic Adjustments Distort CPI Inflation</title>
     <link rel="stylesheet" href="./static/styles.css">
 </head>
 <body>
-    <h1>ZSM Properties, LTD - Market Insights</h1>
-     <hr/>
-    <div class="toc-box">
-        <h2>Index</h2>
-        <ul>
-        
-            <li><a href="./v_hedonic_adjustments_distort_cp_20251012.html">2025-10-13 - Hedonic Adjustments Distort CPI Inflation</a></li>
-        
-            <li><a href="./g_argentine_peso_20251011.html">2025-10-12 - Argentine Pesos: A Risky Bet on a Sinking Currency</a></li>
-        
-            <li><a href="./nose_punch.html">2025-10-11 - Trump&#39;s Tariff Tantrum &amp; Why We Bought the Dip</a></li>
-        
-            <li><a href="./zsm_seven_intro.html">2025-10-10 - The ZSM Seven: Beyond the MAG7</a></li>
-        
-            <li><a href="./g_macro_signals.html">2025-10-09 - Macro Signals Favor Bitcoin and Gold Over Real Estate</a></li>
-        
-        </ul>
-    </div>
-    <hr>
-    
-        <article id="v_hedonic_adjustments_distort_cp_20251012" class="main-content">
-            <div><p>Posted on 2025-10-13 by Steve Szettella.</p>
+    <h1><a href="./index.html" style="text-decoration: none; color: inherit;">ZSM Properties, LTD - Market Insights</a></h1>
+    <hr/>
+    <div class="main-content"><p>Posted on 2025-10-13 by Steve Szettella.</p>
 <h2>Hedonic Adjustments Distort CPI Inflation: A Gateway to Debasement and Digital Alternatives</h2>
 <p>Inflation isn't just a number—it's a force that erodes purchasing power, often more aggressively than official reports suggest. The Consumer Price Index (CPI), overseen by the Bureau of Labor Statistics (BLS), is meant to track this, but techniques like hedonic adjustment can mask the true extent of price pressures. In an era of relentless money printing and fiscal expansion, these distortions amplify the debasement thesis: that fiat currencies are systematically weakened, pushing savvy observers toward hard assets like Bitcoin as a superior store of value. Add in the geometric growth of AI, which is reshaping economies at an exponential pace, and the stakes get even higher. This isn't about dry stats—it's market commentary on why everyday experiences clash with headlines, breeding distrust and opening doors to innovative hedges.</p>
 <p>We'll unpack hedonic adjustment, spotlight its effects via automobile prices, and tie it to bigger-picture implications. This is for educational insight, sparking thought on economic realities—not personal financial advice.</p>
@@ -84,7 +26,22 @@ function loadFileData(filename) {
 <p>Eroded trust in institutions isn't abstract; it prevents collective action on the real issues facing all of us.</p>
 <p><em>Disclaimer: This market commentary, designed to promote critical thinking and broader awareness of important economic issues is not financial advice, please do your own research.</em></p>
 <hr /></div>
-        </article>
-    
+    <div class="toc-box">
+        <h2>Latest</h2>
+        <ul>
+        
+            <li><a href="./v_hedonic_adjustments_distort_cp_20251012.html">2025-10-13 - Hedonic Adjustments Distort CPI Inflation</a></li>
+        
+            <li><a href="./g_argentine_peso_20251011.html">2025-10-12 - Argentine Pesos: A Risky Bet on a Sinking Currency</a></li>
+        
+            <li><a href="./nose_punch.html">2025-10-11 - Trump&#39;s Tariff Tantrum &amp; Why We Bought the Dip</a></li>
+        
+            <li><a href="./zsm_seven_intro.html">2025-10-10 - The ZSM Seven: Beyond the MAG7</a></li>
+        
+            <li><a href="./g_macro_signals.html">2025-10-09 - Macro Signals Favor Bitcoin and Gold Over Real Estate</a></li>
+        
+        </ul>
+    </div> 
+    <a href="./index.html">Back to Home</a>
 </body>
 </html>

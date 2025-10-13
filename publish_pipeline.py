@@ -2,7 +2,7 @@ import os
 import markdown
 from flask import Flask, render_template, render_template_string
 import frontmatter
-from datetime import datetime
+from datetime import datetime, date
 import shutil
 import sys
 import re
@@ -41,9 +41,20 @@ def convert_markdown_to_html():
                     post.content = shift_headings(post.content)
                     # Convert Markdown content to HTML
                     post.content = markdown.markdown(post.content, extensions=['fenced_code','tables'])
+                    # Parse date consistently
+                    date_obj = post.get('date')
+                    if isinstance(date_obj, str):
+                        try:
+                            date_obj = datetime.strptime(date_obj, '%Y-%m-%d').date()
+                        except ValueError:
+                            date_obj = datetime.now().date()
+                    elif isinstance(date_obj, datetime):
+                        date_obj = date_obj.date()
+                    elif not isinstance(date_obj, date):
+                        date_obj = datetime.now().date()
                     posts.append({
                         'title': post.get('title', 'Untitled'),
-                        'date': post.get('date', datetime.now().strftime('%Y-%m-%d')),
+                        'date': date_obj,
                         'content': post.content,
                         'slug': filename.replace('.md', '')
                     })

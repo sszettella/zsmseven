@@ -37,7 +37,12 @@ To see the arbitrage in action, consider deploying those borrowed funds into a h
 
 We're assuming a bold 35% annual growth rate here—speculative, sure, but rooted in the geometric scaling of AI (e.g., Nvidia's chips powering exponential compute growth, with historical Magnificent Seven returns topping 20% in bull phases, per Yahoo Finance historical data). Borrow the $100,000 at 4% interest (below our 7% debasement guess, mimicking prime borrower rates). Annual interest: $4,000, paid from other sources for this model.
 
-The table below tracks portfolio growth, subtracting interest for net gains (percentages relative to each year's starting value):
+The table tracks:
+- **Portfolio Value**: Growing from $100,000 at 35% annually.
+- **Interest Paid (Nominal)**: $4,000/year.
+- **Cumulative Interest Paid**: Running total.
+- **Net Value**: Portfolio value minus cumulative interest paid minus any remaining principal liability (principal is a liability until repaid at year 10; the year-10 repayment is treated as a final outflow).
+- **Net % Gain**: Gain over initial $100,000, after all costs.
 
 | Year | Portfolio Value ($) | Interest Paid ($) | Cumulative Interest ($) | Net Value ($) | Net % Gain |
 |------|----------------------|-------------------|--------------------------|---------------|------------|
@@ -52,18 +57,11 @@ The table below tracks portfolio growth, subtracting interest for net gains (per
 | 9    | 1,489,072           | 4,000            | 36,000                  | 1,353,072    | 1,353%    |
 | 10   | 2,010,247           | 4,000            | 40,000                  | 1,870,247    | 1,870%    |
 
-**Table Notes:**  
-- Growth compounds at 35% annually from $100,000.  
-- Net Gain ($) = Annual Growth ($) - Interest Payment ($).  
-- Net Gain (%) = Net Gain ($) / Portfolio Value (Start).  
-- Cumulative interest over 10 years: $40,000.  
-- After year 10, repaying the $100,000 principal leaves ~$1,870,658 (pre-taxes/fees; real principal cost ~$50,833 inflation-adjusted).  
+By year 10, the portfolio hits over $2 million nominally. After subtracting all costs—including $40,000 in interest and the $100,000 principal repayment—the net value is about $1.87 million. Adjust for inflation, and the real gain looks even stronger, as debasement erodes the repayment's bite. This scenario favors the debasement thesis, suggesting hard assets like Bitcoin or gold could serve as reliable hedges, potentially outlasting fiat volatility.
 
-This illustrates compounding's magic, especially with AI's nonlinear growth propelling these stocks. In a debasement era, it could turn debt into a tailwind.
+After year 10, repaying the $100,000 principal leaves ~$1,870,658 (pre-taxes/fees; real principal cost ~$50,833 inflation-adjusted).  
 
-Don't overlook Bitcoin and gold as complements. Bitcoin, as a premier store of value, has averaged over 50% annual gains in select 10-year spans (e.g., 2013-2023 CAGR ~60%, per CoinMarketCap historical data as of 2025-10-13). It's a digital hedge against fiat decay. Gold, meanwhile, has notched 6-8% annual returns long-term, spiking higher during inflation (World Gold Council data). Both could supercharge such strategies, though volatility is the trade-off.
-
-This is market commentary, not advice—debasement dynamics are fascinating, but real-world application demands caution amid uncertainties.
+*This is market commentary, not financial advice.  Debasement dynamics are fascinating, but real-world application demands caution amid uncertainties.*
 
 Share your take on X at [@zsmproperties](https://x.com/zsmproperties).
 

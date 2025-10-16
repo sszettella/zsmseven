@@ -46,13 +46,40 @@ function loadFileData(filename) {
     <link rel="stylesheet" href="{% if is_static %}./static/styles.css{% else %}/static/styles.css{% endif %}">
 </head>
 <body>
+<header>
+<nav>
+<a href="{% if is_static %}./index.html{% else %}/{% endif %}">Home</a>
+<a href="{% if is_static %}./zsm_seven_intro.html{% else %}/post/zsm_seven_intro{% endif %}">ZSM Seven</a>
+<a href="#toc-box">All Posts</a>
+<a href="mailto:contact@zsmproperties.com">Contact</a>
+</nav>
+</header>
     <h1>ZSM Properties, LTD - Market Insights</h1>
      <hr/>
-    <div class="toc-box">
-        <h2>Index</h2>
+    <div id="toc-box" class="toc-box">
+        <h2>Posts by Theme</h2>
+        <h3>Currency Debasement</h3>
         <ul>
         {% for post in posts %}
-            <li><a href="{% if is_static %}./{{ post.slug }}.html{% else %}/post/{{ post.slug }}{% endif %}">{{ post.date }} - {{ post.title }}</a></li>
+            {% if "US dollar devaluation" in post.tags or "currency devaluation" in post.tags or "inflation" in post.tags or "debasement" in post.tags %}
+                <li><a href="{% if is_static %}./{{ post.slug }}.html{% else %}/post/{{ post.slug }}{% endif %}">{{ post.date }} - {{ post.title }}</a><br><em>{{ post.description }}</em></li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+        <h3>AI & Energy</h3>
+        <ul>
+        {% for post in posts %}
+            {% if "AI" in post.tags or "EVs" in post.tags or "Energy Sector" in post.tags %}
+                <li><a href="{% if is_static %}./{{ post.slug }}.html{% else %}/post/{{ post.slug }}{% endif %}">{{ post.date }} - {{ post.title }}</a><br><em>{{ post.description }}</em></li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+        <h3>Portfolio Strategies</h3>
+        <ul>
+        {% for post in posts %}
+            {% if "investing" in post.tags or "portfolio" in post.tags or "finance" in post.tags or "arbitrage" in post.tags %}
+                <li><a href="{% if is_static %}./{{ post.slug }}.html{% else %}/post/{{ post.slug }}{% endif %}">{{ post.date }} - {{ post.title }}</a><br><em>{{ post.description }}</em></li>
+            {% endif %}
         {% endfor %}
         </ul>
     </div>
@@ -62,5 +89,23 @@ function loadFileData(filename) {
             <div>{{ post.content | safe }}</div>
         </article>
     {% endfor %}
+<footer>
+<div class="social-links">
+<a href="https://twitter.com/zsmproperties">Twitter</a> |
+<a href="https://linkedin.com/company/zsmproperties">LinkedIn</a>
+</div>
+<div class="disclaimer">
+<p>This website provides market insights and is not intended as financial advice. Investments involve risk, and past performance does not guarantee future results. Consult a professional advisor.</p>
+</div>
+<div class="site-map">
+<h3>Site Map</h3>
+<ul>
+<li><a href="{% if is_static %}./index.html{% else %}/{% endif %}">Home</a></li>
+<li><a href="{% if is_static %}./zsm_seven_intro.html{% else %}/post/zsm_seven_intro{% endif %}">ZSM Seven</a></li>
+<li><a href="#toc-box">All Posts</a></li>
+<li><a href="mailto:contact@zsmproperties.com">Contact</a></li>
+</ul>
+</div>
+</footer>
 </body>
 </html>

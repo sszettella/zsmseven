@@ -56,7 +56,9 @@ def convert_markdown_to_html():
                         'title': post.get('title', 'Untitled'),
                         'date': date_obj,
                         'content': post.content,
-                        'slug': filename.replace('.md', '')
+                        'slug': filename.replace('.md', ''),
+                        'description': post.get('description', ''),
+                        'tags': post['tags'] if 'tags' in post else []
                     })
             except Exception as e:
                 print(f"Error processing {filename}: {e}")

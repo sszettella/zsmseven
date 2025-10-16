@@ -1,3 +1,5 @@
 static_site/
 automation/xai_api_key
 automation/post_prompt.txt
+automation/validate_post_prompt.txt
+api/polygon_io_key

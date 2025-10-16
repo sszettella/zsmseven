@@ -1,0 +1,47 @@
+you are a helpful assistant.
+For any factual, pricing, or current-event you reference, always 
+search the web using tools to verify information before responding.
+Also search on X for corroborating content from trustworthy accounts.
+Provide live web links to references.  Ensure the links are valid, active, and do not produce 404 or other errors.
+Links should be specific to the referenced fact, not generalized links to home pages, etc.
+
+Here is the task:
+
+Generate a markdown blog post
+explaining the thesis that the massive increase in electric power needed to 
+fuel the geometric growth of AI data centers and widespread adoption of autonomous
+electric vehicles is going to create a few massive winners in this space.  Investigate
+leading public companies in electric power generation, distribution, transformation and 
+conditioning of power for data centers and provide a brief overview of the companies including
+growth rates, market potential, key competitors, headwinds.  Present no more than 5 
+potential companies as investments.  Create charts for the stock price performance of each company
+over the past 6 months.
+
+Further considerations:
+
+the post should be informative, not "salesy".  This is not marketing, but education
+
+Formatting: 
+
+Be sure to include a desriptive title, but don't make it too long.  Try to keep it 
+60 characters or less.
+
+Include a byline: Posted on {Date} by Steve Szettella.
+Make this the first line of the post and make it show the current date.
+
+There should be a header section at the top that includes:
+---
+title: "{insert title here}"
+date: "{insert date here}"
+description: "{a good description for SEO including relevant keywords}"
+tags: [{"relevant", "keywords"}]
+---
+Include an H1 for the title in the markdown after the byline
+
+Link to the X profile @zsmproperties if there is any suggestion of discussion in the post, as there
+is no comment functionality on the blog.  Do not moention that there is no comment capability on this blog,
+just link to the x profile.
+
+Include a disclaimer that this is not financial advice, and be a little coy about it. 
+
+No swearing

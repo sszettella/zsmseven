@@ -1,6 +1,6 @@
 import os
 import markdown
-from flask import Flask, render_template, render_template_string
+from flask import Flask, render_template, render_template_string, send_from_directory
 import frontmatter
 from datetime import datetime, date
 import shutil
@@ -72,6 +72,10 @@ def generate_static_site():
         # Copy static assets
         if os.path.exists('static'):
             shutil.copytree('static', os.path.join(OUTPUT_DIR, 'static'), dirs_exist_ok=True)
+
+        # Copy tracker directory
+        if os.path.exists('tracker'):
+            shutil.copytree('tracker', os.path.join(OUTPUT_DIR, 'tracker'), dirs_exist_ok=True)
         
         # Generate index page
         index_template_path = os.path.join(TEMPLATE_DIR, 'index.html')
@@ -109,6 +113,10 @@ def post(slug):
         post['content'] = re.sub(r'href="\./(.*?)\.html"', r'href="/post/\1"', post['content'])
         return render_template('post.html', post=post, posts=posts, is_static=False)
     return "Post not found", 404
+
+@app.route('/tracker/')
+def tracker():
+    return send_from_directory('tracker', 'index.html')
 
 if __name__ == '__main__':
     # Check if running in CI environment (e.g., GitHub Actions)

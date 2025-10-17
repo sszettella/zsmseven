@@ -225,6 +225,10 @@ footer {
     margin: -20px -20px 2rem -20px;
     padding: 1rem;
   }
+  h1 {
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
   #hamburger {
     display: block;
   }

@@ -98,6 +98,14 @@ def generate_static_site():
                 with open(os.path.join(OUTPUT_DIR, f"{post['slug']}.html"), 'w', encoding='utf-8') as f:
                     f.write(render_template_string(template, post=post, posts=posts, is_static=True))
 
+        # Generate archive page
+        archive_template_path = os.path.join(TEMPLATE_DIR, 'archive.html')
+        if os.path.exists(archive_template_path):
+            with open(archive_template_path, 'r', encoding='utf-8') as f:
+                template = f.read()
+            with open(os.path.join(OUTPUT_DIR, 'archive.html'), 'w', encoding='utf-8') as f:
+                f.write(render_template_string(template, posts=posts, is_static=True))
+
 @app.route('/')
 def index():
     posts = convert_markdown_to_html()
@@ -117,6 +125,11 @@ def post(slug):
         post['content'] = re.sub(r'href="\./(.*?)\.html"', r'href="/post/\1"', post['content'])
         return render_template('post.html', post=post, posts=posts, is_static=False)
     return "Post not found", 404
+
+@app.route('/archive')
+def archive():
+    posts = convert_markdown_to_html()
+    return render_template('archive.html', posts=posts, is_static=False)
 
 @app.route('/tracker/')
 def tracker():

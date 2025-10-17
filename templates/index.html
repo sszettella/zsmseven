@@ -58,34 +58,6 @@ function loadFileData(filename) {
 </nav>
 </header>
     <h1>ZSM Properties - Market Insights</h1>
-    <div id="toc-box" class="toc-box">
-        <h2>Posts by Theme</h2>
-        <h3>Currency Debasement</h3>
-        <ul>
-        {% for post in posts %}
-            {% if "US dollar devaluation" in post.tags or "currency devaluation" in post.tags or "inflation" in post.tags or "debasement" in post.tags %}
-                <li><a href="{% if is_static %}./{{ post.slug }}.html{% else %}/post/{{ post.slug }}{% endif %}">{{ post.date }} - {{ post.title }}</a><br><em>{{ post.description }}</em></li>
-            {% endif %}
-        {% endfor %}
-        </ul>
-        <h3>AI & Energy</h3>
-        <ul>
-        {% for post in posts %}
-            {% if "AI" in post.tags or "EVs" in post.tags or "Energy Sector" in post.tags %}
-                <li><a href="{% if is_static %}./{{ post.slug }}.html{% else %}/post/{{ post.slug }}{% endif %}">{{ post.date }} - {{ post.title }}</a><br><em>{{ post.description }}</em></li>
-            {% endif %}
-        {% endfor %}
-        </ul>
-        <h3>Portfolio Strategies</h3>
-        <ul>
-        {% for post in posts %}
-            {% if "investing" in post.tags or "portfolio" in post.tags or "finance" in post.tags or "arbitrage" in post.tags %}
-                <li><a href="{% if is_static %}./{{ post.slug }}.html{% else %}/post/{{ post.slug }}{% endif %}">{{ post.date }} - {{ post.title }}</a><br><em>{{ post.description }}</em></li>
-            {% endif %}
-        {% endfor %}
-        </ul>
-    </div>
-    
     {% for post in posts[:1] %}
         <article id="{{ post.slug }}" class="main-content">
             <div>{{ post.content | safe }}</div>

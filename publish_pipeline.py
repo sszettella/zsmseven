@@ -41,6 +41,8 @@ def convert_markdown_to_html():
                     post.content = shift_headings(post.content)
                     # Convert Markdown content to HTML
                     post.content = markdown.markdown(post.content, extensions=['fenced_code','tables'])
+                    # Wrap tables in responsive div
+                    post.content = re.sub(r'(<table[^>]*>.*?</table>)', r'<div class="table-responsive">\1</div>', post.content, flags=re.DOTALL)
                     # Parse date consistently
                     date_obj = post.get('date')
                     if isinstance(date_obj, str):

@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'posts/**'
+      - 'templates/**'
+      - 'static/**'
+      - 'publish_pipeline.py'
+      - 'test_links.py'
   workflow_dispatch:  # For manual testing
 
 jobs:

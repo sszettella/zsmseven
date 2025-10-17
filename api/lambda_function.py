@@ -1,8 +1,9 @@
 import requests
 import json
+import os
 from datetime import datetime, timedelta
 
-API_KEY = 'jdFWDwkRdMFTj1fVSakQwBtHg5gJ_jNK'
+API_KEY = os.environ.get('POLYGON_API_KEY')
 
 def get_ticker_type(ticker):
     if ticker.startswith('^'):

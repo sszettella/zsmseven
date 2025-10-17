@@ -85,7 +85,7 @@ function loadFileData(filename) {
         {% endfor %}
         </ul>
     </div>
-    <hr>
+    
     {% for post in posts[:1] %}
         <article id="{{ post.slug }}" class="main-content">
             <div>{{ post.content | safe }}</div>

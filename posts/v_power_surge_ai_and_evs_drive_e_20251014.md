@@ -178,5 +178,3 @@ new Chart(ctxSBGSY, {
 The AI-EV nexus might just ignite a power sector renaissance, but it's a tangled web of opportunities and obstacles. These companies offer a glimpse into possible winners, grounded in solid data In a debasement-prone economy, such real-world plays could shine, but that's speculation. This is just my take to provoke your thinking.  Always dig deeper, do your own research, and seek expert input.
 
 The [ZSM Seven](./zsm_seven_intro.html) remains our core portfolio, but we may try out some pilot positions in the energy sector as AI and autonomous EVs are likely to drive explosive growth.
-
----

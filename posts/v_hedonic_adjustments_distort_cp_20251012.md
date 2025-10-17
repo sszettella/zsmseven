@@ -38,5 +38,3 @@ This ties directly to the debasement thesis: governments print money to fund def
 Eroded trust in institutions isn't abstract; it prevents collective action on the real issues facing all of us.
 
 *Disclaimer: This market commentary, designed to promote critical thinking and broader awareness of important economic issues is not financial advice, please do your own research.*
-
----

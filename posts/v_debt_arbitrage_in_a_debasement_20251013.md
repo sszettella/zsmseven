@@ -64,5 +64,3 @@ After year 10, repaying the $100,000 principal leaves ~$1,870,658 (pre-taxes/fee
 *This is market commentary, not financial advice.  Debasement dynamics are fascinating, but real-world application demands caution amid uncertainties.*
 
 Share your take on X at [@zsmproperties](https://x.com/zsmproperties).
-
----

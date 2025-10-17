@@ -3,12 +3,12 @@ import json
 from datetime import datetime, timedelta
 
 # Tickers
-tickers = ['NEE', 'DUK', 'ETN', 'VRT', 'SBGSY']
+tickers = ['GC=F', 'BTC-USD']
 
 # Calculate timestamps
 now = datetime.now()
-six_months_ago = now - timedelta(days=180)
-period1 = int(six_months_ago.timestamp())
+start_2025 = datetime(2025, 1, 1)
+period1 = int(start_2025.timestamp())
 period2 = int(now.timestamp())
 
 for ticker in tickers:

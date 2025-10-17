@@ -5,6 +5,8 @@ description: "Exploring gold's 2025 price surge driven by currency debasement an
 tags: ["gold", "bitcoin", "currency debasement", "hard money", "market commentary"]
 ---
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 Posted on October 17, 2025 by Steve Szettella.
 
 # Gold Runs Over Bitcoin: A Debasement Perspective
@@ -15,11 +17,65 @@ Gold has carved out an impressive path in 2025, repeatedly hitting record highs 
 
 ## Factors Fueling Gold's Rise
 
+<canvas id="chart-gold" width="400" height="200"></canvas>
+<script>
+const ctxGold = document.getElementById('chart-gold').getContext('2d');
+// Actual gold futures (GC=F) weekly price data for 2025 from Yahoo Finance
+const datesGold = ['2025-01-07', '2025-01-14', '2025-01-21', '2025-01-28', '2025-02-04', '2025-02-11', '2025-02-18', '2025-02-25', '2025-03-04', '2025-03-11', '2025-03-18', '2025-03-25', '2025-04-01', '2025-04-08', '2025-04-15', '2025-04-22', '2025-04-29', '2025-05-06', '2025-05-13', '2025-05-20', '2025-05-27', '2025-06-03', '2025-06-10', '2025-06-17', '2025-06-24', '2025-07-01', '2025-07-08', '2025-07-15', '2025-07-22', '2025-07-29', '2025-08-05', '2025-08-12', '2025-08-19', '2025-08-26', '2025-09-02', '2025-09-09', '2025-09-16', '2025-09-23', '2025-09-30', '2025-10-07', '2025-10-14', '2025-10-17'];
+const pricesGold = [2677.5, 2755.0, 2766.800048828125, 2853.300048828125, 2912.5, 2931.60009765625, 2904.5, 2909.60009765625, 2912.89990234375, 3035.10009765625, 3023.699951171875, 3118.89990234375, 2968.39990234375, 3218.699951171875, 3400.800048828125, 3318.800048828125, 3411.39990234375, 3240.300048828125, 3280.300048828125, 3299.10009765625, 3350.199951171875, 3320.89990234375, 3386.60009765625, 3317.39990234375, 3336.699951171875, 3307.0, 3329.800048828125, 3439.199951171875, 3323.39990234375, 3381.89990234375, 3348.89990234375, 3313.39990234375, 3388.60009765625, 3549.39990234375, 3643.300048828125, 3688.89990234375, 3780.60009765625, 3840.800048828125, 3976.60009765625, 4138.7001953125, 4280.2001953125, 4267.89990234375];
+new Chart(ctxGold, {
+  type: 'line',
+  data: {
+    labels: datesGold,
+    datasets: [{
+      label: 'Gold Price (USD/oz)',
+      data: pricesGold,
+      borderColor: 'gold',
+      fill: false
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      x: { display: true },
+      y: { display: true }
+    }
+  }
+});
+</script>
+
 This ascent isn't happening in isolation. Central banks have ramped up gold acquisitions to unprecedented levels, viewing it as a bulwark against fiscal dominance, escalating budget deficits, and the subtle erosion of currency value through debasement. In an era where monetary policies increasingly prioritize debt management over inflation control, gold's fixed supply offers a tangible counterweight. Geopolitical frictions, a softening U.S. dollar, and anticipation of further Federal Reserve easing have only amplified this appeal. HSBC recently uplifted its 2025 average price forecast to $3,355 per ounce, emphasizing sustained safe-haven inflows amid global uncertainties [Reuters](https://www.reuters.com/world/asia-pacific/hsbc-raises-average-gold-price-forecasts-2025-2026-2025-10-16/). Meanwhile, ANZ envisions a climb to $4,400 by year-end, potentially peaking near $4,600 by mid-2026, before a gradual pullback [Reuters](https://www.reuters.com/business/finance/bofa-hikes-gold-price-forecast-5000oz-2026-2025-10-13/).
 
 ## Bitcoin's Contrasting Performance
 
 Bitcoin, often dubbed digital gold for its capped supply and resistance to debasement, presents a contrasting picture. Hovering between $105,000 and $111,000 in mid-October 2025, it dipped to around $105,295 recently amid broader market jitters. On October 16, Bitcoin closed at $110,708, down from $115,222 two days prior—a modest retreat that highlights its relative stagnation. [BTC Price History on YCharts](https://ycharts.com/indicators/bitcoin_price). Year-to-date, gains stand at approximately 121% from 2024 levels, yet recent performance trails gold's parabolic trajectory, with Bitcoin up only about 18% in the last quarter while gold advanced over 25%.
+
+<canvas id="chart-btc" width="400" height="200"></canvas>
+<script>
+const ctxBTC = document.getElementById('chart-btc').getContext('2d');
+// Actual Bitcoin (BTC-USD) weekly price data for 2025 from Yahoo Finance
+const datesBTC = ['2025-01-07', '2025-01-14', '2025-01-21', '2025-01-28', '2025-02-04', '2025-02-11', '2025-02-18', '2025-02-25', '2025-03-04', '2025-03-11', '2025-03-18', '2025-03-25', '2025-04-01', '2025-04-08', '2025-04-15', '2025-04-22', '2025-04-29', '2025-05-06', '2025-05-13', '2025-05-20', '2025-05-27', '2025-06-03', '2025-06-10', '2025-06-17', '2025-06-24', '2025-07-01', '2025-07-08', '2025-07-15', '2025-07-22', '2025-07-29', '2025-08-05', '2025-08-12', '2025-08-19', '2025-08-26', '2025-09-02', '2025-09-09', '2025-09-16', '2025-09-23', '2025-09-30', '2025-10-07', '2025-10-14', '2025-10-17'];
+const pricesBTC = [96534.046875, 106146.265625, 101332.4765625, 97871.8203125, 95747.4296875, 95539.546875, 88736.171875, 87222.1953125, 82862.2109375, 82718.5, 87471.703125, 85169.171875, 76271.953125, 83668.9921875, 93441.890625, 94284.7890625, 96802.4765625, 104169.8125, 106791.0859375, 108994.640625, 105432.46875, 110257.234375, 104601.1171875, 106045.6328125, 105698.28125, 108950.2734375, 117777.1875, 119995.4140625, 117922.1484375, 114141.4453125, 120172.90625, 112831.1796875, 111802.65625, 111200.5859375, 111530.546875, 116843.1875, 112014.5, 114056.0859375, 121451.3828125, 113118.6640625, 108186.0390625, 107355.140625];
+new Chart(ctxBTC, {
+  type: 'line',
+  data: {
+    labels: datesBTC,
+    datasets: [{
+      label: 'Bitcoin Price (USD)',
+      data: pricesBTC,
+      borderColor: 'orange',
+      fill: false
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      x: { display: true },
+      y: { display: true }
+    }
+  }
+});
+</script>
 
 ## Speculating on the Divergence
 

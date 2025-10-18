@@ -176,9 +176,22 @@ def lambda_handler(event, context):
     print(f"DEBUG: Fetching RSI for {ticker}")
     rsi = fetch_indicator(ticker, 'rsi', 14)  # 14-day RSI
     print(f"DEBUG: RSI fetched: {rsi}")
+
+    if isinstance(rsi, dict) and rsi.get('error') == 'rate_limit':
+        return {
+            'statusCode': 429,
+            'body': json.dumps({'error': 'exceeded the number of requests per minute'})
+        }
+
     print(f"DEBUG: Fetching MA50 for {ticker}")
     ma50 = fetch_indicator(ticker, 'sma', 50)  # 50-day Simple Moving Average
     print(f"DEBUG: MA50 fetched: {ma50}")
+
+    if isinstance(ma50, dict) and ma50.get('error') == 'rate_limit':
+        return {
+            'statusCode': 429,
+            'body': json.dumps({'error': 'exceeded the number of requests per minute'})
+        }
 
     if price is None:
         return {

@@ -5,3 +5,4 @@ automation/validate_post_prompt.txt
 api/polygon_io_key
 __pycache__/
 *.pyc
+api/aws_key

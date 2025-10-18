@@ -6,6 +6,7 @@ provider:
   name: aws
   runtime: python3.10
   region: us-east-1
+  stage: ${opt:stage, 'dev'}
   environment:
     POLYGON_API_KEY: ${env:POLYGON_API_KEY}
   iamRoleStatements:

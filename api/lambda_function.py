@@ -61,9 +61,9 @@ def fetch_price(ticker):
     """
     ttype, pticker = get_ticker_type(ticker)
     print(f"DEBUG fetch_price: ticker={ticker}, type={ttype}, pticker={pticker}")
-    # Get data for the last trading day
+    # Get data for the most recent trading days
     to_date = datetime.now()
-    from_date = to_date - timedelta(days=1)
+    from_date = to_date - timedelta(days=7)
     from_str = from_date.strftime('%Y-%m-%d')
     to_str = to_date.strftime('%Y-%m-%d')
     print(f"DEBUG fetch_price: date range {from_str} to {to_str}")
@@ -75,7 +75,8 @@ def fetch_price(ticker):
         url = f'https://api.polygon.io/v2/aggs/ticker/{pticker}/range/1/day/{from_str}/{to_str}'
 
     params = {'apiKey': API_KEY, 'limit': 1, 'sort': 'desc'}
-    print(f"DEBUG fetch_price: Requesting URL: {url} with params: {params}")
+    safe_params = {k: v if k != 'apiKey' else '***' for k, v in params.items()}
+    print(f"DEBUG fetch_price: Requesting URL: {url} with params: {safe_params}")
     response = requests.get(url, params=params)
     print(f"DEBUG fetch_price: Response status: {response.status_code}")
     data = response.json()
@@ -112,7 +113,8 @@ def fetch_indicator(ticker, indicator, window):
         'order': 'desc',    # Most recent first
         'limit': 1          # Only get the latest value
     }
-    print(f"DEBUG fetch_indicator: Requesting URL: {url} with params: {params}")
+    safe_params = {k: v if k != 'apiKey' else '***' for k, v in params.items()}
+    print(f"DEBUG fetch_indicator: Requesting URL: {url} with params: {safe_params}")
     response = requests.get(url, params=params)
     print(f"DEBUG fetch_indicator: Response status: {response.status_code}")
     data = response.json()

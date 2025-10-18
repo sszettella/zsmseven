@@ -19,6 +19,7 @@ provider:
       Resource: "*"
     - Effect: Allow
       Action:
+        - dynamodb:GetItem
         - dynamodb:Query
         - dynamodb:PutItem
       Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"

@@ -1,34 +1,64 @@
 """
-AWS Lambda function to fetch financial data for a given ticker symbol.
+AWS Lambda function to periodically fetch and store financial data for multiple ticker symbols.
 
 This function integrates with the Polygon.io API to retrieve:
 - Current price (closing price from the most recent trading day)
-- RSI (Relative Strength Index, 14-day period)
+- AsOf date/time
 - 50-day Simple Moving Average (SMA)
+- RSI (Relative Strength Index, 14-day period)
 
-Usage:
-- Deploy as an AWS Lambda function via Serverless Framework
-- Call via HTTP GET request to the API Gateway endpoint
-- Required query parameter: ticker (e.g., ?ticker=AAPL)
-- Required environment variable: POLYGON_API_KEY (your Polygon.io API key)
+It checks DynamoDB for existing records in the last 24 hours and skips if found.
+Adds current timestamp and writes to DynamoDB.
 
-Example API call:
-GET /data?ticker=AAPL
-Response: {"ticker": "AAPL", "price": 150.25, "rsi": 65.5, "ma50": 145.8}
+Triggered by AWS EventBridge schedule.
+
+Required environment variables:
+- POLYGON_API_KEY (your Polygon.io API key)
+- DYNAMODB_TABLE (DynamoDB table name)
 
 Supported ticker formats:
-- Stocks: AAPL, MSFT, GOOGL
-- Crypto: BTC-USD, ETH-USD
-- Indices: ^SPX, ^NDX (note the ^ prefix)
+- Stocks: NVDA, TSLA, etc.
+- Crypto: BTC-USD
+- ETFs: IAU, etc.
 """
 
 import requests
 import json
 import os
+import boto3
 from datetime import datetime, timedelta
 
-# Retrieve Polygon.io API key from environment variables
+# Retrieve environment variables
 API_KEY = os.environ.get('POLYGON_API_KEY')
+DYNAMODB_TABLE = os.environ.get('DYNAMODB_TABLE')
+
+# List of tickers to process
+TICKERS = ['NVDA', 'TSLA', 'BTC-USD', 'IAU', 'HOOD', 'PLTR', 'AVGO']
+
+# DynamoDB client
+dynamodb = boto3.resource('dynamodb')
+table = dynamodb.Table(DYNAMODB_TABLE)
+
+def check_recent_record(ticker):
+    """
+    Check if a record for the ticker exists in DynamoDB within the last 24 hours.
+
+    Args:
+        ticker (str): The ticker symbol
+
+    Returns:
+        bool: True if a record exists, False otherwise
+    """
+    now = datetime.now()
+    twenty_four_hours_ago = now - timedelta(hours=24)
+    ts_str = twenty_four_hours_ago.isoformat()
+
+    response = table.query(
+        KeyConditionExpression=boto3.dynamodb.conditions.Key('ticker').eq(ticker) &
+                               boto3.dynamodb.conditions.Key('timestamp').gte(ts_str)
+    )
+
+    return len(response['Items']) > 0
 
 def get_ticker_type(ticker):
     """
@@ -141,82 +171,71 @@ def fetch_indicator(ticker, indicator, window):
 
 def lambda_handler(event, context):
     """
-    AWS Lambda handler function for API Gateway requests.
+    AWS Lambda handler function triggered by EventBridge schedule.
 
-    Processes GET requests with a ticker query parameter and returns
-    financial data including price, RSI, and 50-day MA.
+    Processes multiple tickers, checks for recent records in DynamoDB,
+    fetches data from Polygon.io if needed, and stores in DynamoDB.
 
     Args:
-        event (dict): API Gateway event containing query parameters
+        event (dict): EventBridge event (not used)
         context: Lambda context (not used)
 
     Returns:
-        dict: API Gateway response with status code and JSON body
+        dict: Success message
     """
-    # Extract ticker from query parameters
-    ticker = event.get('queryStringParameters', {}).get('ticker')
-    if not ticker:
-        print("DEBUG: No ticker provided in request")
-        return {
-            'statusCode': 400,
-            'body': json.dumps({'error': 'ticker required'})
+    print("Starting scheduled data fetch for tickers")
+
+    for ticker in TICKERS:
+        print(f"Processing ticker: {ticker}")
+
+        # Check if record exists in last 24 hours
+        if check_recent_record(ticker):
+            print(f"Record exists for {ticker} in last 24 hours, skipping")
+            continue
+
+        # Fetch financial data
+        print(f"Fetching price for {ticker}")
+        price_result = fetch_price(ticker)
+        if isinstance(price_result, dict) and price_result.get('error') == 'rate_limit':
+            print(f"Rate limit exceeded for {ticker}, skipping")
+            continue
+        if price_result is None:
+            print(f"No price data for {ticker}, skipping")
+            continue
+
+        price_value, timestamp_ms = price_result
+
+        print(f"Fetching RSI for {ticker}")
+        rsi = fetch_indicator(ticker, 'rsi', 14)
+        if isinstance(rsi, dict) and rsi.get('error') == 'rate_limit':
+            print(f"Rate limit exceeded for {ticker} RSI, skipping")
+            continue
+
+        print(f"Fetching MA50 for {ticker}")
+        ma50 = fetch_indicator(ticker, 'sma', 50)
+        if isinstance(ma50, dict) and ma50.get('error') == 'rate_limit':
+            print(f"Rate limit exceeded for {ticker} MA50, skipping")
+            continue
+
+        # Convert timestamp to ISO format
+        as_of = datetime.fromtimestamp(timestamp_ms / 1000).isoformat()
+
+        # Current timestamp
+        current_timestamp = datetime.now().isoformat()
+
+        # Prepare data for DynamoDB
+        item = {
+            'ticker': ticker,
+            'timestamp': current_timestamp,
+            'price': price_value,
+            'asOf': as_of,
+            'ma50': ma50,
+            'rsi': rsi
         }
-    ticker = ticker.upper()
-    print(f"DEBUG: Received request for ticker: {ticker}")
 
-    # Fetch financial data
-    print(f"DEBUG: Fetching price for {ticker}")
-    price = fetch_price(ticker)
-    print(f"DEBUG: Price fetched: {price}")
+        # Write to DynamoDB
+        table.put_item(Item=item)
+        print(f"Stored data for {ticker}")
 
-    if isinstance(price, dict) and price.get('error') == 'rate_limit':
-        return {
-            'statusCode': 429,
-            'body': json.dumps({'error': 'exceeded the number of requests per minute'})
-        }
-
-    if price is None:
-        return {
-            'statusCode': 404,
-            'body': json.dumps({'error': f'no price data for ticker {ticker}'})
-        }
-
-    # Unpack price and timestamp
-    price_value, timestamp_ms = price
-
-    print(f"DEBUG: Fetching RSI for {ticker}")
-    rsi = fetch_indicator(ticker, 'rsi', 14)  # 14-day RSI
-    print(f"DEBUG: RSI fetched: {rsi}")
-
-    if isinstance(rsi, dict) and rsi.get('error') == 'rate_limit':
-        return {
-            'statusCode': 429,
-            'body': json.dumps({'error': 'exceeded the number of requests per minute'})
-        }
-
-    print(f"DEBUG: Fetching MA50 for {ticker}")
-    ma50 = fetch_indicator(ticker, 'sma', 50)  # 50-day Simple Moving Average
-    print(f"DEBUG: MA50 fetched: {ma50}")
-
-    if isinstance(ma50, dict) and ma50.get('error') == 'rate_limit':
-        return {
-            'statusCode': 429,
-            'body': json.dumps({'error': 'exceeded the number of requests per minute'})
-        }
-
-    # Convert timestamp to ISO format
-    as_of = datetime.fromtimestamp(timestamp_ms / 1000).isoformat()
-
-    # Prepare response data
-    data = {
-        'ticker': ticker,
-        'price': price,
-        'rsi': rsi,
-        'ma50': ma50,
-        'asOf': as_of
-    }
-
-    return {
-        'statusCode': 200,
-        'body': json.dumps(data)
-    }
+    print("Completed processing all tickers")
+    return {'status': 'success'}

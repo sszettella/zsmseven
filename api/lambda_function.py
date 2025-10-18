@@ -90,10 +90,12 @@ def fetch_price(ticker):
     if 'results' not in data or not data['results']:
         print(f"DEBUG fetch_price: No results in data for {ticker}")
         return None
-    # Return the closing price ('c' field)
-    price = data['results'][0]['c']
-    print(f"DEBUG fetch_price: Extracted price: {price}")
-    return price
+    # Return the closing price ('c' field) and timestamp ('t' in milliseconds)
+    result = data['results'][0]
+    price = result['c']
+    timestamp_ms = result['t']
+    print(f"DEBUG fetch_price: Extracted price: {price}, timestamp: {timestamp_ms}")
+    return price, timestamp_ms
 
 def fetch_indicator(ticker, indicator, window):
     """
@@ -173,6 +175,15 @@ def lambda_handler(event, context):
             'body': json.dumps({'error': 'exceeded the number of requests per minute'})
         }
 
+    if price is None:
+        return {
+            'statusCode': 404,
+            'body': json.dumps({'error': f'no price data for ticker {ticker}'})
+        }
+
+    # Unpack price and timestamp
+    price_value, timestamp_ms = price
+
     print(f"DEBUG: Fetching RSI for {ticker}")
     rsi = fetch_indicator(ticker, 'rsi', 14)  # 14-day RSI
     print(f"DEBUG: RSI fetched: {rsi}")
@@ -193,18 +204,16 @@ def lambda_handler(event, context):
             'body': json.dumps({'error': 'exceeded the number of requests per minute'})
         }
 
-    if price is None:
-        return {
-            'statusCode': 404,
-            'body': json.dumps({'error': f'no price data for ticker {ticker}'})
-        }
+    # Convert timestamp to ISO format
+    as_of = datetime.fromtimestamp(timestamp_ms / 1000).isoformat()
 
     # Prepare response data
     data = {
         'ticker': ticker,
         'price': price,
         'rsi': rsi,
-        'ma50': ma50
+        'ma50': ma50,
+        'asOf': as_of
     }
 
     return {

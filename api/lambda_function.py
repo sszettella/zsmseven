@@ -35,6 +35,40 @@ DYNAMODB_TABLE = os.environ.get('DYNAMODB_TABLE')
 # List of tickers to process
 TICKERS = ['NVDA', 'TSLA', 'BTC-USD', 'IAU', 'HOOD', 'PLTR', 'AVGO']
 
+def get_next_ticker():
+    """
+    Get the next ticker to process and update the state.
+
+    Returns:
+        str: The ticker symbol to process
+    """
+    try:
+        # Try to get current state
+        response = table.get_item(Key={'ticker': 'STATE', 'timestamp': 'current'})
+        if 'Item' in response:
+            current_index = int(response['Item'].get('last_index', 0))
+        else:
+            current_index = 0
+
+        # Get next ticker
+        ticker = TICKERS[current_index]
+
+        # Update state for next time
+        next_index = (current_index + 1) % len(TICKERS)
+        table.put_item(Item={
+            'ticker': 'STATE',
+            'timestamp': 'current',
+            'last_index': str(next_index)
+        })
+
+        print(f"DEBUG get_next_ticker: Processing {ticker} (index {current_index}), next will be index {next_index}")
+        return ticker
+
+    except Exception as e:
+        print(f"ERROR get_next_ticker: {e}")
+        # Fallback to first ticker
+        return TICKERS[0]
+
 # DynamoDB client
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(DYNAMODB_TABLE)
@@ -53,12 +87,17 @@ def check_recent_record(ticker):
     twenty_four_hours_ago = now - timedelta(hours=24)
     ts_str = twenty_four_hours_ago.isoformat()
 
+    print(f"DEBUG check_recent_record: Checking for {ticker} since {ts_str}")
     response = table.query(
         KeyConditionExpression=boto3.dynamodb.conditions.Key('ticker').eq(ticker) &
                                boto3.dynamodb.conditions.Key('timestamp').gte(ts_str)
     )
+    item_count = len(response['Items'])
+    print(f"DEBUG check_recent_record: Found {item_count} recent records for {ticker}")
+    if item_count > 0:
+        print(f"DEBUG check_recent_record: Most recent timestamp: {response['Items'][0]['timestamp']}")
 
-    return len(response['Items']) > 0
+    return item_count > 0
 
 def get_ticker_type(ticker):
     """
@@ -173,7 +212,7 @@ def lambda_handler(event, context):
     """
     AWS Lambda handler function triggered by EventBridge schedule.
 
-    Processes multiple tickers, checks for recent records in DynamoDB,
+    Processes one ticker per invocation, checks for recent records in DynamoDB,
     fetches data from Polygon.io if needed, and stores in DynamoDB.
 
     Args:
@@ -181,61 +220,62 @@ def lambda_handler(event, context):
         context: Lambda context (not used)
 
     Returns:
-        dict: Success message
+        dict: Success message with ticker info
     """
-    print("Starting scheduled data fetch for tickers")
+    print("Starting scheduled data fetch")
 
-    for ticker in TICKERS:
-        print(f"Processing ticker: {ticker}")
+    # Get the next ticker to process
+    ticker = get_next_ticker()
+    print(f"Processing ticker: {ticker}")
 
-        # Check if record exists in last 24 hours
-        if check_recent_record(ticker):
-            print(f"Record exists for {ticker} in last 24 hours, skipping")
-            continue
+    # Check if record exists in last 24 hours
+    if check_recent_record(ticker):
+        print(f"Record exists for {ticker} in last 24 hours, skipping")
+        return {'status': 'skipped', 'ticker': ticker}
 
-        # Fetch financial data
-        print(f"Fetching price for {ticker}")
-        price_result = fetch_price(ticker)
-        if isinstance(price_result, dict) and price_result.get('error') == 'rate_limit':
-            print(f"Rate limit exceeded for {ticker}, skipping")
-            continue
-        if price_result is None:
-            print(f"No price data for {ticker}, skipping")
-            continue
+    # Fetch financial data
+    print(f"Fetching price for {ticker}")
+    price_result = fetch_price(ticker)
+    if isinstance(price_result, dict) and price_result.get('error') == 'rate_limit':
+        print(f"Rate limit exceeded for {ticker}, skipping")
+        return {'status': 'rate_limited', 'ticker': ticker}
+    if price_result is None:
+        print(f"No price data for {ticker}, skipping")
+        return {'status': 'no_data', 'ticker': ticker}
 
-        price_value, timestamp_ms = price_result
+    price_value, timestamp_ms = price_result
 
-        print(f"Fetching RSI for {ticker}")
-        rsi = fetch_indicator(ticker, 'rsi', 14)
-        if isinstance(rsi, dict) and rsi.get('error') == 'rate_limit':
-            print(f"Rate limit exceeded for {ticker} RSI, skipping")
-            continue
+    print(f"Fetching RSI for {ticker}")
+    rsi = fetch_indicator(ticker, 'rsi', 14)
+    if isinstance(rsi, dict) and rsi.get('error') == 'rate_limit':
+        print(f"Rate limit exceeded for {ticker} RSI, skipping")
+        return {'status': 'rate_limited', 'ticker': ticker}
 
-        print(f"Fetching MA50 for {ticker}")
-        ma50 = fetch_indicator(ticker, 'sma', 50)
-        if isinstance(ma50, dict) and ma50.get('error') == 'rate_limit':
-            print(f"Rate limit exceeded for {ticker} MA50, skipping")
-            continue
+    print(f"Fetching MA50 for {ticker}")
+    ma50 = fetch_indicator(ticker, 'sma', 50)
+    if isinstance(ma50, dict) and ma50.get('error') == 'rate_limit':
+        print(f"Rate limit exceeded for {ticker} MA50, skipping")
+        return {'status': 'rate_limited', 'ticker': ticker}
 
-        # Convert timestamp to ISO format
-        as_of = datetime.fromtimestamp(timestamp_ms / 1000).isoformat()
+    # Convert timestamp to ISO format
+    as_of = datetime.fromtimestamp(timestamp_ms / 1000).isoformat()
 
-        # Current timestamp
-        current_timestamp = datetime.now().isoformat()
+    # Current timestamp
+    current_timestamp = datetime.now().isoformat()
 
-        # Prepare data for DynamoDB
-        item = {
-            'ticker': ticker,
-            'timestamp': current_timestamp,
-            'price': price_value,
-            'asOf': as_of,
-            'ma50': ma50,
-            'rsi': rsi
-        }
+    # Prepare data for DynamoDB
+    item = {
+        'ticker': ticker,
+        'timestamp': current_timestamp,
+        'price': price_value,
+        'asOf': as_of,
+        'ma50': ma50,
+        'rsi': rsi
+    }
 
-        # Write to DynamoDB
-        table.put_item(Item=item)
-        print(f"Stored data for {ticker}")
+    # Write to DynamoDB
+    table.put_item(Item=item)
+    print(f"Stored data for {ticker}: {json.dumps(item)}")
 
-    print("Completed processing all tickers")
-    return {'status': 'success'}
+    print("Completed processing ticker")
+    return {'status': 'success', 'ticker': ticker}

@@ -38,7 +38,7 @@ TICKERS = ['NVDA', 'TSLA', 'BTC-USD', 'IAU', 'HOOD', 'PLTR', 'AVGO']
 
 def get_next_ticker():
     """
-    Get the next ticker to process and update the state.
+    Get the next ticker to process without updating the state.
 
     Returns:
         str: The ticker symbol to process
@@ -54,15 +54,7 @@ def get_next_ticker():
         # Get next ticker
         ticker = TICKERS[current_index]
 
-        # Update state for next time
-        next_index = (current_index + 1) % len(TICKERS)
-        table.put_item(Item={
-            'ticker': 'STATE',
-            'timestamp': 'current',
-            'last_index': str(next_index)
-        })
-
-        print(f"DEBUG get_next_ticker: Processing {ticker} (index {current_index}), next will be index {next_index}")
+        print(f"DEBUG get_next_ticker: Processing {ticker} (index {current_index})")
         return ticker
 
     except Exception as e:
@@ -213,7 +205,7 @@ def lambda_handler(event, context):
     """
     AWS Lambda handler function triggered by EventBridge schedule.
 
-    Processes one ticker per invocation, checks for recent records in DynamoDB,
+    Processes tickers in sequence, skipping those with recent records,
     fetches data from Polygon.io if needed, and stores in DynamoDB.
 
     Args:
@@ -221,65 +213,79 @@ def lambda_handler(event, context):
         context: Lambda context (not used)
 
     Returns:
-        dict: Success message with ticker info
+        dict: Success message with ticker info or all_skipped
     """
     print("Starting scheduled data fetch")
 
-    # Get the next ticker to process
-    ticker = get_next_ticker()
-    print(f"Processing ticker: {ticker}")
+    for _ in range(len(TICKERS)):
+        # Get the next ticker to process
+        ticker = get_next_ticker()
+        print(f"Processing ticker: {ticker}")
 
-    # Check if record exists in last 24 hours
-    if check_recent_record(ticker):
-        print(f"Record exists for {ticker} in last 24 hours, skipping")
-        return {'status': 'skipped', 'ticker': ticker}
+        # Check if record exists in last 24 hours
+        if check_recent_record(ticker):
+            print(f"Record exists for {ticker} in last 24 hours, trying next")
+            continue
 
-    # Fetch financial data
-    print(f"Fetching price for {ticker}")
-    price_result = fetch_price(ticker)
-    if isinstance(price_result, dict) and price_result.get('error') == 'rate_limit':
-        print(f"Rate limit exceeded for {ticker}, skipping")
-        return {'status': 'rate_limited', 'ticker': ticker}
-    if price_result is None:
-        print(f"No price data for {ticker}, skipping")
-        return {'status': 'no_data', 'ticker': ticker}
+        # Fetch financial data
+        print(f"Fetching price for {ticker}")
+        price_result = fetch_price(ticker)
+        if isinstance(price_result, dict) and price_result.get('error') == 'rate_limit':
+            print(f"Rate limit exceeded for {ticker}, skipping")
+            continue
+        if price_result is None:
+            print(f"No price data for {ticker}, skipping")
+            continue
 
-    price_value, timestamp_ms = price_result
-    price_value = Decimal(str(price_value))
+        price_value, timestamp_ms = price_result
+        price_value = Decimal(str(price_value))
 
-    print(f"Fetching RSI for {ticker}")
-    rsi = fetch_indicator(ticker, 'rsi', 14)
-    if isinstance(rsi, dict) and rsi.get('error') == 'rate_limit':
-        print(f"Rate limit exceeded for {ticker} RSI, skipping")
-        return {'status': 'rate_limited', 'ticker': ticker}
-    rsi = Decimal(str(rsi)) if rsi is not None else None
+        print(f"Fetching RSI for {ticker}")
+        rsi = fetch_indicator(ticker, 'rsi', 14)
+        if isinstance(rsi, dict) and rsi.get('error') == 'rate_limit':
+            print(f"Rate limit exceeded for {ticker} RSI, skipping")
+            continue
+        rsi = Decimal(str(rsi)) if rsi is not None else None
 
-    print(f"Fetching MA50 for {ticker}")
-    ma50 = fetch_indicator(ticker, 'sma', 50)
-    if isinstance(ma50, dict) and ma50.get('error') == 'rate_limit':
-        print(f"Rate limit exceeded for {ticker} MA50, skipping")
-        return {'status': 'rate_limited', 'ticker': ticker}
-    ma50 = Decimal(str(ma50)) if ma50 is not None else None
+        print(f"Fetching MA50 for {ticker}")
+        ma50 = fetch_indicator(ticker, 'sma', 50)
+        if isinstance(ma50, dict) and ma50.get('error') == 'rate_limit':
+            print(f"Rate limit exceeded for {ticker} MA50, skipping")
+            continue
+        ma50 = Decimal(str(ma50)) if ma50 is not None else None
 
-    # Convert timestamp to ISO format
-    as_of = datetime.fromtimestamp(timestamp_ms / 1000).isoformat()
+        # Convert timestamp to ISO format
+        as_of = datetime.fromtimestamp(timestamp_ms / 1000).isoformat()
 
-    # Current timestamp
-    current_timestamp = datetime.now().isoformat()
+        # Current timestamp
+        current_timestamp = datetime.now().isoformat()
 
-    # Prepare data for DynamoDB
-    item = {
-        'ticker': ticker,
-        'timestamp': current_timestamp,
-        'price': price_value,
-        'asOf': as_of,
-        'ma50': ma50,
-        'rsi': rsi
-    }
+        # Prepare data for DynamoDB
+        item = {
+            'ticker': ticker,
+            'timestamp': current_timestamp,
+            'price': price_value,
+            'asOf': as_of,
+            'ma50': ma50,
+            'rsi': rsi
+        }
 
-    # Write to DynamoDB
-    table.put_item(Item=item)
-    print(f"Stored data for {ticker}: {str(item)}")
+        # Write to DynamoDB
+        table.put_item(Item=item)
+        print(f"Stored data for {ticker}: {str(item)}")
 
-    print("Completed processing ticker")
-    return {'status': 'success', 'ticker': ticker}
+        # Update state for next time
+        current_index = TICKERS.index(ticker)
+        next_index = (current_index + 1) % len(TICKERS)
+        table.put_item(Item={
+            'ticker': 'STATE',
+            'timestamp': 'current',
+            'last_index': str(next_index)
+        })
+
+        print("Completed processing ticker")
+        return {'status': 'success', 'ticker': ticker}
+
+    # If all tickers have recent records
+    print("All tickers have recent records, skipping")
+    return {'status': 'all_skipped'}

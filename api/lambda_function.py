@@ -27,6 +27,7 @@ import json
 import os
 import boto3
 from datetime import datetime, timedelta
+from decimal import Decimal
 
 # Retrieve environment variables
 API_KEY = os.environ.get('POLYGON_API_KEY')
@@ -244,18 +245,21 @@ def lambda_handler(event, context):
         return {'status': 'no_data', 'ticker': ticker}
 
     price_value, timestamp_ms = price_result
+    price_value = Decimal(str(price_value))
 
     print(f"Fetching RSI for {ticker}")
     rsi = fetch_indicator(ticker, 'rsi', 14)
     if isinstance(rsi, dict) and rsi.get('error') == 'rate_limit':
         print(f"Rate limit exceeded for {ticker} RSI, skipping")
         return {'status': 'rate_limited', 'ticker': ticker}
+    rsi = Decimal(str(rsi)) if rsi is not None else None
 
     print(f"Fetching MA50 for {ticker}")
     ma50 = fetch_indicator(ticker, 'sma', 50)
     if isinstance(ma50, dict) and ma50.get('error') == 'rate_limit':
         print(f"Rate limit exceeded for {ticker} MA50, skipping")
         return {'status': 'rate_limited', 'ticker': ticker}
+    ma50 = Decimal(str(ma50)) if ma50 is not None else None
 
     # Convert timestamp to ISO format
     as_of = datetime.fromtimestamp(timestamp_ms / 1000).isoformat()

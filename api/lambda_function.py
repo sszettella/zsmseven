@@ -79,6 +79,11 @@ def fetch_price(ticker):
     print(f"DEBUG fetch_price: Requesting URL: {url} with params: {safe_params}")
     response = requests.get(url, params=params)
     print(f"DEBUG fetch_price: Response status: {response.status_code}")
+
+    if response.status_code == 429:
+        print(f"DEBUG fetch_price: Rate limit exceeded for {ticker}")
+        return {'error': 'rate_limit'}
+
     data = response.json()
     print(f"DEBUG fetch_price: Response data: {json.dumps(data)}")
 
@@ -117,6 +122,11 @@ def fetch_indicator(ticker, indicator, window):
     print(f"DEBUG fetch_indicator: Requesting URL: {url} with params: {safe_params}")
     response = requests.get(url, params=params)
     print(f"DEBUG fetch_indicator: Response status: {response.status_code}")
+
+    if response.status_code == 429:
+        print(f"DEBUG fetch_indicator: Rate limit exceeded for {ticker} {indicator}")
+        return {'error': 'rate_limit'}
+
     data = response.json()
     print(f"DEBUG fetch_indicator: Response data: {json.dumps(data)}")
 
@@ -143,18 +153,26 @@ def lambda_handler(event, context):
     """
     # Extract ticker from query parameters
     ticker = event.get('queryStringParameters', {}).get('ticker')
-    print(f"DEBUG: Received request for ticker: {ticker}")
     if not ticker:
         print("DEBUG: No ticker provided in request")
         return {
             'statusCode': 400,
             'body': json.dumps({'error': 'ticker required'})
         }
+    ticker = ticker.upper()
+    print(f"DEBUG: Received request for ticker: {ticker}")
 
     # Fetch financial data
     print(f"DEBUG: Fetching price for {ticker}")
     price = fetch_price(ticker)
     print(f"DEBUG: Price fetched: {price}")
+
+    if isinstance(price, dict) and price.get('error') == 'rate_limit':
+        return {
+            'statusCode': 429,
+            'body': json.dumps({'error': 'exceeded the number of requests per minute'})
+        }
+
     print(f"DEBUG: Fetching RSI for {ticker}")
     rsi = fetch_indicator(ticker, 'rsi', 14)  # 14-day RSI
     print(f"DEBUG: RSI fetched: {rsi}")

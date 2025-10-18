@@ -6,3 +6,4 @@ api/polygon_io_key
 __pycache__/
 *.pyc
 api/aws_key
+node_modules

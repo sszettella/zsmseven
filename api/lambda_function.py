@@ -279,7 +279,7 @@ def lambda_handler(event, context):
 
     # Write to DynamoDB
     table.put_item(Item=item)
-    print(f"Stored data for {ticker}: {json.dumps(item)}")
+    print(f"Stored data for {ticker}: {str(item)}")
 
     print("Completed processing ticker")
     return {'status': 'success', 'ticker': ticker}

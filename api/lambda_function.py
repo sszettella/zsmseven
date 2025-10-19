@@ -34,7 +34,7 @@ API_KEY = os.environ.get('POLYGON_API_KEY')
 DYNAMODB_TABLE = os.environ.get('DYNAMODB_TABLE')
 
 # List of tickers to process
-TICKERS = ['NVDA', 'TSLA', 'IAU', 'HOOD', 'PLTR', 'AVGO', 'BTCUSD']
+TICKERS = ['NVDA', 'TSLA', 'IAU', 'HOOD', 'PLTR', 'AVGO', 'IBIT']
 
 def get_next_ticker():
     """

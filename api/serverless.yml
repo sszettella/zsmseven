@@ -41,10 +41,6 @@ provider:
 functions:
   fetchData:
     handler: lambda_function.lambda_handler
-    events:
-      - schedule:
-          rate: cron(5,10,15,20,25,30,35,40,45,50 16 ? * MON-FRI *)
-          enabled: true
   processTickers:
     handler: process_tickers.lambda_handler
     events:

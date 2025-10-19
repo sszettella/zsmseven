@@ -10,6 +10,8 @@ provider:
   environment:
     POLYGON_API_KEY: ${env:POLYGON_API_KEY}
     DYNAMODB_TABLE: ticker-data-${self:provider.stage}
+    PORTFOLIOS_TABLE: portfolios-${self:provider.stage}
+    SQS_QUEUE_URL: !GetAtt PortfolioQueue.QueueUrl
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -23,7 +25,18 @@ provider:
         - dynamodb:Query
         - dynamodb:PutItem
         - dynamodb:UpdateItem
+        - dynamodb:Scan
       Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+    - Effect: Allow
+      Action:
+        - dynamodb:Scan
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PORTFOLIOS_TABLE}"
+    - Effect: Allow
+      Action:
+        - sqs:SendMessage
+        - sqs:ReceiveMessage
+        - sqs:DeleteMessage
+      Resource: "*"
 
 functions:
   fetchData:
@@ -32,6 +45,18 @@ functions:
       - schedule:
           rate: cron(5,10,15,20,25,30,35,40,45,50 16 ? * MON-FRI *)
           enabled: true
+  processTickers:
+    handler: process_tickers.lambda_handler
+    events:
+      - schedule:
+          rate: cron(0 16 ? * MON-FRI)
+          enabled: true
+  processTicker:
+    handler: process_ticker.lambda_handler
+    events:
+      - sqs:
+          arn: !GetAtt PortfolioQueue.Arn
+          batchSize: 1
 resources:
   Resources:
     TickerDataTable:
@@ -49,6 +74,23 @@ resources:
           - AttributeName: timestamp
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
+    PortfoliosTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.PORTFOLIOS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: portfolio_name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: portfolio_name
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+    PortfolioQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: portfolio-queue-${self:provider.stage}
+        DelaySeconds: 120
+        VisibilityTimeout: 300
 
 plugins:
   - serverless-python-requirements

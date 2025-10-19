@@ -70,17 +70,6 @@ resources:
           - AttributeName: timestamp
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
-    PortfoliosTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${self:provider.environment.PORTFOLIOS_TABLE}
-        AttributeDefinitions:
-          - AttributeName: portfolio_name
-            AttributeType: S
-        KeySchema:
-          - AttributeName: portfolio_name
-            KeyType: HASH
-        BillingMode: PAY_PER_REQUEST
 
 plugins:
   - serverless-python-requirements

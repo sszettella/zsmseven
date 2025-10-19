@@ -1,3 +1,11 @@
+---
+title: "Credit Expansion: The Catalyst for Financial Crises"
+date: "2025-10-19"
+description: "Explore how credit expansion has historically fueled major financial crises in the U.S., from the Great Depression to the 2008 Global Financial Crisis, revealing patterns of economic booms and busts driven by loose monetary policies and debt accumulation."
+tags: ["credit expansion", "financial crises", "economic history", "Great Depression", "2008 crisis", "monetary policy", "debt cycles"]
+---
+Posted on 2025-10-19 by Steve Szettella.
+
 # Credit Expansion: The Catalyst for Financial Crises
 
 ## Introduction

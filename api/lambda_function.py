@@ -34,7 +34,7 @@ API_KEY = os.environ.get('POLYGON_API_KEY')
 DYNAMODB_TABLE = os.environ.get('DYNAMODB_TABLE')
 
 # List of tickers to process
-TICKERS = ['NVDA', 'TSLA', 'IAU', 'HOOD', 'PLTR', 'AVGO']
+TICKERS = ['NVDA', 'TSLA', 'IAU', 'HOOD', 'PLTR', 'AVGO', 'BTCUSD']
 
 def get_next_ticker():
     """
@@ -66,31 +66,30 @@ def get_next_ticker():
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(DYNAMODB_TABLE)
 
-def check_recent_record(ticker):
+def get_latest_record(ticker):
     """
-    Check if a record for the ticker exists in DynamoDB within the last 24 hours.
+    Get the latest record for the ticker from DynamoDB.
 
     Args:
         ticker (str): The ticker symbol
 
     Returns:
-        bool: True if a record exists, False otherwise
+        dict or None: The latest item, or None if no records
     """
-    now = datetime.now()
-    twenty_four_hours_ago = now - timedelta(hours=24)
-    ts_str = twenty_four_hours_ago.isoformat()
-
-    print(f"DEBUG check_recent_record: Checking for {ticker} since {ts_str}")
+    print(f"DEBUG get_latest_record: Getting latest for {ticker}")
     response = table.query(
-        KeyConditionExpression=boto3.dynamodb.conditions.Key('ticker').eq(ticker) &
-                               boto3.dynamodb.conditions.Key('timestamp').gte(ts_str)
+        KeyConditionExpression=boto3.dynamodb.conditions.Key('ticker').eq(ticker),
+        ScanIndexForward=False,  # Most recent first
+        Limit=1
     )
-    item_count = len(response['Items'])
-    print(f"DEBUG check_recent_record: Found {item_count} recent records for {ticker}")
-    if item_count > 0:
-        print(f"DEBUG check_recent_record: Most recent timestamp: {response['Items'][0]['timestamp']}")
-
-    return item_count > 0
+    items = response['Items']
+    if items:
+        latest = items[0]
+        print(f"DEBUG get_latest_record: Latest record timestamp: {latest['timestamp']}, asOf: {latest.get('asOf')}")
+        return latest
+    else:
+        print(f"DEBUG get_latest_record: No records for {ticker}")
+        return None
 
 def get_ticker_type(ticker):
     """
@@ -222,11 +221,6 @@ def lambda_handler(event, context):
         ticker = get_next_ticker()
         print(f"Processing ticker: {ticker}")
 
-        # Check if record exists in last 24 hours
-        if check_recent_record(ticker):
-            print(f"Record exists for {ticker} in last 24 hours, trying next")
-            continue
-
         # Fetch financial data
         print(f"Fetching price for {ticker}")
         price_result = fetch_price(ticker)
@@ -260,19 +254,33 @@ def lambda_handler(event, context):
         # Current timestamp
         current_timestamp = datetime.now().isoformat()
 
-        # Prepare data for DynamoDB
-        item = {
-            'ticker': ticker,
-            'timestamp': current_timestamp,
-            'price': price_value,
-            'asOf': as_of,
-            'ma50': ma50,
-            'rsi': rsi
-        }
+        # Get latest record
+        latest = get_latest_record(ticker)
 
-        # Write to DynamoDB
-        table.put_item(Item=item)
-        print(f"Stored data for {ticker}: {str(item)}")
+        # Check if data is newer
+        if latest and as_of <= latest.get('asOf', ''):
+            # Data not newer, update existing record's timestamp
+            print(f"Data not newer for {ticker}, updating existing record timestamp")
+            table.update_item(
+                Key={'ticker': ticker, 'timestamp': latest['timestamp']},
+                UpdateExpression='SET #ts = :val',
+                ExpressionAttributeNames={'#ts': 'timestamp'},
+                ExpressionAttributeValues={':val': current_timestamp}
+            )
+            action = 'updated'
+        else:
+            # Data is newer or no previous, insert new record
+            print(f"Inserting new record for {ticker}")
+            item = {
+                'ticker': ticker,
+                'timestamp': current_timestamp,
+                'price': price_value,
+                'asOf': as_of,
+                'ma50': ma50,
+                'rsi': rsi
+            }
+            table.put_item(Item=item)
+            action = 'inserted'
 
         # Update state for next time
         current_index = TICKERS.index(ticker)
@@ -283,8 +291,8 @@ def lambda_handler(event, context):
             'last_index': str(next_index)
         })
 
-        print("Completed processing ticker")
-        return {'status': 'success', 'ticker': ticker}
+        print(f"Completed processing ticker: {action}")
+        return {'status': 'success', 'ticker': ticker, 'action': action}
 
     # If all tickers have recent records
     print("All tickers have recent records, skipping")

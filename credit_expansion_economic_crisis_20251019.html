@@ -1,48 +1,9 @@
-<script type="text/javascript">
-var gk_isXlsx = false;
-var gk_xlsxFileLookup = {};
-var gk_fileData = {};
-function filledCell(cell) {
-  return cell !== '' && cell != null;
-}
-function loadFileData(filename) {
-  if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-    try {
-      var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-      var firstSheetName = workbook.SheetNames[0];
-      var worksheet = workbook.Sheets[firstSheetName];
-
-      // Convert sheet to JSON to filter blank rows
-      var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-      // Filter out blank rows (rows where all cells are empty, null, or undefined)
-      var filteredData = jsonData.filter(row => row.some(filledCell));
-
-      // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-      var headerRowIndex = filteredData.findIndex((row, index) =>
-        row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-      );
-      // Fallback
-      if (headerRowIndex === -1 || headerRowIndex > 25) {
-        headerRowIndex = 0;
-      }
-
-      // Convert filtered JSON back to CSV
-      var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-      csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-      return csv;
-    } catch (e) {
-      console.error(e);
-      return "";
-    }
-  }
-  return gk_fileData[filename] || "";
-}
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Insights from ZSM Properties.</title>
+    <title>Untitled</title>
     <link rel="stylesheet" href="./static/styles.css">
 </head>
 <body>
@@ -57,10 +18,9 @@ function loadFileData(filename) {
 </div>
 </nav>
 </header>
-    <h1>ZSM Properties - Market Insights</h1>
-    
-        <article id="credit_expansion_economic_crisis_20251019" class="main-content">
-            <div><h2>Credit Expansion: The Catalyst for Financial Crises</h2>
+    <h1><a href="./index.html" style="text-decoration: none; color: inherit;">ZSM Properties - Market Insights</a></h1>
+    <hr/>
+    <div class="main-content"><h2>Credit Expansion: The Catalyst for Financial Crises</h2>
 <h3>Introduction</h3>
 <p>Credit expansion refers to periods when banks and financial institutions, often encouraged by loose monetary policies from central banks, rapidly increase lending to businesses, consumers, and investors. This influx of easy money fuels economic booms, driving up asset prices, consumption, and investment. However, it often leads to misallocation of resources, speculative bubbles, and unsustainable debt levels. When the expansion reverses—through rising interest rates, defaults, or loss of confidence—it triggers severe contractions, bank failures, and recessions. This pattern has repeated throughout U.S. history, most notably in the Great Depression of the 1930s and the 2008 Global Financial Crisis, with echoes in other downturns like the Savings and Loan Crisis of the 1980s. Understanding these cycles reveals how artificial credit booms sow the seeds of economic busts, often amplifying downturns through deflation, unemployment, and credit crunches.</p>
 <h3>The 1920s Credit Boom and the Onset of the Great Depression</h3>
@@ -76,12 +36,11 @@ function loadFileData(filename) {
 <p>More broadly, empirical evidence shows credit booms often precede crises, worsening misallocation and leading to deeper recessions. The 2008 cycle fits this pattern, with high pre-crisis credit growth followed by a slow recovery. Even recent events, like the 2020 COVID-19 downturn, saw initial credit expansions through stimulus, though mitigated by policy responses.</p>
 <h3>Conclusion</h3>
 <p>Credit expansion, while stimulating short-term growth, repeatedly sets the stage for financial crises by encouraging excessive risk-taking and debt accumulation. From the 1920s boom that birthed the Great Depression to the housing frenzy of the 2000s, these cycles demonstrate how loose credit distorts economies, only to trigger painful contractions when reality bites. Policymakers must heed these lessons, monitoring credit growth and spreads as warning signs to prevent future busts. In an era of low rates and high debt, the risk of another credit-driven crisis remains ever-present.</p></div>
-        </article>
-    
-
-    <section class="recent-posts">
-        <h2>Recent Posts</h2>
+    <div class="toc-box">
+        <h2>Latest</h2>
         <ul>
+        
+            <li><a href="./credit_expansion_economic_crisis_20251019.html">2025-10-19 - Untitled</a></li>
         
             <li><a href="./gold_runs_over_bitcoin_20251017.html">2025-10-17 - Gold&#39;s Rally and Bitcoin&#39;s Lag: A Debasement Perspective</a></li>
         
@@ -91,25 +50,9 @@ function loadFileData(filename) {
         
             <li><a href="./v_hedonic_adjustments_distort_cp_20251012.html">2025-10-13 - Hedonic Adjustments Distort CPI Inflation</a></li>
         
-            <li><a href="./g_argentine_peso_20251011.html">2025-10-12 - Argentine Pesos: A Risky Bet on a Sinking Currency</a></li>
-        
         </ul>
-    </section>
-
-<footer>
-<div class="disclaimer">
-<p>This website provides market insights and is not intended as financial advice. Investments involve risk, and past performance does not guarantee future results. Consult a professional advisor.</p>
-</div>
-<div class="site-map">
-<h3>Site Map</h3>
-<ul>
-<li><a href="./index.html">Home</a></li>
-<li><a href="./zsm_seven_intro.html">ZSM Seven</a></li>
-<li><a href="./archive.html">Archive</a></li>
-<li><a href="https://x.com/ZSMProperties">Contact</a></li>
-</ul>
-</div>
-</footer>
+    </div>
+    <a href="./index.html">Back to Home</a>
 <script src="./static/scripts.js" defer></script>
 </body>
 </html>

@@ -108,6 +108,18 @@ def lambda_handler(event, context):
         print(f"No ticker data for portfolio {portfolio_name}")
         return {'status': 'error', 'message': 'No ticker data available'}
 
+    # Get dataAsOf from one of the ticker data
+    data_as_of = list(ticker_data.values())[0].get('asOf')
+
+    # Check if analysis already exists for this portfolio, model, and dataAsOf
+    existing_analysis = analyses_table.query(
+        KeyConditionExpression=boto3.dynamodb.conditions.Key('portfolio').eq(portfolio_name),
+        FilterExpression=boto3.dynamodb.conditions.Attr('model').eq(MODEL) & boto3.dynamodb.conditions.Attr('dataAsOf').eq(data_as_of)
+    )
+    if existing_analysis['Items']:
+        print(f"Analysis already exists for {portfolio_name} with model {MODEL} and dataAsOf {data_as_of}, skipping")
+        return {'status': 'skipped', 'portfolio': portfolio_name, 'reason': 'already_exists'}
+
     # Convert Decimal to float
     ticker_data = decimal_to_float(ticker_data)
 
@@ -153,7 +165,8 @@ def lambda_handler(event, context):
                 'timestamp': current_timestamp,
                 'analysis': analysis,
                 'prompt': prompt,
-                'model': MODEL
+                'model': MODEL,
+                'dataAsOf': data_as_of
             }
         )
 
@@ -170,7 +183,8 @@ def lambda_handler(event, context):
                 'timestamp': current_timestamp,
                 'analysis': f"Error: {str(e)}",
                 'prompt': prompt,
-                'model': MODEL
+                'model': MODEL,
+                'dataAsOf': data_as_of
             }
         )
         return {'status': 'error', 'portfolio': portfolio_name, 'error': str(e)}

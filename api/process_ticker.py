@@ -174,7 +174,7 @@ def lambda_handler(event, context):
 
         print(f"Processing ticker: {ticker}")
 
-        # Fetch financial data
+        # Fetch price data first to get asOf time
         print(f"Fetching price for {ticker}")
         price_result = fetch_price(ticker)
         if isinstance(price_result, dict) and price_result.get('error') == 'rate_limit':
@@ -186,7 +186,17 @@ def lambda_handler(event, context):
 
         price_value, timestamp_ms = price_result
         price_value = Decimal(str(price_value))
+        as_of = datetime.fromtimestamp(timestamp_ms / 1000).isoformat()
 
+        # Get latest record and check if data is newer
+        latest = get_latest_record(ticker)
+        if latest and as_of <= latest.get('asOf', ''):
+            # Data not newer, skip without making further API calls
+            print(f"Data not newer for {ticker}, skipping")
+            action = 'skipped'
+            continue
+
+        # Data is newer, fetch additional indicators
         print(f"Fetching RSI for {ticker}")
         rsi = fetch_indicator(ticker, 'rsi', 14)
         if isinstance(rsi, dict) and rsi.get('error') == 'rate_limit':
@@ -201,30 +211,20 @@ def lambda_handler(event, context):
             continue
         ma50 = Decimal(str(ma50)) if ma50 is not None else None
 
-        as_of = datetime.fromtimestamp(timestamp_ms / 1000).isoformat()
         current_timestamp = datetime.now().isoformat()
 
-        # Get latest record
-        latest = get_latest_record(ticker)
-
-        # Check if data is newer
-        if latest and as_of <= latest.get('asOf', ''):
-            # Data not newer, skip
-            print(f"Data not newer for {ticker}, skipping")
-            action = 'skipped'
-        else:
-            # Data is newer or no previous, insert new record
-            print(f"Inserting new record for {ticker}")
-            item = {
-                'ticker': ticker,
-                'timestamp': current_timestamp,
-                'price': price_value,
-                'asOf': as_of,
-                'ma50': ma50,
-                'rsi': rsi
-            }
-            table.put_item(Item=item)
-            action = 'inserted'
+        # Insert new record
+        print(f"Inserting new record for {ticker}")
+        item = {
+            'ticker': ticker,
+            'timestamp': current_timestamp,
+            'price': price_value,
+            'asOf': as_of,
+            'ma50': ma50,
+            'rsi': rsi
+        }
+        table.put_item(Item=item)
+        action = 'inserted'
 
         print(f"Completed processing ticker: {action}")
 

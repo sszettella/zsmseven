@@ -29,7 +29,7 @@ print("Table ready")
 table.put_item(
     Item={
         'portfolio_name': 'ZSM Seven',
-        'tickers': ['AVGO', 'IBIT', 'IAU', 'HOOD', 'PLTY', 'TSLA', 'NVDA'],
+        'tickers': ['AVGO', 'IBIT', 'IAU', 'HOOD', 'PLTR', 'TSLA', 'NVDA'],
         'last_update': datetime.utcnow().isoformat()
     }
 )

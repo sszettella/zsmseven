@@ -60,12 +60,14 @@ function loadFileData(filename) {
     <h1>ZSM Properties - Market Insights</h1>
     
         <article id="bitcoin_price_in_gold_20151020" class="main-content">
-            <div><p>Posted on October 20, 2025 by Steve Szettella.</p>
+            <div><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<p>Posted on October 20, 2025 by Steve Szettella.</p>
 <h2>Bitcoin vs. Gold Price Ratio in 2025</h2>
 <p>In recent years, Bitcoin has often been compared to gold as a store of value, earning the nickname "digital gold." This post explores how Bitcoin's price has performed relative to gold over the first ten months of 2025. We'll look at the ratio of Bitcoin's price in USD to gold's price per ounce in USD, which tells us how many ounces of gold one Bitcoin could theoretically buy. The data reveals interesting trends, and we'll examine a scenario where this ratio returns to its January average level, potentially leading to a notable increase in Bitcoin's USD price.</p>
 <h3>Understanding the Bitcoin-Gold Ratio</h3>
 <p>The Bitcoin-gold ratio is calculated as:</p>
-<p>[ \text{Ratio} = \frac{\text{Bitcoin Price (USD)}}{\text{Gold Price per Ounce (USD)}} ]</p>
+<p>Ratio = Bitcoin Price (USD) / Gold Price per Ounce (USD)</p>
 <p>This metric helps gauge Bitcoin's valuation against a traditional safe-haven asset like gold. Using end-of-month closing prices for consistency in the table below, but incorporating weekly data points in the accompanying graph for a more granular view, here's how the ratio evolved from January to October 2025:</p>
 <div class="table-responsive"><table>
 <thead>
@@ -142,81 +144,47 @@ function loadFileData(filename) {
 <p>*October data as of October 20, 2025. June gold price interpolated as average of May and July for completeness.</p>
 <p>The ratio started at around 36.41 ounces in January and trended downward, reaching approximately 25.30 ounces by mid-October. This indicates that Bitcoin has underperformed relative to gold during this period, as gold's price climbed steadily while Bitcoin experienced more volatility.</p>
 <h3>Bitcoin-Gold Ratio Graph</h3>
-<p>To provide a more focused view on 2025 trends with weekly data points, here’s a chart illustrating the BTC/Gold price ratio from January to October 2025. The chart uses monthly data points from the table above and interpolates weekly points to show smoother trends:</p>
-<pre><code class="language-chartjs">{
-  &quot;type&quot;: &quot;line&quot;,
-  &quot;data&quot;: {
-    &quot;labels&quot;: [
-      &quot;2025-01-06&quot;, &quot;2025-01-13&quot;, &quot;2025-01-20&quot;, &quot;2025-01-27&quot;,
-      &quot;2025-02-03&quot;, &quot;2025-02-10&quot;, &quot;2025-02-17&quot;, &quot;2025-02-24&quot;,
-      &quot;2025-03-03&quot;, &quot;2025-03-10&quot;, &quot;2025-03-17&quot;, &quot;2025-03-24&quot;,
-      &quot;2025-04-07&quot;, &quot;2025-04-14&quot;, &quot;2025-04-21&quot;, &quot;2025-04-28&quot;,
-      &quot;2025-05-05&quot;, &quot;2025-05-12&quot;, &quot;2025-05-19&quot;, &quot;2025-05-26&quot;,
-      &quot;2025-06-02&quot;, &quot;2025-06-09&quot;, &quot;2025-06-16&quot;, &quot;2025-06-23&quot;,
-      &quot;2025-07-07&quot;, &quot;2025-07-14&quot;, &quot;2025-07-21&quot;, &quot;2025-07-28&quot;,
-      &quot;2025-08-04&quot;, &quot;2025-08-11&quot;, &quot;2025-08-18&quot;, &quot;2025-08-25&quot;,
-      &quot;2025-09-01&quot;, &quot;2025-09-08&quot;, &quot;2025-09-15&quot;, &quot;2025-09-22&quot;,
-      &quot;2025-10-06&quot;, &quot;2025-10-13&quot;, &quot;2025-10-20&quot;
-    ],
-    &quot;datasets&quot;: [{
-      &quot;label&quot;: &quot;BTC/Gold Ratio (Ounces)&quot;,
-      &quot;data&quot;: [
-        36.41, 35.50, 34.60, 33.70, 
-        32.80, 31.90, 30.82, 29.75, 
-        28.67, 27.59, 27.01, 26.44, 
-        27.00, 27.56, 28.03, 28.51, 
-        29.50, 30.50, 31.15, 31.81, 
-        32.10, 32.30, 32.42, 32.55, 
-        33.00, 33.80, 34.47, 35.15, 
-        34.00, 32.80, 31.98, 31.16, 
-        30.50, 30.10, 29.90, 29.70, 
-        28.00, 26.50, 25.30
-      ],
-      &quot;borderColor&quot;: &quot;#FFD700&quot;,
-      &quot;backgroundColor&quot;: &quot;rgba(255, 215, 0, 0.2)&quot;,
-      &quot;fill&quot;: true,
-      &quot;tension&quot;: 0.4
+<p>To provide a more focused view on 2025 trends, here's a chart illustrating the BTC/Gold price ratio from January to October 2025:</p>
+<canvas id="chart-btc-gold" width="400" height="200"></canvas>
+<script>
+const ctxBTCGold = document.getElementById('chart-btc-gold').getContext('2d');
+const labelsBTCGold = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"];
+const dataBTCGold = [36.41, 29.75, 26.44, 28.51, 31.81, 32.55, 35.15, 31.16, 29.70, 25.30];
+new Chart(ctxBTCGold, {
+  type: 'line',
+  data: {
+    labels: labelsBTCGold,
+    datasets: [{
+      label: 'BTC/Gold Ratio (Ounces)',
+      data: dataBTCGold,
+      borderColor: '#FFD700',
+      fill: false
     }]
   },
-  &quot;options&quot;: {
-    &quot;responsive&quot;: true,
-    &quot;plugins&quot;: {
-      &quot;legend&quot;: {
-        &quot;position&quot;: &quot;top&quot;,
-        &quot;labels&quot;: { &quot;color&quot;: &quot;#333&quot; }
-      },
-      &quot;title&quot;: {
-        &quot;display&quot;: true,
-        &quot;text&quot;: &quot;Bitcoin to Gold Price Ratio in 2025&quot;,
-        &quot;color&quot;: &quot;#333&quot;
-      }
-    },
-    &quot;scales&quot;: {
-      &quot;x&quot;: {
-        &quot;title&quot;: { &quot;display&quot;: true, &quot;text&quot;: &quot;Date&quot;, &quot;color&quot;: &quot;#333&quot; },
-        &quot;ticks&quot;: { &quot;color&quot;: &quot;#333&quot; }
-      },
-      &quot;y&quot;: {
-        &quot;title&quot;: { &quot;display&quot;: true, &quot;text&quot;: &quot;Ounces of Gold per BTC&quot;, &quot;color&quot;: &quot;#333&quot; },
-        &quot;ticks&quot;: { &quot;color&quot;: &quot;#333&quot; },
-        &quot;beginAtZero&quot;: false
+  options: {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Bitcoin to Gold Price Ratio in 2025'
       }
     }
   }
-}
-</code></pre>
-<p>This chart highlights the weekly movements in the ratio, showing a general decline from January’s 36.41 ounces to October’s 25.30 ounces, with interpolated values to smooth the trend.</p>
+});
+</script>
+
+<p>This chart shows the monthly ratio values, highlighting the decline from January to October.</p>
 <h3>The Thesis: Reverting to January Levels</h3>
 <p>The average Bitcoin price in January 2025 was $99,992.85 [6], and the average gold price was $2,751.44 per ounce [2]. This gives a January average ratio of:</p>
 <p>[ \text{January Ratio} = \frac{99,992.85}{2,751.44} \approx 36.35 ]</p>
 <p>If the ratio were to return to this January average, and assuming the current gold price holds at $4,348.80 per ounce [5], Bitcoin's USD price would need to adjust to:</p>
-<p>[ \text{Projected BTC Price} = 36.35 \times 4,348.80 \approx 158,029 ]</p>
+<p>Projected BTC Price = 36.35 × 4,348.80 ≈ 158,029</p>
 <p>This represents a potential increase of about 44% from Bitcoin's mid-October closing price of $110,001.74 [4].</p>
 <h3>Accounting for Gold Appreciation</h3>
 <p>Assuming gold appreciates by an additional 2% from its current level before the end of 2025, the projected gold price would be:</p>
-<p>[ \text{Projected Gold Price} = 4,348.80 \times 1.02 = 4,435.78 ]</p>
+<p>Projected Gold Price = 4,348.80 × 1.02 = 4,435.78</p>
 <p>Applying the January ratio:</p>
-<p>[ \text{Projected BTC Price} = 36.35 \times 4,435.78 \approx 161,240 ]</p>
+<p>Projected BTC Price = 36.35 × 4,435.78 ≈ 161,240</p>
 <p>To arrive at this calculation: First, multiply the current gold price by 1.02 to account for the appreciation. Then, multiply the result by the January ratio to find the implied Bitcoin price. This scenario illustrates how even modest gold gains could amplify Bitcoin's USD upside if the ratio reverts.</p>
 <h3>Key Insights</h3>
 <ul>
@@ -224,7 +192,7 @@ function loadFileData(filename) {
 <li>Bitcoin, while volatile, ended the period higher than its January close but lost ground relative to gold.</li>
 <li>Factors like institutional adoption, halvings, and market sentiment influence Bitcoin's performance, while gold benefits from central bank buying and inflation concerns.</li>
 </ul>
-<p>For further discussion on these trends, check out @zsmproperties on X [https://x.com/zsmproperties].</p>
+<p>For further discussion on these trends, check out <a href="https://x.com/zsmproperties">@zsmproperties</a> on X.</p>
 <p>Remember, markets are full of surprises, so this is just one way to look at the data—not a crystal ball for your portfolio decisions.</p></div>
         </article>
     

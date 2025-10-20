@@ -34,6 +34,8 @@ jobs:
     - name: Deploy Lambda
       env:
         POLYGON_API_KEY: ${{ secrets.POLYGON_API_KEY }}
+        XAI_API_URL: ${{ secrets.XAI_API_URL }}
+        XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
       run: |
         cd api
         serverless deploy

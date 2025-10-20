@@ -71,7 +71,6 @@ functions:
   analyzePortfolio:
     handler: analyze_portfolio.lambda_handler
     timeout: 300
-    timeout: 300
 
 resources:
   Resources:

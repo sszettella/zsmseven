@@ -22,6 +22,9 @@ ANALYSES_TABLE = os.environ.get('ANALYSES_TABLE')
 XAI_API_URL = os.environ.get('XAI_API_URL')
 XAI_API_KEY = os.environ.get('XAI_API_KEY')
 
+# Model configuration
+MODEL = 'grok-4-latest'
+
 # DynamoDB client
 dynamodb = boto3.resource('dynamodb')
 analyses_table = dynamodb.Table(ANALYSES_TABLE)
@@ -77,7 +80,7 @@ def lambda_handler(event, context):
             'Content-Type': 'application/json'
         }
         data = {
-            'model': 'grok-4-fast-reasoning',
+            'model': MODEL,
             'messages': [
                 {
                     'role': 'user',
@@ -103,7 +106,8 @@ def lambda_handler(event, context):
                 'portfolio': portfolio_name,
                 'timestamp': current_timestamp,
                 'analysis': analysis,
-                'prompt': prompt
+                'prompt': prompt,
+                'model': MODEL
             }
         )
 

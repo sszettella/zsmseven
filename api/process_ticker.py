@@ -209,19 +209,9 @@ def lambda_handler(event, context):
 
         # Check if data is newer
         if latest and as_of <= latest.get('asOf', ''):
-            # Data not newer, update existing record's timestamp
-            print(f"Data not newer for {ticker}, updating existing record timestamp")
-            try:
-                table.update_item(
-                    Key={'ticker': ticker, 'timestamp': latest['timestamp']},
-                    UpdateExpression='SET #ts = :val',
-                    ExpressionAttributeNames={'#ts': 'timestamp'},
-                    ExpressionAttributeValues={':val': current_timestamp}
-                )
-                action = 'updated'
-            except Exception as e:
-                print(f"ERROR updating record for {ticker}: {e}")
-                action = 'update_failed'
+            # Data not newer, skip
+            print(f"Data not newer for {ticker}, skipping")
+            action = 'skipped'
         else:
             # Data is newer or no previous, insert new record
             print(f"Inserting new record for {ticker}")

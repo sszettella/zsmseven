@@ -49,9 +49,8 @@ def lambda_handler(event, context):
 
     print(f"Found {len(items)} portfolio items")
 
-    messages_sent = 0
-
-    # Process each item
+    # Collect unique tickers
+    unique_tickers = set()
     for item in items:
         tickers = []
         if 'ticker' in item:
@@ -64,25 +63,33 @@ def lambda_handler(event, context):
                 tickers = [tickers]  # in case it's single
 
         for ticker in tickers:
-            print(f"Processing ticker: {ticker}")
+            unique_tickers.add(ticker)
 
-            # Create message
-            message = {
-                'ticker': ticker,
-                'source': 'portfolio_processor'
-            }
+    print(f"Found {len(unique_tickers)} unique tickers: {list(unique_tickers)}")
 
-            # Send to SQS with 1-minute delay between messages
-            try:
-                sqs.send_message(
-                    QueueUrl=SQS_QUEUE_URL,
-                    MessageBody=json.dumps(message),
-                    DelaySeconds=(60 * messages_sent)  # 1 minutes spacing
-                )
-                messages_sent += 1
-                print(f"Sent message for {ticker}")
-            except Exception as e:
-                print(f"ERROR sending message for {ticker}: {e}")
+    messages_sent = 0
+
+    # Send message for each unique ticker
+    for ticker in unique_tickers:
+        print(f"Processing ticker: {ticker}")
+
+        # Create message
+        message = {
+            'ticker': ticker,
+            'source': 'portfolio_processor'
+        }
+
+        # Send to SQS with 2-minute delay
+        try:
+            sqs.send_message(
+                QueueUrl=SQS_QUEUE_URL,
+                MessageBody=json.dumps(message),
+                DelaySeconds=120  # 2 minutes
+            )
+            messages_sent += 1
+            print(f"Sent message for {ticker}")
+        except Exception as e:
+            print(f"ERROR sending message for {ticker}: {e}")
 
     print(f"Completed processing, sent {messages_sent} messages")
     return {'status': 'success', 'messages_sent': messages_sent}

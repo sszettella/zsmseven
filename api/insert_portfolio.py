@@ -8,8 +8,8 @@ table = dynamodb.Table('portfolios-dev')
 # Insert the portfolio item
 table.put_item(
     Item={
-        'portfolio_name': 'ZSM Seven',
-        'tickers': ['AVGO', 'IBIT', 'IAU', 'HOOD', 'PLTY', 'TSLA', 'NVDA'],
+        'portfolio_name': 'DIV Seven',
+        'tickers': ['PLTY', 'MSTY', 'BITI', 'HOOY', 'NVDY', 'STRC', 'NVDA'],
         'last_update': datetime.utcnow().isoformat()
     }
 )

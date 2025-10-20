@@ -49,6 +49,7 @@ functions:
           enabled: true
   processTicker:
     handler: process_ticker.lambda_handler
+    reservedConcurrency: 1
     events:
       - sqs:
           arn: arn:aws:sqs:us-east-1:076311063214:portfolio-queue-dev

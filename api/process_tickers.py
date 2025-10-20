@@ -72,12 +72,12 @@ def lambda_handler(event, context):
                 'source': 'portfolio_processor'
             }
 
-            # Send to SQS with 2-minute delay
+            # Send to SQS with 1-minute delay between messages
             try:
                 sqs.send_message(
                     QueueUrl=SQS_QUEUE_URL,
                     MessageBody=json.dumps(message),
-                    DelaySeconds=120  # 2 minutes
+                    DelaySeconds=(60 * messages_sent)  # 1 minutes spacing
                 )
                 messages_sent += 1
                 print(f"Sent message for {ticker}")

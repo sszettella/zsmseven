@@ -45,7 +45,7 @@ functions:
     handler: process_tickers.lambda_handler
     events:
       - schedule:
-          rate: cron(0 16 * * 1-5 *)
+          rate: cron(0 16 ? * MON-FRI *)
           enabled: true
   processTicker:
     handler: process_ticker.lambda_handler
@@ -53,6 +53,7 @@ functions:
       - sqs:
           arn: arn:aws:sqs:us-east-1:076311063214:portfolio-queue-dev
           batchSize: 1
+
 resources:
   Resources:
     TickerDataTable:

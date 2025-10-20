@@ -7,3 +7,4 @@ __pycache__/
 *.pyc
 api/aws_key
 node_modules
+.serverless/

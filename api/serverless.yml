@@ -11,7 +11,11 @@ provider:
     POLYGON_API_KEY: ${env:POLYGON_API_KEY}
     DYNAMODB_TABLE: ticker-data-${self:provider.stage}
     PORTFOLIOS_TABLE: portfolios-${self:provider.stage}
+    TICKER_DATA_TABLE: ticker-data-${self:provider.stage}
+    ANALYSES_TABLE: portfolio-analyses-${self:provider.stage}
     SQS_QUEUE_URL: https://sqs.us-east-1.amazonaws.com/076311063214/portfolio-queue-dev
+    XAI_API_URL: ${env:XAI_API_URL}
+    XAI_API_KEY: ${env:XAI_API_KEY}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -29,6 +33,7 @@ provider:
       Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
     - Effect: Allow
       Action:
+        - dynamodb:GetItem
         - dynamodb:Scan
       Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PORTFOLIOS_TABLE}"
     - Effect: Allow
@@ -37,6 +42,14 @@ provider:
         - sqs:ReceiveMessage
         - sqs:DeleteMessage
       Resource: "*"
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+      Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ANALYSES_TABLE}"
 
 functions:
   fetchData:
@@ -54,6 +67,11 @@ functions:
       - sqs:
           arn: arn:aws:sqs:us-east-1:076311063214:portfolio-queue-dev
           batchSize: 1
+  analyzePortfolio:
+    handler: analyze_portfolio.lambda_handler
+  processPortfolioAnalysis:
+    handler: process_portfolio_analysis.lambda_handler
+    timeout: 300
 
 resources:
   Resources:
@@ -82,6 +100,21 @@ resources:
         KeySchema:
           - AttributeName: portfolio_name
             KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+    PortfolioAnalysesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.ANALYSES_TABLE}
+        AttributeDefinitions:
+          - AttributeName: portfolio
+            AttributeType: S
+          - AttributeName: timestamp
+            AttributeType: S
+        KeySchema:
+          - AttributeName: portfolio
+            KeyType: HASH
+          - AttributeName: timestamp
+            KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
 
 plugins:

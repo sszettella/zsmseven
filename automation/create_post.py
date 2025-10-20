@@ -17,8 +17,8 @@ except FileNotFoundError:
 
 # xAI API endpoint and model
 api_url = "https://api.x.ai/v1/chat/completions"
-#model = "grok-4-fast-reasoning"
-model = "grok-4-latest"  # more expensive, slower
+model = "grok-4-fast-reasoning"
+#model = "grok-4-latest"  # more expensive, slower
 
 # Read API key from xai_api_key file
 try:

@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Untitled</title>
+    <title>ZSM7 Opportunity Score - ZSM Properties Market Insights</title>
+    <meta name="description" content="Real-time opportunity scores for ZSM Seven portfolio tickers based on RSI and MA50 indicators. Get the latest buying potential analysis for investing decisions.">
+    <meta name="keywords" content="ZSM Seven, portfolio analysis, opportunity scores, RSI, MA50, investing, stocks, market insights">
     <link rel="stylesheet" href="./static/styles.css">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QFRQ05SBEZ"></script>
@@ -27,9 +29,8 @@
 </div>
 </nav>
 </header>
-    <h1><a href="./index.html" style="text-decoration: none; color: inherit;">ZSM Properties - Market Insights</a></h1>
-    <hr/>
-    <div class="main-content"><div id="latest-analysis">Loading latest analysis...</div></div>
+<div id="latest-analysis">Loading latest analysis...</div>
+    </div>
     <div class="toc-box">
         <h2>Latest</h2>
         <ul>
@@ -47,6 +48,36 @@
         </ul>
     </div>
     <a href="./index.html">Back to Home</a>
+<footer>
+<div class="disclaimer">
+<p>This website provides market insights and is not intended as financial advice. Investments involve risk, and past performance does not guarantee future results. Consult a professional advisor.</p>
+</div>
+<div class="site-map">
+<h3>Site Map</h3>
+<ul>
+<li><a href="./index.html">Home</a></li>
+<li><a href="./zsm_seven_intro.html">ZSM Seven</a></li>
+<li><a href="./portfolio_analysis.html">ZSM7 Opportunity Score</a></li>
+<li><a href="./archive.html">Archive</a></li>
+<li><a href="https://x.com/ZSMProperties">Contact</a></li>
+</ul>
+</div>
+</footer>
 <script src="./static/scripts.js" defer></script>
+<script>
+// Fetch latest portfolio analysis
+const latestAnalysisDiv = document.getElementById('latest-analysis');
+if (latestAnalysisDiv) {
+  fetch('https://api.zsmproperties.com/dev/get-portfolio-analysis?portfolio_name=ZSM%20Seven')
+    .then(response => response.text())
+    .then(html => {
+      latestAnalysisDiv.innerHTML = html;
+    })
+    .catch(error => {
+      latestAnalysisDiv.innerHTML = 'Unable to load latest analysis.';
+      console.error('Error fetching analysis:', error);
+    });
+}
+</script>
 </body>
 </html>

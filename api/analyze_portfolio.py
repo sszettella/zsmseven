@@ -129,7 +129,34 @@ def lambda_handler(event, context):
         'tickers': ticker_data,
         'timestamp': datetime.utcnow().isoformat()
     }
-    prompt = f"Analyze this portfolio data and give each ticker an opportunity score. The opportunity score should indicate whether it is a good time to buy the ticker. The score should be on a scale from -10 to 10 with 10 being the best opportunity to buy. Rank the tickers in order from highest opportunity score to lowest within the portfolio.\n\nPortfolio Data:\n{json.dumps(portfolio_data, indent=2)}"
+    portfolio_json = json.dumps(portfolio_data, indent=2)
+    prompt = (
+        "Analyze this portfolio data and give each ticker an opportunity score. "
+        "The opportunity score should indicate whether it is a good time to buy the ticker. "
+        "The score should be on a scale from -10 to 10 with 10 being the best opportunity to buy. "
+        "No item in the list needs to have a +10 or -10 ranking.  Try to assess in such a way that "
+        "the ideal score (10/10) represents a very good buying opportunity. "
+        "Rank the tickers in order from highest opportunity score to lowest within the portfolio. "
+        "Include a disclaimer that this is not financial advice. "
+        "Format the narrative as markdown with a table of results. "
+        "Formatting: "
+        "Be sure to include a desriptive title, but don't make it too long.  Try to keep it "
+        "60 characters or less. "
+        "There should be a header section at the top that includes: "
+        "---\n"
+        "title: \"{insert title here}\"\n"
+        "date: \"{insert date here}\"\n"
+        "description: \"{a good description for SEO including relevant keywords}\"\n"
+        "tags: [{\"relevant\", \"keywords\"}]\n"
+        "---\n"
+        "Include a byline: Generated on {Date}. "
+        "Make this the first line after the header section and make it show the current date. "
+        f"Include a note that the data is as of {data_as_of}, but format the date in a user friendly way. "
+        "After the markdown, include a JSON summary showing ticker, price, rsi, ma50, and score. "
+        "The json should be included in such a way that it can easily be parsed out by the "
+        "python re library like this: re.search(r'```json\\s*(\\{.*?\\})\\s*```', analysis, re.DOTALL)."
+        f"\n\nPortfolio Data:\n{portfolio_json}"
+    )
 
     # Call Xai API
     try:
@@ -157,18 +184,39 @@ def lambda_handler(event, context):
         result = response.json()
         analysis = result['choices'][0]['message']['content']
 
+        # Parse JSON from analysis if present
+        parsed_data = None
+        try:
+            # Look for JSON in code blocks or at the end
+            import re
+            json_match = re.search(r'```json\s*(\{.*?\})\s*```', analysis, re.DOTALL)
+            if json_match:
+                parsed_data = json.loads(json_match.group(1))
+                # Remove the JSON block from analysis
+                analysis = re.sub(r'```json\s*\{.*?\}\s*```', '', analysis, flags=re.DOTALL).strip()
+            else:
+                # Try to find JSON at the end
+                json_match = re.search(r'(\{.*\})$', analysis.strip())
+                if json_match:
+                    parsed_data = json.loads(json_match.group(1))
+                    # Remove the JSON from analysis
+                    analysis = re.sub(r'\{.*\}$', '', analysis).strip()
+        except (json.JSONDecodeError, AttributeError):
+            parsed_data = None
+
         # Store in DynamoDB
         current_timestamp = datetime.utcnow().isoformat()
-        analyses_table.put_item(
-            Item={
-                'portfolio': portfolio_name,
-                'timestamp': current_timestamp,
-                'analysis': analysis,
-                'prompt': prompt,
-                'model': MODEL,
-                'dataAsOf': data_as_of
-            }
-        )
+        item = {
+            'portfolio': portfolio_name,
+            'timestamp': current_timestamp,
+            'analysis': analysis,
+            'prompt': prompt,
+            'model': MODEL,
+            'dataAsOf': data_as_of
+        }
+        if parsed_data:
+            item['parsed_data'] = json.dumps(parsed_data)
+        analyses_table.put_item(Item=item)
 
         print(f"Analysis completed and stored for {portfolio_name}")
         return {'status': 'success', 'portfolio': portfolio_name}

@@ -149,7 +149,7 @@ def lambda_handler(event, context):
         "description: \"{a good description for SEO including relevant keywords}\"\n"
         "tags: [{\"relevant\", \"keywords\"}]\n"
         "---\n"
-        "Include a byline: Generated on {Date}. "
+        f"Include a byline: Generated on {datetime.utcnow().isoformat()} "
         "Make this the first line after the header section and make it show the current date. "
         f"Include a note that the data is as of {data_as_of}, but format the date in a user friendly way. "
         "After the markdown, include a JSON summary showing ticker, price, rsi, ma50, and score. "

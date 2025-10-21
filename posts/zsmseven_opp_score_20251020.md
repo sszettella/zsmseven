@@ -1,11 +1,11 @@
 ---
 title: "ZSM Seven Portfolio Analysis"
-date: "2024-10-21"
+date: "2025-10-21"
 description: "Opportunity scores for ZSM Seven portfolio tickers based on RSI and MA50 for buying potential, with rankings and insights."
 tags: ["stocks", "portfolio", "analysis", "opportunity scores", "investing"]
 ---
 
-Generated on 2024-10-21.  
+Analysis generated on 2025-10-21
 *Note: The data analyzed is as of October 17, 2025.*
 
 ### Portfolio Opportunity Scores Overview

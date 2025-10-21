@@ -58,7 +58,7 @@ functions:
     handler: process_tickers.lambda_handler
     events:
       - schedule:
-          rate: cron(30 22 ? * MON-FRI *)
+          rate: cron(30 4 ? * MON-FRI *)
           enabled: true
   processTicker:
     handler: process_ticker.lambda_handler

@@ -146,7 +146,6 @@ def lambda_handler(event, context):
         f"Include a byline: Generated on {datetime.utcnow().isoformat()} formatted in a user friendly way."
         "Make this the first line after the header section. "
         f"Include a note that the data is as of {data_as_of}, but format the date in a user friendly way. "
-        "Adjust dates to Mountain Standard Time. "
         "Include a disclaimer that this is not financial advice after the table. "
         "After the markdown, include a JSON summary showing ticker, price, rsi, ma50, and score. "
         "The json should be included in such a way that it can easily be parsed out by the "

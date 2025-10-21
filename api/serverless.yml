@@ -52,6 +52,13 @@ provider:
         - dynamodb:PutItem
         - dynamodb:Query
       Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ANALYSES_TABLE}"
+    - Effect: Allow
+      Action:
+        - acm:ListCertificates
+        - acm:DescribeCertificate
+        - acm:RequestCertificate
+        - acm:DeleteCertificate
+      Resource: "*"
 
 functions:
   processTickers:
@@ -76,6 +83,13 @@ functions:
           enabled: true
           input:
             portfolio_name: "ZSM Seven"
+  getPortfolioAnalysis:
+    handler: get_portfolio_analysis.lambda_handler
+    events:
+      - http:
+          path: dev/get-portfolio-analysis
+          method: get
+          cors: true
 
 resources:
   Resources:
@@ -130,7 +144,8 @@ plugins:
 #     basePath: ''
 #     stage: ${self:provider.stage}
 #     createRoute53Record: true
+#     endpointType: REGIONAL
 
 #   domain:
-#     dev: devapi.zsmproperties.com
+#     dev: api.zsmproperties.com
 #     prod: api.zsmproperties.com

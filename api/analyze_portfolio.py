@@ -190,7 +190,7 @@ def lambda_handler(event, context):
         try:
             # Look for JSON in code blocks or at the end
             import re
-            json_match = re.search(r'```json\s*(\{.*?\})\s*```', analysis, re.DOTALL)
+            json_match = re.search(r'```json\s*(\[.*?\]|\{.*?\})\s*```', analysis, re.DOTALL)
             if json_match:
                 parsed_data = json.loads(json_match.group(1))
                 # Remove the JSON block from analysis

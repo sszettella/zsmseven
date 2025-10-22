@@ -1,0 +1,174 @@
+<script type="text/javascript">
+var gk_isXlsx = false;
+var gk_xlsxFileLookup = {};
+var gk_fileData = {};
+function filledCell(cell) {
+  return cell !== '' && cell != null;
+}
+function loadFileData(filename) {
+  if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+    try {
+      var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+      var firstSheetName = workbook.SheetNames[0];
+      var worksheet = workbook.Sheets[firstSheetName];
+
+      // Convert sheet to JSON to filter blank rows
+      var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+      // Filter out blank rows (rows where all cells are empty, null, or undefined)
+      var filteredData = jsonData.filter(row => row.some(filledCell));
+
+      // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+      var headerRowIndex = filteredData.findIndex((row, index) =>
+        row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+      );
+      // Fallback
+      if (headerRowIndex === -1 || headerRowIndex > 25) {
+        headerRowIndex = 0;
+      }
+
+      // Convert filtered JSON back to CSV
+      var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+      csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+      return csv;
+    } catch (e) {
+      console.error(e);
+      return "";
+    }
+  }
+  return gk_fileData[filename] || "";
+}
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Insights from ZSM Properties.</title>
+    <link rel="stylesheet" href="./static/styles.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QFRQ05SBEZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QFRQ05SBEZ');
+    </script>
+</head>
+<body>
+<header>
+<nav>
+<button id="hamburger" aria-label="Toggle navigation">☰</button>
+<div id="nav-links">
+<a href="./index.html">Home</a>
+<a href="./zsm_seven_intro.html">ZSM Seven</a>
+<a href="./portfolio_analysis.html">ZSM Opportunity Index</a>
+<a href="./archive.html">Archive</a>
+<a href="https://x.com/ZSMProperties">Contact</a>
+</div>
+</nav>
+</header>
+    <h1>ZSM Properties - Market Insights</h1>
+    
+        <article id="substitution_cpi_adjustment_20251022" class="main-content">
+            <div><p><em>Posted on October 22, 2025 by Steve Szettella</em></p>
+<h2>CPI Substitution: Masking True Inflation?</h2>
+<p>Inflation isn't just a number on a government report. It's the creeping reality that hits your grocery bill every week. Yet, the Consumer Price Index (CPI), the U.S. Bureau of Labor Statistics' (BLS) flagship measure of inflation, often paints a rosier picture than what most Americans feel in their wallets. One key reason? Substitution bias, a methodological adjustment that assumes consumers seamlessly switch to cheaper alternatives when prices rise. This isn't the only flaw in the CPI.  Issues like outlet bias, <a href="v_hedonic_adjustments_distort_cp_20251012">quality (hedonic) adjustments</a>, and new goods omissions compound the problem.  Even so, substitution stands out for how it systematically underreports the true cost of living increases.</p>
+<p>At its core, the CPI tracks price changes for a fixed "basket" of goods and services representing average urban consumer spending. But when steak prices soar, the index doesn't stick to that original cut; it factors in shifts toward ground beef or even chicken, implying consumers maintain their utility without much pain. This lowers the reported inflation rate, as the basket now emphasizes cheaper options. The result? Official figures suggest price growth is tame, even as families trade down from preferred items, sparking cognitive dissonance: "Why does everything seem so much more expensive if inflation is only 2-3%?"</p>
+<p>This disconnect isn't abstract. It's eroding trust in institutions. When people sense the numbers don't match their lived experience, suspicion grows that the government is fudging data, perhaps to justify policies or understate economic strain. This bias exemplifies how top-down metrics distort the subjective value of money, misleading policymakers and the public alike.</p>
+<h3>How Substitution Bias Works in Practice</h3>
+<p>Substitution bias comes in two flavors: lower-level (within similar items, like brands of cereal) and upper-level (across broader categories, like beef to poultry). The BLS addressed lower-level bias in 1999 by adopting a geometric mean formula, which slightly dampens inflation estimates by assuming some intra-category shifts. For upper-level, the chained CPI (an experimental variant) goes further by linking baskets month-to-month, fully accounting for cross-category swaps.  This new CPI, while potentially more accurate, is not the headline number used for Social Security adjustments or wage talks.</p>
+<p>Critics argue the substitution adjustment flips the script: Instead of measuring the cost to maintain a consistent lifestyle, it measures the cost of adapting downward. As economist Michael Boskin noted in his 1996 commission report, unadjusted CPIs overstate inflation by ignoring substitutions, but chaining them understates the welfare loss from forced trade-offs. The Boskin estimate pegged total CPI overstatement at 1.1% annually, with substitution contributing 0.4%—though real-world effects may vary.</p>
+<h3>A Beefy Example: From Steak to Ground Beef</h3>
+<p>Beef prices offer a stark illustration, as they've surged amid supply shortages from droughts and herd reductions. Consider this simplified scenario based on recent BLS retail data: Suppose a household's original basket includes 10 pounds of sirloin steak at $8.50 per pound in 2020 (total: $85). By 2024, steak hits $10.86 per pound (a 28% jump) prompting a switch to ground beef at $5.11 per pound (from $4.11, up 24%). Without substitution, the "fixed basket" inflation for this beef portion is 28%. But with it, the index weights toward ground beef, reporting closer to 24%—masking the full hit.</p>
+<p>To quantify further, here's a table of average U.S. retail prices (per pound) for sirloin steak and ground beef from 2020-2024, drawn from BLS averages:</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th>Year</th>
+<th>Sirloin Steak ($)</th>
+<th>% Change from Prior</th>
+<th>Ground Beef (100% Lean, $)</th>
+<th>% Change from Prior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2020</td>
+<td>8.50</td>
+<td>-</td>
+<td>4.11</td>
+<td>-</td>
+</tr>
+<tr>
+<td>2021</td>
+<td>9.20</td>
+<td>+8.2%</td>
+<td>4.45</td>
+<td>+8.3%</td>
+</tr>
+<tr>
+<td>2022</td>
+<td>9.80</td>
+<td>+6.5%</td>
+<td>4.80</td>
+<td>+7.9%</td>
+</tr>
+<tr>
+<td>2023</td>
+<td>10.40</td>
+<td>+6.1%</td>
+<td>5.30</td>
+<td>+10.4%</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>10.86</td>
+<td>+4.4%</td>
+<td>5.62</td>
+<td>+6.0%</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>Sources: BLS via Statista and FRED data.</em></p>
+<p>Over four years, steak rose 28%, outpacing ground beef's 37% cumulative hike—but the gap highlights substitution's pull. If CPI reweights the basket toward ground beef (now a larger spending share), overall food inflation drops below the "no-substitution" rate. In reality, this means the index reports milder increases, even as consumers lament losing their steak dinners. Recent data shows ground beef hitting $6.34 per pound by mid-2025, with steaks at $11.88 amplifying the distortion.</p>
+<p>This isn't theoretical; it's why beef CPI subindexes have shown resilience (up ~5% annually) while overall food inflation feels steeper. As one X user put it: "CPI isn't a measure of steak to steak but $2.99/lb beef 3 yrs ago to $2.50/lb pork today. It ignores that beef is now $6.99/lb &amp; pork was $1.30/lb then."</p>
+<h3>The Broader Fallout: Dissonance and Distrust</h3>
+<p>When official CPI clocks in at 2.5% but groceries feel 10% pricier, the gap breeds frustration. This is cognitive dissonance.  The official calm versus the visceral pinch.  It justifiably fuels narratives of manipulation.  This is especially true when substitutions ignore quality drops (e.g., fattier ground beef as "equivalent" to lean sirloin steak). Trust erodes as people question why metrics are at odds with their reality, a sentiment echoed across discussions: "CPI is literally fake propaganda," one observer noted, citing how it swaps high-price items for low ones like "cricket burgers" in extreme hypotheticals.</p>
+<p>Want to dive deeper? Share your thoughts on X at <a href="https://x.com/zsmproperties">@zsmproperties</a>.</p>
+<p><em>Disclaimer: This post explores economic concepts for educational purposes—think of it as coffee chat fodder, not a tip to bet the farm on ground beef futures. Not financial advice, just food for thought.</em></p></div>
+        </article>
+    
+
+    <div class="toc-box">
+        <h2>Latest</h2>
+        <ul>
+        
+            <li><a href="./substitution_cpi_adjustment_20251022.html">2025-10-22 - CPI Substitution: Masking True Inflation?</a></li>
+        
+            <li><a href="./bitcoin_price_in_gold_20151020.html">2025-10-20 - Bitcoin vs. Gold Price Ratio in 2025</a></li>
+        
+            <li><a href="./credit_expansion_economic_crisis_20251019.html">2025-10-19 - Credit Expansion: The Catalyst for Financial Crises</a></li>
+        
+            <li><a href="./gold_runs_over_bitcoin_20251017.html">2025-10-17 - Gold&#39;s Rally and Bitcoin&#39;s Lag: A Debasement Perspective</a></li>
+        
+            <li><a href="./v_power_surge_ai_and_evs_drive_e_20251014.html">2025-10-15 - Power Surge: AI and EVs Drive Energy Winners</a></li>
+        
+        </ul>
+    </div>
+
+<footer>
+<div class="disclaimer">
+<p>This website provides market insights and is not intended as financial advice. Investments involve risk, and past performance does not guarantee future results. Consult a professional advisor.</p>
+</div>
+<div class="site-map">
+<h3>Site Map</h3>
+<ul>
+<li><a href="./index.html">Home</a></li>
+<li><a href="./zsm_seven_intro.html">ZSM Seven</a></li>
+<li><a href="./archive.html">Archive</a></li>
+<li><a href="https://x.com/ZSMProperties">Contact</a></li>
+</ul>
+</div>
+</footer>
+<script src="./static/scripts.js" defer></script>
+</body>
+</html>

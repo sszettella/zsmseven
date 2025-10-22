@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZSM7 Opportunity Score - ZSM Properties Market Insights</title>
+    <meta name="description" content="Real-time opportunity scores for ZSM Seven portfolio tickers based on RSI and MA50 indicators. Get the latest buying potential analysis for investing decisions.">
+    <meta name="keywords" content="ZSM Seven, portfolio analysis, opportunity scores, RSI, MA50, investing, stocks, market insights">
+    <link rel="stylesheet" href="./static/styles.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QFRQ05SBEZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QFRQ05SBEZ');
+    </script>
+</head>
+<body>
+<header>
+<nav>
+<button id="hamburger" aria-label="Toggle navigation">☰</button>
+<div id="nav-links">
+<a href="./index.html">Home</a>
+<a href="./zsm_seven_intro.html">ZSM Seven</a>
+<a href="./portfolio_analysis.html">ZSM Opportunity Index</a>
+<a href="./archive.html">Archive</a>
+<a href="https://x.com/ZSMProperties">Contact</a>
+</div>
+</nav>
+</header>
+<h1><a href="./index.html" style="text-decoration: none; color: inherit;">ZSM Properties - Market Insights</a></h1>
+<hr/>
+<div id="latest-analysis">Loading latest analysis...</div>
+    <div class="toc-box">
+        <h2>Latest</h2>
+        <ul>
+        
+            <li><a href="./substitution_cpi_adjustment_20251022.html">2025-10-22 - CPI Substitution: Masking True Inflation?</a></li>
+        
+            <li><a href="./bitcoin_price_in_gold_20151020.html">2025-10-20 - Bitcoin vs. Gold Price Ratio in 2025</a></li>
+        
+            <li><a href="./credit_expansion_economic_crisis_20251019.html">2025-10-19 - Credit Expansion: The Catalyst for Financial Crises</a></li>
+        
+            <li><a href="./gold_runs_over_bitcoin_20251017.html">2025-10-17 - Gold&#39;s Rally and Bitcoin&#39;s Lag: A Debasement Perspective</a></li>
+        
+            <li><a href="./v_power_surge_ai_and_evs_drive_e_20251014.html">2025-10-15 - Power Surge: AI and EVs Drive Energy Winners</a></li>
+        
+        </ul>
+    </div>
+    <a href="./index.html">Back to Home</a>
+<footer>
+<div class="disclaimer">
+<p>This website provides market insights and is not intended as financial advice. Investments involve risk, and past performance does not guarantee future results. Consult a professional advisor.</p>
+</div>
+<div class="site-map">
+<h3>Site Map</h3>
+<ul>
+<li><a href="./index.html">Home</a></li>
+<li><a href="./zsm_seven_intro.html">ZSM Seven</a></li>
+<li><a href="./portfolio_analysis.html">ZSM7 Opportunity Score</a></li>
+<li><a href="./archive.html">Archive</a></li>
+<li><a href="https://x.com/ZSMProperties">Contact</a></li>
+</ul>
+</div>
+</footer>
+<script src="./static/scripts.js" defer></script>
+<script>
+// Fetch latest portfolio analysis
+const latestAnalysisDiv = document.getElementById('latest-analysis');
+if (latestAnalysisDiv) {
+  fetch('https://api.zsmproperties.com/dev/get-portfolio-analysis?portfolio_name=ZSM%20Seven')
+    .then(response => response.json())
+    .then(data => {
+      if (Array.isArray(data)) {
+        // Sort by score descending
+        data.sort((a, b) => b.score - a.score);
+
+        // Get asOf date from first item
+        const asOfDate = new Date(data[0].asOf).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        // Build table
+        let table = '<h2>ZSM Opportunity Index for the ZSM Seven</h2>';
+        table += '<div style="margin-bottom: 1rem;"><p>This analysis evaluates each ticker in the portfolio based on current price relative to the 50-day moving average (MA50) and Relative Strength Index (RSI). The opportunity score ranges from -10 to 10, where positive scores indicate better buying opportunities (e.g., oversold conditions or price below MA50), and negative scores suggest caution (e.g., overbought or price above MA50).</p><p>Scores are derived as follows:</p><ul><li><strong>High positive:</strong> Low RSI (<30) and price significantly below MA50.</li><li><strong>Neutral (0):</strong> RSI around 50 and price very close to MA50.</li><li><strong>High negative:</strong> High RSI (>70) and price significantly above MA50.</li></ul></div>';
+        table += `<p style="font-size: 1rem; font-weight: bold; margin-bottom: 1rem;">Data as of: ${asOfDate}</p>`;
+        table += '<div class="table-responsive"><table><thead><tr><th>Symbol</th><th>ZsmOI</th><th>Price</th><th>+/- from MA</th><th>RSI</th><th>Reason</th></tr></thead><tbody>';
+        data.forEach(item => {
+          const percentDiff = (((item.price - item.ma50) / item.ma50) * 100).toFixed(1) + '%';
+          table += `<tr>
+            <td>${item.ticker}</td>
+            <td>${item.score}</td>
+            <td>$${item.price.toFixed(2)}</td>
+            <td>${percentDiff}</td>
+            <td>${item.rsi.toFixed(2)}</td>
+            <td>${item.reason}</td>
+          </tr>`;
+        });
+        table += '</tbody></table></div>';
+        table += '<p style="font-size: 0.9rem; color: var(--text-light); margin-top: 1rem;">This analysis provides market insights and is not intended as financial advice. Investments involve risk, and past performance does not guarantee future results. Consult a professional advisor.</p>';
+        latestAnalysisDiv.innerHTML = table;
+      } else {
+        latestAnalysisDiv.innerHTML = 'Invalid data format.';
+      }
+    })
+    .catch(error => {
+      latestAnalysisDiv.innerHTML = 'Unable to load latest analysis.';
+      console.error('Error fetching analysis:', error);
+    });
+}
+</script>
+</body>
+</html>

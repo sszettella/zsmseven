@@ -136,20 +136,10 @@ def lambda_handler(event, context):
         "The score should be on a scale from -10 to 10 with 10 being the best opportunity to buy. "
         "No item in the list needs to have a +10 or -10 ranking.  Try to assess in such a way that "
         "the ideal score (10/10) represents a very good buying opportunity. neutral rsi and price "
-        "very close to sma implies score of 0. "
-        "Rank the tickers in order from highest opportunity score to lowest within the portfolio. "
-        "Format the narrative as markdown with a table of results. "
-        "Include a brief description in the table as to why the score was assigned. "
-        "Include comparison of the price vs the moving average as +/- percentage in the table. "
-        "Include price, moving average, and rsi in the table. "
-        "Formatting: "
-        f"Include a byline: Generated on {datetime.utcnow().isoformat()} formatted in a user friendly way."
-        "Make this the first line after the header section. "
-        f"Include a note that the data is as of {data_as_of}, but format the date in a user friendly way. "
-        "Include a disclaimer that this is not financial advice after the table. "
-        "After the markdown, include a JSON summary showing ticker, price, rsi, ma50, and score. "
-        "The json should be included in such a way that it can easily be parsed out by the "
-        "python re library like this: re.search(r'```json\\s*(\\{.*?\\})\\s*```', analysis, re.DOTALL)."
+        "close to sma implies score of 0. Neutral zone for rsi is 45-55."
+        "Include a brief reason why the score was assigned. "
+        "Format the results as JSON , containing: " 
+        "ticker, score, price, rsi, ma50, data asOf date, and reason. "
         f"\n\nPortfolio Data:\n{portfolio_json}"
     )
 
@@ -180,24 +170,7 @@ def lambda_handler(event, context):
         analysis = result['choices'][0]['message']['content']
 
         # Parse JSON from analysis if present
-        parsed_data = None
-        try:
-            # Look for JSON in code blocks or at the end
-            import re
-            json_match = re.search(r'```json\s*(\[.*?\]|\{.*?\})\s*```', analysis, re.DOTALL)
-            if json_match:
-                parsed_data = json.loads(json_match.group(1))
-                # Remove the JSON block from analysis
-                analysis = re.sub(r'```json\s*\{.*?\}\s*```', '', analysis, flags=re.DOTALL).strip()
-            else:
-                # Try to find JSON at the end
-                json_match = re.search(r'(\{.*\})$', analysis.strip())
-                if json_match:
-                    parsed_data = json.loads(json_match.group(1))
-                    # Remove the JSON from analysis
-                    analysis = re.sub(r'\{.*\}$', '', analysis).strip()
-        except (json.JSONDecodeError, AttributeError):
-            parsed_data = None
+        parsed_data = analysis
 
         # Store in DynamoDB
         current_timestamp = datetime.utcnow().isoformat()

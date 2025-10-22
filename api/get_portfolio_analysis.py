@@ -77,18 +77,25 @@ def lambda_handler(event, context):
 
         analysis = items[0]['analysis']
 
-        # Convert markdown to HTML
-        html_content = markdown.markdown(analysis, extensions=['fenced_code', 'tables'])
-
-        # Wrap tables in responsive div (same as publish_pipeline)
-        import re
-        html_content = re.sub(r'(<table[^>]*>.*?</table>)', r'<div class="table-responsive">\1</div>', html_content, flags=re.DOTALL)
+        # Parse JSON analysis
+        try:
+            analysis_data = json.loads(analysis)
+        except json.JSONDecodeError:
+            return {
+                'statusCode': 500,
+                'body': json.dumps({'error': 'Invalid JSON in analysis'}),
+                'headers': {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Headers': 'Content-Type',
+                    'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+                }
+            }
 
         return {
             'statusCode': 200,
-            'body': html_content,
+            'body': json.dumps(analysis_data),
             'headers': {
-                'Content-Type': 'text/html',
+                'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Headers': 'Content-Type',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'

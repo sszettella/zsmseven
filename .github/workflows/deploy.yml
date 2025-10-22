@@ -15,8 +15,6 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions:  # Add this block to grant write access
-      contents: write
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python
@@ -29,9 +27,13 @@ jobs:
         pip install flask python-frontmatter markdown
     - name: Generate static site
       run: python publish_pipeline.py
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./static_site
-        cname: blog.zsmproperties.com
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1  # Change to your preferred region
+    - name: Deploy to S3
+      run: |
+        aws s3 sync ./static_site s3://blog.zsmproperties.com --delete --cache-control max-age=31536000,public
+        aws s3 cp ./static_site/index.html s3://blog.zsmproperties.com/index.html --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type text/html

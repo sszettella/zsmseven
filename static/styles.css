@@ -145,18 +145,22 @@ header nav {
 }
 
 #nav-links {
-  display: flex;
+  display: none;
   gap: 1rem;
   flex-wrap: wrap;
 }
 
 #hamburger {
-  display: none;
+  display: block;
   background: none;
   border: none;
   color: white;
   font-size: 1.5rem;
   cursor: pointer;
+}
+
+#nav-links.active {
+  display: flex;
 }
 
 header nav a {
@@ -233,11 +237,7 @@ footer {
     font-size: 1.8rem;
     line-height: 1.2;
   }
-  #hamburger {
-    display: block;
-  }
   #nav-links {
-    display: none;
     flex-direction: column;
     position: absolute;
     top: 100%;
@@ -246,9 +246,6 @@ footer {
     background: var(--primary-blue);
     padding: 1rem;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-  #nav-links.active {
-    display: flex;
   }
   table {
     font-size: 0.875rem;

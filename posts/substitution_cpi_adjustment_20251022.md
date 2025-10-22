@@ -4,10 +4,7 @@ date: "2025-10-22"
 description: "Discover how CPI substitution bias understates US inflation rates using beef price data, revealing why official reports clash with everyday price hikes and erode public trust."
 tags: ["CPI", "inflation", "substitution bias", "beef prices", "economics"]
 ---
-
-# CPI Substitution: Masking True Inflation?
-
-**Posted on October 22, 2025 by Steve Szettella**
+*Posted on October 22, 2025 by Steve Szettella*
 
 # CPI Substitution: Masking True Inflation?
 

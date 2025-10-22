@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archive - ZSM Properties - Market Insights</title>
+    <link rel="stylesheet" href="{% if is_static %}./static/styles.css{% else %}/static/styles.css{% endif %}">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QFRQ05SBEZ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QFRQ05SBEZ');
+    </script>
+</head>
+<body>
+<header>
+<nav>
+<button id="hamburger" aria-label="Toggle navigation">☰</button>
+<div id="nav-links">
+<a href="{% if is_static %}./index.html{% else %}/{% endif %}">Home</a>
+<a href="{% if is_static %}./zsm_seven_intro.html{% else %}/post/zsm_seven_intro{% endif %}">ZSM Seven</a>
+<a href="{% if is_static %}./portfolio_analysis.html{% else %}/post/portfolio_analysis{% endif %}">ZSM Opportunity Index</a>
+<a href="{% if is_static %}./archive.html{% else %}/archive{% endif %}">Archive</a>
+<a href="https://x.com/ZSMProperties">Contact</a>
+</div>
+</nav>
+</header>
+    <h1>Archive - ZSM Properties - Market Insights</h1>
+     
+    <div class="toc-box">
+        <h2>All Posts</h2>
+        <ul>
+        {% for post in posts %}
+            <li><a href="{% if is_static %}./{{ post.slug }}.html{% else %}/post/{{ post.slug }}{% endif %}">{{ post.date }} - {{ post.title }}</a><br><em>{{ post.description }}</em></li>
+        {% endfor %}
+        </ul>
+    </div>
+<footer>
+<div class="disclaimer">
+<p>This website provides market insights and is not intended as financial advice. Investments involve risk, and past performance does not guarantee future results. Consult a professional advisor.</p>
+</div>
+<div class="site-map">
+<h3>Site Map</h3>
+<ul>
+<li><a href="{% if is_static %}./index.html{% else %}/{% endif %}">Home</a></li>
+<li><a href="{% if is_static %}./zsm_seven_intro.html{% else %}/post/zsm_seven_intro{% endif %}">ZSM Seven</a></li>
+<li><a href="{% if is_static %}./archive.html{% else %}/archive{% endif %}">Archive</a></li>
+<li><a href="https://x.com/ZSMProperties">Contact</a></li>
+</ul>
+</div>
+</footer>
+<script src="{% if is_static %}./static/scripts.js{% else %}/static/scripts.js{% endif %}" defer></script>
+</body>
+</html>

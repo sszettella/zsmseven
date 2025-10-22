@@ -225,6 +225,15 @@ footer {
   text-decoration: underline;
 }
 
+@media screen and (min-width: 601px) {
+  #nav-links {
+    display: flex;
+  }
+  #hamburger {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 600px) {
   body {
     padding: 20px;

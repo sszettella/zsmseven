@@ -1,48 +1,9 @@
-<script type="text/javascript">
-var gk_isXlsx = false;
-var gk_xlsxFileLookup = {};
-var gk_fileData = {};
-function filledCell(cell) {
-  return cell !== '' && cell != null;
-}
-function loadFileData(filename) {
-  if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-    try {
-      var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-      var firstSheetName = workbook.SheetNames[0];
-      var worksheet = workbook.Sheets[firstSheetName];
-
-      // Convert sheet to JSON to filter blank rows
-      var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-      // Filter out blank rows (rows where all cells are empty, null, or undefined)
-      var filteredData = jsonData.filter(row => row.some(filledCell));
-
-      // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-      var headerRowIndex = filteredData.findIndex((row, index) =>
-        row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-      );
-      // Fallback
-      if (headerRowIndex === -1 || headerRowIndex > 25) {
-        headerRowIndex = 0;
-      }
-
-      // Convert filtered JSON back to CSV
-      var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-      csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-      return csv;
-    } catch (e) {
-      console.error(e);
-      return "";
-    }
-  }
-  return gk_fileData[filename] || "";
-}
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Insights from ZSM Properties.</title>
+    <title>CPI Substitution: Masking True Inflation?</title>
     <link rel="stylesheet" href="./static/styles.css">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QFRQ05SBEZ"></script>
@@ -66,10 +27,9 @@ function loadFileData(filename) {
 </div>
 </nav>
 </header>
-    <h1>ZSM Properties - Market Insights</h1>
-    
-        <article id="substitution_cpi_adjustment_20251022" class="main-content">
-            <div><h2>CPI Substitution: Masking True Inflation?</h2>
+    <h1><a href="./index.html" style="text-decoration: none; color: inherit;">ZSM Properties - Market Insights</a></h1>
+    <hr/>
+    <div class="main-content"><h2>CPI Substitution: Masking True Inflation?</h2>
 <p><strong>Posted on October 22, 2025 by Steve Szettella</strong></p>
 <h2>CPI Substitution: Masking True Inflation?</h2>
 <p>Inflation isn't just a number on a government report. It's the creeping reality that hits your grocery bill every week. Yet, the Consumer Price Index (CPI), the U.S. Bureau of Labor Statistics' (BLS) flagship measure of inflation, often paints a rosier picture than what most Americans feel in their wallets. One key reason? Substitution bias, a methodological adjustment that assumes consumers seamlessly switch to cheaper alternatives when prices rise. This isn't the only flaw in the CPI.  Issues like outlet bias, <a href="v_hedonic_adjustments_distort_cp_20251012">quality (hedonic) adjustments</a>, and new goods omissions compound the problem.  Even so, substitution stands out for how it systematically underreports the true cost of living increases.</p>
@@ -136,9 +96,6 @@ function loadFileData(filename) {
 <p>When official CPI clocks in at 2.5% but groceries feel 10% pricier, the gap breeds frustration. This is cognitive dissonance.  The official calm versus the visceral pinch.  It justifiably fuels narratives of manipulation.  This is especially true when substitutions ignore quality drops (e.g., fattier ground beef as "equivalent" to lean sirloin steak). Trust erodes as people question why metrics are at odds with their reality, a sentiment echoed across discussions: "CPI is literally fake propaganda," one observer noted, citing how it swaps high-price items for low ones like "cricket burgers" in extreme hypotheticals.</p>
 <p>Want to dive deeper? Share your thoughts on X at <a href="https://x.com/zsmproperties">@zsmproperties</a>.</p>
 <p><em>Disclaimer: This post explores economic concepts for educational purposes—think of it as coffee chat fodder, not a tip to bet the farm on ground beef futures. Not financial advice, just food for thought.</em></p></div>
-        </article>
-    
-
     <div class="toc-box">
         <h2>Latest</h2>
         <ul>
@@ -155,21 +112,7 @@ function loadFileData(filename) {
         
         </ul>
     </div>
-
-<footer>
-<div class="disclaimer">
-<p>This website provides market insights and is not intended as financial advice. Investments involve risk, and past performance does not guarantee future results. Consult a professional advisor.</p>
-</div>
-<div class="site-map">
-<h3>Site Map</h3>
-<ul>
-<li><a href="./index.html">Home</a></li>
-<li><a href="./zsm_seven_intro.html">ZSM Seven</a></li>
-<li><a href="./archive.html">Archive</a></li>
-<li><a href="https://x.com/ZSMProperties">Contact</a></li>
-</ul>
-</div>
-</footer>
+    <a href="./index.html">Back to Home</a>
 <script src="./static/scripts.js" defer></script>
 </body>
 </html>

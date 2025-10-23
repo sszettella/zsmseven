@@ -36,6 +36,14 @@
     --gray-800: #f8f9fa;
     --gray-900: #fff;
   }
+
+  header nav a {
+    color: #000;
+  }
+
+  #hamburger {
+    color: #000;
+  }
 }
 
 body {
@@ -189,11 +197,31 @@ header nav a {
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
+  position: relative;
 }
 
 header nav a:hover {
   color: var(--primary-orange);
   text-decoration: none;
+}
+
+header nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background: var(--primary-orange);
+  transition: width 0.3s ease;
+}
+
+header nav a:hover::after {
+  width: 100%;
+}
+
+.contact-btn::after {
+  display: none;
 }
 
 .toc-box {

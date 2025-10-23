@@ -51,7 +51,7 @@ body {
 h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  margin: 0 0 1rem 0;
+  margin: 80px 0 1rem 0;
   color: var(--primary-blue);
 }
 
@@ -131,14 +131,30 @@ a:hover {
   text-decoration: underline;
 }
 
-header {
+.header {
   background: white;
   color: var(--text-dark);
   padding: 1rem 2rem;
-  margin: -40px -40px 2rem -40px;
-  border-radius: 0 0 8px 8px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
   box-shadow: 0 2px 20px rgba(0,0,0,0.1);
   border-bottom: 1px solid var(--border-color);
+}
+
+.header.scrolled {
+  padding: 0.5rem 2rem;
+}
+
+.logo {
+  height: 60px;
+  transition: height 0.3s ease;
+}
+
+.header.scrolled .logo {
+  height: 50px;
 }
 
 header nav {

@@ -54,7 +54,7 @@ function loadFileData(filename) {
     </script>
 </head>
 <body>
-<header>
+<header class="header" id="header">
 <nav class="nav">
 <a href="{% if is_static %}./index.html{% else %}/{% endif %}" style="text-decoration: none;">
 <div class="logo">
@@ -163,6 +163,17 @@ function loadFileData(filename) {
 </ul>
 </div>
 </footer>
+<script>
+    // Header scroll effect
+    window.addEventListener('scroll', function() {
+        const header = document.getElementById('header');
+        if (window.scrollY > 100) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+</script>
 <script src="{% if is_static %}./static/scripts.js{% else %}/static/scripts.js{% endif %}" defer></script>
 </body>
 </html>

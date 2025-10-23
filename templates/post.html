@@ -19,10 +19,11 @@
 <nav>
 <button id="hamburger" aria-label="Toggle navigation">☰</button>
 <div id="nav-links">
-<a href="{% if is_static %}./index.html{% else %}/{% endif %}">Home</a>
-<a href="{% if is_static %}./zsm_seven_intro.html{% else %}/post/zsm_seven_intro{% endif %}">ZSM Seven</a>
-<a href="{% if is_static %}./portfolio_analysis.html{% else %}/post/portfolio_analysis{% endif %}">ZSM Opportunity Index</a>
+<a href="https://www.zsmproperties.com">Home</a>
+<a href="{% if is_static %}./zsm_seven_intro.html{% else %}/zsm_seven_intro{% endif %}">ZSM Seven</a>
+<a href="{% if is_static %}./portfolio_analysis.html{% else %}/portfolio_analysis{% endif %}">Opportunity Index</a>
 <a href="{% if is_static %}./archive.html{% else %}/archive{% endif %}">Archive</a>
+<a href="{% if is_static %}./index.html{% else %}/{% endif %}">Blog</a>
 <a href="https://x.com/ZSMProperties">Contact</a>
 </div>
 </nav>
@@ -34,7 +35,7 @@
         <h2>Latest</h2>
         <ul>
         {% for post in posts[:5] %}
-            <li><a href="{% if is_static %}./{{ post.slug }}.html{% else %}/post/{{ post.slug }}{% endif %}">{{ post.date }} - {{ post.title }}</a></li>
+            <li><a href="{% if is_static %}./{{ post.slug }}.html{% else %}/{{ post.slug }}{% endif %}">{{ post.date }} - {{ post.title }}</a></li>
         {% endfor %}
         </ul>
     </div>

@@ -10,6 +10,7 @@ on:
       - 'static/**'
       - 'publish_pipeline.py'
       - 'test_links.py'
+      - 'www/**'
   workflow_dispatch:  # For manual testing
 
 jobs:
@@ -37,3 +38,7 @@ jobs:
       run: |
         aws s3 sync ./static_site s3://blog.zsmproperties.com --delete --cache-control max-age=31536000,public
         aws s3 cp ./static_site/index.html s3://blog.zsmproperties.com/index.html --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type text/html
+    - name: Deploy www to S3
+      run: |
+        aws s3 sync ./www s3://www.zsmproperties.com --delete --cache-control max-age=31536000,public
+        aws s3 cp ./www/index.html s3://www.zsmproperties.com/index.html --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type text/html

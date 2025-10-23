@@ -56,6 +56,7 @@ function loadFileData(filename) {
 <body>
 <header>
 <nav class="nav">
+<a href="{% if is_static %}./index.html{% else %}/{% endif %}" style="text-decoration: none;">
 <div class="logo">
     <svg class="logo-svg" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -120,6 +121,7 @@ function loadFileData(filename) {
         <line x1="130" y1="77" x2="290" y2="77" stroke="url(#orangeGradient)" stroke-width="1" opacity="0.3"/>
     </svg>
 </div>
+</a>
 <button id="hamburger" aria-label="Toggle navigation">☰</button>
 <div id="nav-links">
 <a href="https://www.zsmproperties.com">Home</a>
@@ -127,7 +129,7 @@ function loadFileData(filename) {
 <a href="{% if is_static %}./portfolio_analysis.html{% else %}/portfolio_analysis.html{% endif %}">Opportunity Index</a>
 <a href="{% if is_static %}./archive.html{% else %}/archive.html{% endif %}">Archive</a>
 <a href="{% if is_static %}./index.html{% else %}/{% endif %}">Blog</a>
-<a href="https://x.com/ZSMProperties">Contact</a>
+<a href="https://x.com/ZSMProperties" class="contact-btn">Contact</a>
 </div>
 </nav>
 </header>

@@ -453,24 +453,55 @@
             50% { transform: translateY(-20px) rotate(5deg); }
         }
 
-        /* Mobile Responsive */
+        /* Mobile Navigation */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
-            
+
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 1rem;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                border: 1px solid var(--border-color);
+            }
+
+            #hamburger {
+                display: block;
+                background: none;
+                border: none;
+                color: var(--text-dark);
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+
             .about-content {
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
-            
+
             .stats-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .cta-container {
                 flex-direction: column;
                 align-items: center;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .nav-links {
+                display: flex;
+            }
+            #hamburger {
+                display: none;
             }
         }
 
@@ -491,6 +522,7 @@
     <header class="header" id="header">
         <div class="container">
             <nav class="nav">
+                <button id="hamburger" aria-label="Toggle navigation">☰</button>
                 <div class="logo">
                     <svg class="logo-svg" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
                         <defs>
@@ -722,6 +754,11 @@
             } else {
                 header.classList.remove('scrolled');
             }
+        });
+
+        // Hamburger menu toggle
+        document.getElementById('hamburger').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
         });
 
         // Smooth scrolling for navigation links

@@ -7,9 +7,7 @@ tags: ["AI", "EVs", "Energy Sector", "Data Centers", "Market Trends"]
 ---
 
 Posted on 2025-10-15 by Steve Szettella.
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 # Power Surge: AI and EVs Drive Energy Winners
 
 The explosion of artificial intelligence (AI) and the accelerating shift to electric vehicles (EVs) and autonomous driving are poised to supercharge global electricity demand in ways that could reshape the energy landscape. AI data centers, hungry for computational might, are on track to gobble up as much as 8% of U.S. electricity by 2030. On the EV front, the market is humming along at a projected compound annual growth rate (CAGR) of around 22% through 2030, according to BloombergNEF's latest outlook [source: BloombergNEF EV Outlook](https://about.bnef.com/electric-vehicle-outlook/). This isn't just incremental growth; it's a geometric surge that could reward players in power generation, distribution, transformation, and conditioning—particularly those geared toward the ultra-reliable needs of data centers and charging networks.

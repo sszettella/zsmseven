@@ -8,7 +8,6 @@ tags: ["bitcoin", "gold", "price ratio", "cryptocurrency", "precious metals"]
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 Posted on October 20, 2025 by Steve Szettella.
-
 # Bitcoin vs. Gold Price Ratio in 2025
 
 In recent years, Bitcoin has often been compared to gold as a store of value, earning the nickname "digital gold." This post explores how Bitcoin's price has performed relative to gold over the first ten months of 2025. We'll look at the ratio of Bitcoin's price in USD to gold's price per ounce in USD, which tells us how many ounces of gold one Bitcoin could theoretically buy. The data reveals interesting trends, and we'll examine a scenario where this ratio returns to its January average level, potentially leading to a notable increase in Bitcoin's USD price.

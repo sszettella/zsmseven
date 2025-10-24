@@ -8,7 +8,6 @@ tags: ["finance", "investing", "debt", "inflation", "arbitrage", "bitcoin", "gol
 ---
 
 Posted on 2025-10-14 by Steve Szettella.
-
 # Debt Arbitrage in a Debasement Era
 
 In a world where currencies are steadily eroding in value—a process often called debasement—there's an intriguing economic angle to borrowing money over the long haul at rates below that erosion. This isn't about reckless gambling; it's about spotting a structural edge in how money works today. If you lock in low fixed-rate debt and channel it into assets that outrun debasement, you're essentially arbitraging the system's own flaws. Think high-growth stocks fueled by the geometric explosion of AI, or hard assets like Bitcoin and gold, which have posted impressive gains in debasement-heavy eras. Historically, these have delivered double-digit annual returns in key stretches, often leaving inflation in the dust.

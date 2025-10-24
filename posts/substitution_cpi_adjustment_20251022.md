@@ -5,7 +5,6 @@ description: "Discover how CPI substitution bias understates US inflation rates 
 tags: ["CPI", "inflation", "substitution bias", "beef prices", "economics"]
 ---
 *Posted on October 22, 2025 by Steve Szettella*
-
 # CPI Substitution: Masking True Inflation?
 
 Inflation isn't just a number on a government report. It's the creeping reality that hits your grocery bill every week. Yet, the Consumer Price Index (CPI), the U.S. Bureau of Labor Statistics' (BLS) flagship measure of inflation, often paints a rosier picture than what most Americans feel in their wallets. One key reason? Substitution bias, a methodological adjustment that assumes consumers seamlessly switch to cheaper alternatives when prices rise. This isn't the only flaw in the CPI.  Issues like outlet bias, [quality (hedonic) adjustments](v_hedonic_adjustments_distort_cp_20251012), and new goods omissions compound the problem.  Even so, substitution stands out for how it systematically underreports the true cost of living increases.

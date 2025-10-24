@@ -7,7 +7,6 @@ tags: ["inflation", "CPI", "hedonic adjustment", "economics", "government statis
 ---
 
 Posted on 2025-10-13 by Steve Szettella.
-
 # Hedonic Adjustments Distort CPI Inflation: A Gateway to Debasement and Digital Alternatives
 
 Inflation isn't just a number—it's a force that erodes purchasing power, often more aggressively than official reports suggest. The Consumer Price Index (CPI), overseen by the Bureau of Labor Statistics (BLS), is meant to track this, but techniques like hedonic adjustment can mask the true extent of price pressures. In an era of relentless money printing and fiscal expansion, these distortions amplify the debasement thesis: that fiat currencies are systematically weakened, pushing savvy observers toward hard assets like Bitcoin as a superior store of value. Add in the geometric growth of AI, which is reshaping economies at an exponential pace, and the stakes get even higher. This isn't about dry stats—it's market commentary on why everyday experiences clash with headlines, breeding distrust and opening doors to innovative hedges.

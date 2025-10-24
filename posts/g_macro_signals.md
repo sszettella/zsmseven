@@ -6,7 +6,6 @@ tags: ["US dollar devaluation", "Bitcoin investment", "gold store of value", "re
 ---
 
 Posted on 2025-10-09 by Steve Szettella.
-
 # Macro Signals Favor Bitcoin and Gold Over Real Estate
 
 As we glide into the final quarter of 2025, the macroeconomic landscape is painting a concerning picture for the US dollar. With persistent inflation hovering above the Federal Reserve's targets, ballooning national debt exceeding $37 trillion, and geopolitical tensions adding fuel to the fire, the stage is set for accelerated currency devaluation. This isn't just theory—recent Fed minutes hint at prolonged loose monetary policy to stave off recession, which historically erodes purchasing power. In this environment, traditional investments like real estate are looking increasingly shaky, while alternatives like Bitcoin and gold emerge as resilient hedges.

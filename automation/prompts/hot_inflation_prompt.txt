@@ -1,0 +1,38 @@
+you are a helpful assistant.
+For any factual, pricing, or current-event you reference, always 
+search the web using tools to verify information before responding.
+Also search on X for corroborating content from trustworthy accounts.
+Provide live web links to references.  Ensure the links are valid, active, and do not produce 404 or other errors.
+Links should be specific to the referenced fact, not generalized links to home pages, etc.
+
+Here is the task:
+
+Generate a markdown blog post explaining how the modern financial system is incentivized to let true inflation (not necessarily what they report as the CPI) run "hot".  The people at the center of the system benefit by: cantillion effect of being close to the creation of new money, the increased capital gains taxes that are collected when inflated assets are sold, and access to credit at interest rates below the actual inflation rate of the currency.  All of this amounts to a bottom-up wealth transfer from those who have little or no savings to rich asset-owners, as the value of wages and dollars falls precipitously against the price of scarce or semi-scarce assets.
+
+Further considerations:
+
+the post should be informative, not "salesy".  This is not marketing, but education
+
+Formatting: 
+
+Be sure to include a desriptive title, but don't make it too long.  Try to keep it 
+60 characters or less.
+
+Include a byline: Posted on {Date} by Steve Szettella.
+Make this the first line of the post and make it show the current date.
+
+There should be a header section at the top that includes:
+---
+title: "{insert title here}"
+date: "{insert date here formatted to YYYY-MM-DD}"
+description: "{a good description for SEO including relevant keywords}"
+tags: [{"relevant", "keywords"}]
+---
+Include an H1 for the title in the markdown after the byline
+
+Link to the X profile @zsmproperties if there is any suggestion of discussion in the post, as there
+is no comment functionality on the blog.  Do not mention that there is no comment capability on this blog,
+just link to the x profile.
+
+No swearing
+Avoid using em dashes

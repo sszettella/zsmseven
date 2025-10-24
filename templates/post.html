@@ -88,14 +88,12 @@
 <a href="https://www.zsmproperties.com">Home</a>
 <a href="{% if is_static %}./zsm_seven_intro.html{% else %}/post/zsm_seven_intro{% endif %}">ZSM Seven</a>
 <a href="{% if is_static %}./portfolio_analysis.html{% else %}/post/portfolio_analysis{% endif %}">ZSM Opportunity Index</a>
-<a href="{% if is_static %}./archive.html{% else %}/post/archive{% endif %}">Archive</a>
+<a href="{% if is_static %}./archive.html{% else %}/archive{% endif %}">Archive</a>
 <a href="{% if is_static %}./index.html{% else %}/{% endif %}">Blog</a>
 <a href="https://x.com/ZSMProperties" class="contact-btn">Contact</a>
 </div>
 </nav>
 </header>
-    <h1><a href="{% if is_static %}./index.html{% else %}/{% endif %}" style="text-decoration: none; color: inherit;">ZSM Properties - Market Insights</a></h1>
-    <hr/>
     <div class="main-content">{{ post.content | safe }}</div>
     <div class="toc-box">
         <h2>Latest</h2>
@@ -105,7 +103,22 @@
         {% endfor %}
         </ul>
     </div>
-    <a href="{% if is_static %}./index.html{% else %}/{% endif %}">Back to Home</a>
+<footer>
+<div class="site-map">
+<h3>Site Map</h3>
+<ul>
+<li><a href="https://www.zsmproperties.com">Home</a></li>
+<li><a href="{% if is_static %}./zsm_seven_intro.html{% else %}/post/zsm_seven_intro{% endif %}">ZSM Seven</a></li>
+<li><a href="{% if is_static %}./portfolio_analysis.html{% else %}/post/portfolio_analysis{% endif %}">ZSM Opportunity Index</a></li>
+<li><a href="{% if is_static %}./archive.html{% else %}/archive{% endif %}">Archive</a></li>
+<li><a href="{% if is_static %}./index.html{% else %}/{% endif %}">Blog</a></li>
+<li><a href="https://x.com/ZSMProperties">Contact</a></li>
+</ul>
+</div>
+<div class="disclaimer">
+<p>This website provides market insights and is not intended as financial advice. Investments involve risk, and past performance does not guarantee future results. Consult a professional advisor.</p>
+</div>
+</footer>
 <script>
     // Header scroll effect
     window.addEventListener('scroll', function() {

@@ -127,13 +127,12 @@ function loadFileData(filename) {
 <a href="https://www.zsmproperties.com">Home</a>
 <a href="{% if is_static %}./zsm_seven_intro.html{% else %}/post/zsm_seven_intro{% endif %}">ZSM Seven</a>
 <a href="{% if is_static %}./portfolio_analysis.html{% else %}/post/portfolio_analysis{% endif %}">ZSM Opportunity Index</a>
-<a href="{% if is_static %}./archive.html{% else %}/post/archive{% endif %}">Archive</a>
+<a href="{% if is_static %}./archive.html{% else %}/archive{% endif %}">Archive</a>
 <a href="{% if is_static %}./index.html{% else %}/{% endif %}">Blog</a>
 <a href="https://x.com/ZSMProperties" class="contact-btn">Contact</a>
 </div>
 </nav>
 </header>
-    <h1>ZSM Properties - Market Insights</h1>
     {% for post in posts[:1] %}
         <article id="{{ post.slug }}" class="main-content">
             <div>{{ post.content | safe }}</div>
@@ -156,9 +155,11 @@ function loadFileData(filename) {
 <div class="site-map">
 <h3>Site Map</h3>
 <ul>
-<li><a href="{% if is_static %}./index.html{% else %}/{% endif %}">Home</a></li>
+<li><a href="https://www.zsmproperties.com">Home</a></li>
 <li><a href="{% if is_static %}./zsm_seven_intro.html{% else %}/post/zsm_seven_intro{% endif %}">ZSM Seven</a></li>
+<li><a href="{% if is_static %}./portfolio_analysis.html{% else %}/post/portfolio_analysis{% endif %}">ZSM Opportunity Index</a></li>
 <li><a href="{% if is_static %}./archive.html{% else %}/archive{% endif %}">Archive</a></li>
+<li><a href="{% if is_static %}./index.html{% else %}/{% endif %}">Blog</a></li>
 <li><a href="https://x.com/ZSMProperties">Contact</a></li>
 </ul>
 </div>

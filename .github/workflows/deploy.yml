@@ -42,3 +42,7 @@ jobs:
       run: |
         aws s3 sync ./www s3://www.zsmproperties.com --delete --cache-control max-age=31536000,public
         aws s3 cp ./www/index.html s3://www.zsmproperties.com/index.html --cache-control max-age=0,no-cache,no-store,must-revalidate --content-type text/html
+    - name: Invalidate CloudFront for blog
+      run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_BLOG }} --paths "/*"
+    - name: Invalidate CloudFront for www
+      run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_WWW }} --paths "/*"

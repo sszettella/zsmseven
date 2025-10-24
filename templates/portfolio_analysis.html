@@ -100,7 +100,7 @@
     <h1>ZSM Opportunity Index for the ZSM Seven</h1>
 
     <div style="margin-bottom: 1.5rem;">
-        <p>This analysis evaluates each ticker in the portfolio based on current price relative to the 50-day moving average (MA50) and Relative Strength Index (RSI). The opportunity score ranges from -10 to 10, where positive scores indicate better buying opportunities (e.g., oversold conditions or price below MA50), and negative scores suggest caution (e.g., overbought or price above MA50).</p>
+        <p>This analysis evaluates each ticker in the <a href="{% if is_static %}./zsm_seven_intro.html{% else %}/post/zsm_seven_intro{% endif %}" style="color: inherit; text-decoration: underline;">ZSM Seven Model Portfolio</a> based on current price relative to the 50-day moving average (MA50) and Relative Strength Index (RSI). The opportunity score ranges from -10 to 10, where positive scores indicate better buying opportunities, and negative scores suggest caution.</p>
 
         <p>Scores are derived as follows:</p>
         <ul>
@@ -110,7 +110,7 @@
         </ul>
     </div>
 
-    <p id="data-date" style="font-size: 0.95rem; font-style: italic; margin-bottom: 0.5rem; color: var(--text-light);">Loading data...</p>
+    <p id="data-date" style="font-size: 0.95rem; font-style: italic; margin-bottom: 0.25rem; color: var(--text-light);">Loading data...</p>
 
     <div id="latest-analysis">
         <div style="text-align: center; padding: 2rem 0; color: var(--text-light);">
@@ -173,7 +173,7 @@ if (latestAnalysisDiv) {
         dataDateEl.textContent = `Data as of: ${asOfDate}`;
 
         // Build only the table
-        let table = '<div class="table-responsive"><table><thead><tr><th>Symbol</th><th>ZsmOI</th><th>Price</th><th>+/- from MA</th><th>RSI</th><th>Reason</th></tr></thead><tbody>';
+        let table = '<div class="table-responsive" style="margin: 0;"><table><thead><tr><th>Symbol</th><th>OI</th><th>Price</th><th style="white-space: nowrap;">+/- MA</th><th>RSI</th><th>Reason</th></tr></thead><tbody>';
         data.forEach(item => {
           const percentDiff = (((item.price - item.ma50) / item.ma50) * 100).toFixed(1) + '%';
           table += `<tr>
@@ -181,7 +181,7 @@ if (latestAnalysisDiv) {
             <td>${item.score}</td>
             <td>$${item.price.toFixed(2)}</td>
             <td>${percentDiff}</td>
-            <td>${item.rsi.toFixed(2)}</td>
+            <td>${item.rsi.toFixed(1)}</td>
             <td>${item.reason}</td>
           </tr>`;
         });

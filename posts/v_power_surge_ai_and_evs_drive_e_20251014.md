@@ -6,7 +6,7 @@ description: "Exploring how AI data centers and electric vehicles are ramping up
 tags: ["AI", "EVs", "Energy Sector", "Data Centers", "Market Trends"]
 ---
 
-Posted on 2025-10-15 by Steve Szettella.
+*Posted on 2025-10-15 by Steve Szettella.*
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 # Power Surge: AI and EVs Drive Energy Winners
 

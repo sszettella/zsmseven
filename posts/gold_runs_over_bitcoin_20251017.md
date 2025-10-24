@@ -7,7 +7,7 @@ tags: ["gold", "bitcoin", "currency debasement", "hard money", "market commentar
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-Posted on October 17, 2025 by Steve Szettella.
+*Posted on October 17, 2025 by Steve Szettella.*
 # Gold Runs Over Bitcoin: A Debasement Perspective
 
 ## The Surge in Gold Prices

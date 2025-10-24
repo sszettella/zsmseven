@@ -90,5 +90,3 @@ We forecast **40-60% returns** for the ZSM Seven, versus 15-25% for the S&P 500 
 **Risks**: Volatility from rate hikes or AI hype cycles, but ZSM's diversification offers protection.
 
 Ready to ride the wave? Model the ZSM Seven on platforms like Robinhood or consult an advisor. The future isn't predictable—it's programmable.
-
-*Disclaimer: This is not financial advice. Past performance doesn't guarantee future results. Invest at your own risk.*

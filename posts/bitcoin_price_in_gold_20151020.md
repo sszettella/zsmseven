@@ -103,5 +103,3 @@ To arrive at this calculation: First, multiply the current gold price by 1.02 to
 - Factors like institutional adoption, halvings, and market sentiment influence Bitcoin's performance, while gold benefits from central bank buying and inflation concerns.
 
 For further discussion on these trends, check out [@zsmproperties](https://x.com/zsmproperties) on X.
-
-Remember, markets are full of surprises, so this is just one way to look at the data—not a crystal ball for your portfolio decisions.

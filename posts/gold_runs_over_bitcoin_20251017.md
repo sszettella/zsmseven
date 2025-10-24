@@ -90,5 +90,3 @@ Bitcoin's lag might also reflect its maturation: less volatile than in prior cyc
 For those of us watching the trends, the interplay between gold and Bitcoin highlights a broader shift toward hard money alternatives. As central banks hoard gold and institutions eye Bitcoin ETFs, the debasement narrative gains traction, potentially setting the stage for Bitcoin to reclaim momentum.
 
 For further discussion, check out [@zsmproperties on X](https://x.com/zsmproperties).
-
-Of course, this is just food for thought.  Always do your own research and consult with a professional

@@ -59,8 +59,6 @@ The table tracks:
 
 By year 10, the portfolio hits over $2 million nominally. After subtracting all costs—including $40,000 in interest and the $100,000 principal repayment—the net value is about $1.87 million. Adjust for inflation, and the real gain looks even stronger, as debasement erodes the repayment's bite. This scenario favors the debasement thesis, suggesting hard assets like Bitcoin or gold could serve as reliable hedges, potentially outlasting fiat volatility.
 
-After year 10, repaying the $100,000 principal leaves ~$1,870,658 (pre-taxes/fees; real principal cost ~$50,833 inflation-adjusted).  
-
-*This is market commentary, not financial advice.  Debasement dynamics are fascinating, but real-world application demands caution amid uncertainties.*
+After year 10, repaying the $100,000 principal leaves ~$1,870,658 (pre-taxes/fees; real principal cost ~$50,833 inflation-adjusted).
 
 Share your take on X at [@zsmproperties](https://x.com/zsmproperties).

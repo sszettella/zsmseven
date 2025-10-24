@@ -27,8 +27,6 @@ Amid this mess, Bitcoin shines as a potential off-ramp. As the base layer of the
 
 For those building resilient portfolios, this underscores the value of diversification beyond traditional fiat plays. If you're curious about strategies that lean into Bitcoin and other hard assets while navigating real estate pitfalls, check out our [ZSM Seven portfolio](./zsm_seven_intro.html)—it's designed with these principles in mind.
 
-What do you think—another taxpayer squeeze, or a savvy geopolitical play? Head over to [@ZSMProperties](https://x.com/zsmproperties) to join the conversation. 
+What do you think—another taxpayer squeeze, or a savvy geopolitical play? Head over to [@ZSMProperties](https://x.com/zsmproperties) to join the conversation.
 
 Stay vigilant.
-
-*Disclaimer: As always, this is for informational purposes only and not a recommendation to buy, sell, or hold any asset. Markets are unpredictable—do your own research.*

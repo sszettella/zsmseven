@@ -45,5 +45,3 @@ This isn't theoretical; it's why beef CPI subindexes have shown resilience (up ~
 When official CPI clocks in at 2.5% but groceries feel 10% pricier, the gap breeds frustration. This is cognitive dissonance.  The official calm versus the visceral pinch.  It justifiably fuels narratives of manipulation.  This is especially true when substitutions ignore quality drops (e.g., fattier ground beef as "equivalent" to lean sirloin steak). Trust erodes as people question why metrics are at odds with their reality, a sentiment echoed across discussions: "CPI is literally fake propaganda," one observer noted, citing how it swaps high-price items for low ones like "cricket burgers" in extreme hypotheticals.
 
 Want to dive deeper? Share your thoughts on X at [@zsmproperties](https://x.com/zsmproperties).
-
-*Disclaimer: This post explores economic concepts for educational purposes—think of it as coffee chat fodder, not a tip to bet the farm on ground beef futures. Not financial advice, just food for thought.*

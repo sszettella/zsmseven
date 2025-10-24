@@ -30,6 +30,6 @@ This dynamic has accelerated inequality: Savers in cash or bonds lose purchasing
 
 ## A Bottom-Up Wealth Transfer in Action
 
-Collectively, these incentives create a subtle but powerful redistribution: Wages lag behind asset price growth, eroding savings' value while scarce resources like housing become pricier. Since 1970, U.S. home prices have risen over 500% nominally, far outpacing wage growth of about 1,200%.  Adjusted for true currency inflation, the gap reveals a systemic tilt toward owners. Those with little or no assets bear the brunt as dollars lose value against real estate, stocks, and commodities.
+Collectively, these incentives create a subtle but powerful redistribution: Wages lag far behind asset price growth, eroding savings' value while scarce resources like housing become pricier. Since 1970, U.S. home prices have risen over 1,700% nominally—far outpacing wage growth of about 900%. Adjusted for CPI inflation (let alone "true" inflation in assets), real wages have grown just ~15%, while homes are nearly 6x more expensive in real terms—revealing a systemic tilt toward owners. Those with little or no assets bear the brunt as dollars lose value against real estate, stocks, and commodities.
 
 This isn't a conspiracy, but rather an emergent outcome of fiat money systems prioritizing growth and stability. Understanding it empowers better decisions, like diversifying beyond cash. What are your thoughts on navigating this landscape? Join the conversation on X at [@zsmproperties](https://x.com/zsmproperties).

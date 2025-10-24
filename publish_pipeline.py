@@ -18,13 +18,6 @@ TEMPLATE_DIR = "templates"
 if not os.path.exists(OUTPUT_DIR):
     os.makedirs(OUTPUT_DIR)
 
-def shift_headings(content):
-    """Shift all Markdown headings down by one level."""
-    def repl(match):
-        level = len(match.group(1))
-        return '#' * (level + 1) + ' '
-    return re.sub(r'^(#+) ', repl, content, flags=re.MULTILINE)
-
 def convert_markdown_to_html():
     """Convert all Markdown posts to HTML."""
     posts = []
@@ -37,8 +30,6 @@ def convert_markdown_to_html():
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
                     post = frontmatter.load(f)
-                    # Shift headings down by one level
-                    post.content = shift_headings(post.content)
                     # Convert Markdown content to HTML
                     post.content = markdown.markdown(post.content, extensions=['fenced_code','tables'])
                     # Wrap tables in responsive div

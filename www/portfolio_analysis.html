@@ -6,7 +6,7 @@
     <title>ZSM7 Opportunity Score - ZSM Properties Market Insights</title>
     <meta name="description" content="Real-time opportunity scores for ZSM Seven portfolio tickers based on RSI and MA50 indicators. Get the latest buying potential analysis for investing decisions.">
     <meta name="keywords" content="ZSM Seven, portfolio analysis, opportunity scores, RSI, MA50, investing, stocks, market insights">
-    <link rel="stylesheet" href="{% if is_static %}./static/styles.css{% else %}/static/styles.css{% endif %}">
+    <link rel="stylesheet" href="./static/styles.css">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QFRQ05SBEZ"></script>
     <script>
@@ -19,7 +19,7 @@
 <body>
 <header class="header" id="header">
 <nav class="nav">
-<a href="{% if is_static %}./index.html{% else %}/{% endif %}" style="text-decoration: none;">
+<a href="./index.html" style="text-decoration: none;">
 <div class="logo">
     <svg class="logo-svg" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -88,10 +88,10 @@
 <button id="hamburger" aria-label="Toggle navigation">☰</button>
 <div id="nav-links">
 <a href="https://www.zsmproperties.com">Home</a>
-<a href="{% if is_static %}./zsm_seven_intro.html{% else %}/post/zsm_seven_intro{% endif %}">ZSM Seven</a>
-<a href="{% if is_static %}./portfolio_analysis.html{% else %}/post/portfolio_analysis{% endif %}">ZSM Opportunity Index</a>
-<a href="{% if is_static %}./archive.html{% else %}/archive{% endif %}">Archive</a>
-<a href="{% if is_static %}./index.html{% else %}/{% endif %}">Blog</a>
+<a href="./zsm_seven_intro.html">ZSM Seven</a>
+<a href="./portfolio_analysis.html">ZSM Opportunity Index</a>
+<a href="./archive.html">Archive</a>
+<a href="./index.html">Blog</a>
 <a href="https://x.com/ZSMProperties" class="contact-btn">Contact</a>
 </div>
 </nav>
@@ -100,7 +100,7 @@
     <h1>ZSM Opportunity Index for the ZSM Seven</h1>
 
     <div style="margin-bottom: 1.5rem;">
-        <p>This analysis evaluates each ticker in the <a href="{% if is_static %}./zsm_seven_intro.html{% else %}/post/zsm_seven_intro{% endif %}" style="color: inherit; text-decoration: underline;">ZSM Seven Model Portfolio</a> based on current price relative to the 50-day moving average (MA50) and Relative Strength Index (RSI). The opportunity score ranges from -10 to 10, where positive scores indicate better buying opportunities, and negative scores suggest caution.</p>
+        <p>This analysis evaluates each ticker in the <a href="./zsm_seven_intro.html" style="color: inherit; text-decoration: underline;">ZSM Seven Model Portfolio</a> based on current price relative to the 50-day moving average (MA50) and Relative Strength Index (RSI). The opportunity score ranges from -10 to 10, where positive scores indicate better buying opportunities, and negative scores suggest caution.</p>
 
         <p>Scores are derived as follows:</p>
         <ul>
@@ -122,9 +122,8 @@
     <div class="toc-box">
         <h2>Latest</h2>
         <ul>
-        {% for post in posts[:5] %}
-            <li><a href="{% if is_static %}./{{ post.slug }}.html{% else %}/post/{{ post.slug }}{% endif %}">{{ post.date }} - {{ post.title }}</a></li>
-        {% endfor %}
+            <li><a href="./zsm_seven_intro.html">The ZSM Seven: Beyond the MAG7</a></li>
+            <li><a href="./index.html">More posts on the blog</a></li>
         </ul>
     </div>
 <footer>
@@ -135,10 +134,10 @@
 <h3>Site Map</h3>
 <ul>
 <li><a href="https://www.zsmproperties.com">Home</a></li>
-<li><a href="{% if is_static %}./zsm_seven_intro.html{% else %}/post/zsm_seven_intro{% endif %}">ZSM Seven</a></li>
-<li><a href="{% if is_static %}./portfolio_analysis.html{% else %}/post/portfolio_analysis{% endif %}">ZSM Opportunity Index</a></li>
-<li><a href="{% if is_static %}./archive.html{% else %}/archive{% endif %}">Archive</a></li>
-<li><a href="{% if is_static %}./index.html{% else %}/{% endif %}">Blog</a></li>
+<li><a href="./zsm_seven_intro.html">ZSM Seven</a></li>
+<li><a href="./portfolio_analysis.html">ZSM Opportunity Index</a></li>
+<li><a href="./archive.html">Archive</a></li>
+<li><a href="./index.html">Blog</a></li>
 <li><a href="https://x.com/ZSMProperties">Contact</a></li>
 </ul>
 </div>
@@ -154,7 +153,7 @@
         }
     });
 </script>
-<script src="{% if is_static %}./static/scripts.js{% else %}/static/scripts.js{% endif %}" defer></script>
+<script src="./static/scripts.js" defer></script>
 <script>
 // Fetch latest portfolio analysis
 const latestAnalysisDiv = document.getElementById('latest-analysis');

@@ -16,8 +16,9 @@
 </head>
 <body>
 <header class="header" id="header">
+<div class="container">
 <nav class="nav">
-<a href="{% if is_static %}./index.html{% else %}/{% endif %}" style="text-decoration: none;">
+<a href="https://www.zsmproperties.com/index.html" style="text-decoration: none;">
 <div class="logo">
     <svg class="logo-svg" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -93,6 +94,7 @@
 <li><a href="https://x.com/ZSMProperties" class="contact-btn">Contact</a></li>
 </ul>
 </nav>
+</div>
 </header>
     <div class="main-content">{{ post.content | safe }}</div>
     <div class="toc-box">

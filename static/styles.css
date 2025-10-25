@@ -41,7 +41,6 @@ html {
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.7;
-  max-width: 900px;
   margin: 0 auto;
   padding: 120px 40px 40px;
   color: var(--text-dark);
@@ -469,6 +468,9 @@ header nav,
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   margin-bottom: 2rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Post Meta */
@@ -490,6 +492,9 @@ article {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   margin-bottom: 2rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Table of Contents Box */
@@ -501,6 +506,9 @@ article {
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-md);
   transition: all 0.3s ease;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .toc-box:hover {
@@ -565,6 +573,9 @@ footer {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   clear: both;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .disclaimer {

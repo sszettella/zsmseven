@@ -1,48 +1,11 @@
-<script type="text/javascript">
-var gk_isXlsx = false;
-var gk_xlsxFileLookup = {};
-var gk_fileData = {};
-function filledCell(cell) {
-  return cell !== '' && cell != null;
-}
-function loadFileData(filename) {
-  if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-    try {
-      var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-      var firstSheetName = workbook.SheetNames[0];
-      var worksheet = workbook.Sheets[firstSheetName];
-
-      // Convert sheet to JSON to filter blank rows
-      var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-      // Filter out blank rows (rows where all cells are empty, null, or undefined)
-      var filteredData = jsonData.filter(row => row.some(filledCell));
-
-      // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-      var headerRowIndex = filteredData.findIndex((row, index) =>
-        row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-      );
-      // Fallback
-      if (headerRowIndex === -1 || headerRowIndex > 25) {
-        headerRowIndex = 0;
-      }
-
-      // Convert filtered JSON back to CSV
-      var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-      csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-      return csv;
-    } catch (e) {
-      console.error(e);
-      return "";
-    }
-  }
-  return gk_fileData[filename] || "";
-}
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Insights from ZSM Properties.</title>
+    <title>ZSM7 Opportunity Score - ZSM Properties Market Insights</title>
+    <meta name="description" content="Real-time opportunity scores for ZSM Seven portfolio tickers based on RSI and MA50 indicators. Get the latest buying potential analysis for investing decisions.">
+    <meta name="keywords" content="ZSM Seven, portfolio analysis, opportunity scores, RSI, MA50, investing, stocks, market insights">
     <link rel="stylesheet" href="{% if is_static %}./static/styles.css{% else %}/static/styles.css{% endif %}">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QFRQ05SBEZ"></script>
@@ -125,19 +88,36 @@ function loadFileData(filename) {
 <button id="hamburger" aria-label="Toggle navigation">☰</button>
 <div id="nav-links">
 <a href="https://www.zsmproperties.com">Home</a>
-<a href="{% if is_static %}./zsm_seven_intro.html{% else %}https://www.zsmproperties.com/zsm_seven_intro.html{% endif %}">ZSM Seven</a>
-<a href="{% if is_static %}./portfolio_analysis.html{% else %}https://www.zsmproperties.com/portfolio_analysis.html{% endif %}">ZSM Opportunity Index</a>
+<a href="{% if is_static %}./zsm_seven_intro.html{% else %}/post/zsm_seven_intro{% endif %}">ZSM Seven</a>
+<a href="{% if is_static %}./portfolio_analysis.html{% else %}/post/portfolio_analysis{% endif %}">ZSM Opportunity Index</a>
 <a href="{% if is_static %}./archive.html{% else %}/archive{% endif %}">Archive</a>
 <a href="{% if is_static %}./index.html{% else %}/{% endif %}">Blog</a>
 <a href="https://x.com/ZSMProperties" class="contact-btn">Contact</a>
 </div>
 </nav>
 </header>
-    {% for post in posts[:1] %}
-        <article id="{{ post.slug }}" class="main-content">
-            <div>{{ post.content | safe }}</div>
-        </article>
-    {% endfor %}
+<div class="main-content">
+    <h1>ZSM Opportunity Index for the ZSM Seven</h1>
+
+    <div style="margin-bottom: 1.5rem;">
+        <p>This analysis evaluates each ticker in the <a href="{% if is_static %}./zsm_seven_intro.html{% else %}/post/zsm_seven_intro{% endif %}" style="color: inherit; text-decoration: underline;">ZSM Seven Model Portfolio</a> based on current price relative to the 50-day moving average (MA50) and Relative Strength Index (RSI). The opportunity score ranges from -10 to 10, where positive scores indicate better buying opportunities, and negative scores suggest caution.</p>
+
+        <p>Scores are derived as follows:</p>
+        <ul>
+            <li><strong>High positive:</strong> Low RSI (<30) and price significantly below MA50.</li>
+            <li><strong>Neutral (0):</strong> RSI around 50 and price very close to MA50.</li>
+            <li><strong>High negative:</strong> High RSI (>70) and price significantly above MA50.</li>
+        </ul>
+    </div>
+
+    <p id="data-date" style="font-size: 0.95rem; font-style: italic; margin-bottom: 0.25rem; color: var(--text-light);">Loading data...</p>
+
+    <div id="latest-analysis">
+        <div style="text-align: center; padding: 2rem 0; color: var(--text-light);">
+            <p>Loading opportunity scores...</p>
+        </div>
+    </div>
+</div>
 
     <div class="toc-box">
         <h2>Latest</h2>
@@ -147,7 +127,6 @@ function loadFileData(filename) {
         {% endfor %}
         </ul>
     </div>
-
 <footer>
 <div class="disclaimer">
 <p>This website provides market insights and is not intended as financial advice. Investments involve risk, and past performance does not guarantee future results. Consult a professional advisor.</p>
@@ -156,8 +135,8 @@ function loadFileData(filename) {
 <h3>Site Map</h3>
 <ul>
 <li><a href="https://www.zsmproperties.com">Home</a></li>
-<li><a href="{% if is_static %}./zsm_seven_intro.html{% else %}https://www.zsmproperties.com/zsm_seven_intro.html{% endif %}">ZSM Seven</a></li>
-<li><a href="{% if is_static %}./portfolio_analysis.html{% else %}https://www.zsmproperties.com/portfolio_analysis.html{% endif %}">ZSM Opportunity Index</a></li>
+<li><a href="{% if is_static %}./zsm_seven_intro.html{% else %}/post/zsm_seven_intro{% endif %}">ZSM Seven</a></li>
+<li><a href="{% if is_static %}./portfolio_analysis.html{% else %}/post/portfolio_analysis{% endif %}">ZSM Opportunity Index</a></li>
 <li><a href="{% if is_static %}./archive.html{% else %}/archive{% endif %}">Archive</a></li>
 <li><a href="{% if is_static %}./index.html{% else %}/{% endif %}">Blog</a></li>
 <li><a href="https://x.com/ZSMProperties">Contact</a></li>
@@ -176,5 +155,49 @@ function loadFileData(filename) {
     });
 </script>
 <script src="{% if is_static %}./static/scripts.js{% else %}/static/scripts.js{% endif %}" defer></script>
+<script>
+// Fetch latest portfolio analysis
+const latestAnalysisDiv = document.getElementById('latest-analysis');
+const dataDateEl = document.getElementById('data-date');
+
+if (latestAnalysisDiv) {
+  fetch('https://api.zsmproperties.com/dev/get-portfolio-analysis?portfolio_name=ZSM%20Seven')
+    .then(response => response.json())
+    .then(data => {
+      if (Array.isArray(data)) {
+        // Sort by score descending
+        data.sort((a, b) => b.score - a.score);
+
+        // Update date
+        const asOfDate = new Date(data[0].asOf).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        dataDateEl.textContent = `Data as of: ${asOfDate}`;
+
+        // Build only the table
+        let table = '<div class="table-responsive" style="margin: 0;"><table><thead><tr><th>Symbol</th><th>OI</th><th>Price</th><th style="white-space: nowrap;">+/- MA</th><th>RSI</th><th>Reason</th></tr></thead><tbody>';
+        data.forEach(item => {
+          const percentDiff = (((item.price - item.ma50) / item.ma50) * 100).toFixed(1) + '%';
+          table += `<tr>
+            <td>${item.ticker}</td>
+            <td>${item.score}</td>
+            <td>$${item.price.toFixed(2)}</td>
+            <td>${percentDiff}</td>
+            <td>${item.rsi.toFixed(1)}</td>
+            <td>${item.reason}</td>
+          </tr>`;
+        });
+        table += '</tbody></table></div>';
+        latestAnalysisDiv.innerHTML = table;
+      } else {
+        latestAnalysisDiv.innerHTML = '<p style="color: var(--text-light); text-align: center;">Invalid data format.</p>';
+        dataDateEl.textContent = 'Data unavailable';
+      }
+    })
+    .catch(error => {
+      latestAnalysisDiv.innerHTML = '<p style="color: var(--text-light); text-align: center;">Unable to load opportunity scores. Please try again later.</p>';
+      dataDateEl.textContent = 'Data unavailable';
+      console.error('Error fetching analysis:', error);
+    });
+}
+</script>
 </body>
 </html>

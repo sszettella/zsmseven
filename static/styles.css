@@ -471,6 +471,19 @@ header nav,
   margin-bottom: 2rem;
 }
 
+/* Post Meta */
+.post-meta {
+  margin: -0.5rem 0 1.5rem 0;
+  padding: 0;
+  font-size: 0.9375rem;
+  color: var(--text-light);
+}
+
+.post-date {
+  font-weight: 500;
+  color: var(--text-light);
+}
+
 article {
   background: white;
   padding: 2.5rem;

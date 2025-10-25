@@ -84,14 +84,14 @@
 </div>
 </a>
 <button id="hamburger" aria-label="Toggle navigation">☰</button>
-<div id="nav-links">
-<a href="https://www.zsmproperties.com">Home</a>
-<a href="{% if is_static %}./zsm_seven_intro.html{% else %}https://www.zsmproperties.com/zsm_seven_intro.html{% endif %}">ZSM Seven</a>
-<a href="{% if is_static %}./portfolio_analysis.html{% else %}https://www.zsmproperties.com/portfolio_analysis.html{% endif %}">ZSM Opportunity Index</a>
-<a href="{% if is_static %}./archive.html{% else %}/archive{% endif %}">Archive</a>
-<a href="{% if is_static %}./index.html{% else %}/{% endif %}">Blog</a>
-<a href="https://x.com/ZSMProperties" class="contact-btn">Contact</a>
-</div>
+<ul class="nav-links">
+<li><a href="https://www.zsmproperties.com">Home</a></li>
+<li><a href="https://www.zsmproperties.com/zsm_seven_intro.html">ZSM Seven</a></li>
+<li><a href="https://www.zsmproperties.com/portfolio_analysis.html">Opportunity Index</a></li>
+<li><a href="{% if is_static %}./archive.html{% else %}/archive{% endif %}">Archive</a></li>
+<li><a href="{% if is_static %}./index.html{% else %}/{% endif %}">Blog</a></li>
+<li><a href="https://x.com/ZSMProperties" class="contact-btn">Contact</a></li>
+</ul>
 </nav>
 </header>
     <div class="main-content">{{ post.content | safe }}</div>
@@ -104,19 +104,19 @@
         </ul>
     </div>
 <footer>
+<div class="disclaimer">
+<p>This website provides market insights and is not intended as financial advice. Investments involve risk, and past performance does not guarantee future results. Consult a professional advisor.</p>
+</div>
 <div class="site-map">
 <h3>Site Map</h3>
 <ul>
 <li><a href="https://www.zsmproperties.com">Home</a></li>
-<li><a href="{% if is_static %}./zsm_seven_intro.html{% else %}https://www.zsmproperties.com/zsm_seven_intro.html{% endif %}">ZSM Seven</a></li>
-<li><a href="{% if is_static %}./portfolio_analysis.html{% else %}https://www.zsmproperties.com/portfolio_analysis.html{% endif %}">ZSM Opportunity Index</a></li>
+<li><a href="https://www.zsmproperties.com/zsm_seven_intro.html">ZSM Seven</a></li>
+<li><a href="https://www.zsmproperties.com/portfolio_analysis.html">Opportunity Index</a></li>
 <li><a href="{% if is_static %}./archive.html{% else %}/archive{% endif %}">Archive</a></li>
 <li><a href="{% if is_static %}./index.html{% else %}/{% endif %}">Blog</a></li>
 <li><a href="https://x.com/ZSMProperties">Contact</a></li>
 </ul>
-</div>
-<div class="disclaimer">
-<p>This website provides market insights and is not intended as financial advice. Investments involve risk, and past performance does not guarantee future results. Consult a professional advisor.</p>
 </div>
 </footer>
 <script>

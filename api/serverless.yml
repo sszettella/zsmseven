@@ -66,7 +66,7 @@ functions:
     handler: process_tickers.lambda_handler
     events:
       - schedule:
-          rate: cron(30 4 ? * MON-FRI *)
+          rate: cron(30 4 ? * TUE-SAT *)
           enabled: true
   processTicker:
     handler: process_ticker.lambda_handler
@@ -80,7 +80,7 @@ functions:
     timeout: 300
     events:
       - schedule:
-          rate: cron(0 6 ? * MON-FRI *)
+          rate: cron(0 6 ? * TUE-SAT *)
           enabled: true
           input:
             portfolio_name: "ZSM Seven"

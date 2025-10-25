@@ -27,7 +27,7 @@ XAI_API_URL = os.environ.get('XAI_API_URL')
 XAI_API_KEY = os.environ.get('XAI_API_KEY')
 
 # Model configuration
-MODEL = 'grok-4-latest'
+MODEL = 'grok-4-fast-reasoning'
 
 # DynamoDB client
 dynamodb = boto3.resource('dynamodb')

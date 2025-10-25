@@ -14,7 +14,7 @@ It was a bloodbath, folks—a classic overreaction to political theater in an el
 
 Earlier this week, we'd trimmed off some AVGO, as it was getting too heavy in the portfolio. Nothing dramatic, just freeing up some dry powder to keep the portfolio nimble. Perfect timing. As the tariff tweets lit up the tape and BTC dipped below $106,000 (from its intra-week high over 126k), we pounced and stacked more Bitcoin. In the grand casino of fiat debasement, BTC isn't just a chip—it's the house edge.
 
-Our [ZSM Seven portfolio](./zsm_seven_intro.html), that debasement-defying beast we unveiled yesterday, is already 24.4% allocated to Bitcoin for exactly these moments. It's the zero-trust anchor in a world where central banks print money like it's going out of style (spoiler: fiat is). Gold (IAU at 14.6%) held steady as a rock—up 0.8% amid the melee—but BTC? It got dragged down almost 7% on the day, purely by association with risk-on assets. Collateral damage from tariff FUD, not fundamentals.
+Our [ZSM Seven portfolio](https://www.zsmproperties.com/zsm_seven_intro.html), that debasement-defying beast we unveiled yesterday, is already 24.4% allocated to Bitcoin for exactly these moments. It's the zero-trust anchor in a world where central banks print money like it's going out of style (spoiler: fiat is). Gold (IAU at 14.6%) held steady as a rock—up 0.8% amid the melee—but BTC? It got dragged down almost 7% on the day, purely by association with risk-on assets. Collateral damage from tariff FUD, not fundamentals.
 
 We didn't go all-in (patience is a virtue, even for high-rollers), but that opportunistic buy juiced our BTC weighting a bit. It's like spotting a Rolex at 20% off during a fire sale—you don't ask why the store's on fire; you just grab the deal.
 
@@ -28,7 +28,7 @@ Look, Friday's carnage? It's the market's version of a toddler's tantrum—loud,
 
 ## Tying It Back: The ZSM Seven Edge amid the Chaos
 
-[Yesterday's intro to the ZSM Seven](./zsm_seven_intro.html) wasn't just hype—it was a roadmap for exactly this. While the MAG7 chugs along on cloud dreams, we're laser-focused on AI's underbelly (NVDA, AVGO, PLTR), mobility's moonshot (TSLA), and the ultimate fiat hedge (BTC, IAU, HOOD). That 159.2% one-year rip we clocked? It's not luck; it's architecture for asymmetry.
+[Yesterday's intro to the ZSM Seven](https://www.zsmproperties.com/zsm_seven_intro.html) wasn't just hype—it was a roadmap for exactly this. While the MAG7 chugs along on cloud dreams, we're laser-focused on AI's underbelly (NVDA, AVGO, PLTR), mobility's moonshot (TSLA), and the ultimate fiat hedge (BTC, IAU, HOOD). That 159.2% one-year rip we clocked? It's not luck; it's architecture for asymmetry.
 
 Tariff tantrums like today's are just speed bumps on the road to 2030s dominance. Paradigm shifts don't pause for politics—they accelerate.
 

@@ -24,7 +24,7 @@ This isn't just abstract policy wonkery; it's a direct hit to purchasing power. 
 ### Bitcoin: The Emerging Lifeboat
 Amid this mess, Bitcoin shines as a potential off-ramp. As the base layer of the digital economy, it's poised for adoption-driven appreciation that outpaces fiat depreciation. Unlike the peso or even the dollar in its current trajectory, Bitcoin's fixed supply and decentralized nature make it a hedge against the very interventions we're seeing today. Gold, too, holds strong with its low stock-to-flow ratio, serving as a time-tested store of value against depreciating currencies.
 
-For those building resilient portfolios, this underscores the value of diversification beyond traditional fiat plays. If you're curious about strategies that lean into Bitcoin and other hard assets while navigating real estate pitfalls, check out our [ZSM Seven portfolio](./zsm_seven_intro.html)—it's designed with these principles in mind.
+For those building resilient portfolios, this underscores the value of diversification beyond traditional fiat plays. If you're curious about strategies that lean into Bitcoin and other hard assets while navigating real estate pitfalls, check out our [ZSM Seven portfolio](https://www.zsmproperties.com/zsm_seven_intro.html)—it's designed with these principles in mind.
 
 What do you think—another taxpayer squeeze, or a savvy geopolitical play? Head over to [@ZSMProperties](https://x.com/zsmproperties) to join the conversation.
 

@@ -312,14 +312,17 @@ tbody tr:last-child td {
 
 /* Header - Modern Compact Design */
 .header {
-  background: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  transition: all 0.3s ease;
+   background: white;
+   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+   position: fixed;
+   width: 100%;
+   max-width: 1000px;
+   margin: 0 auto;
+   top: 0;
+   left: 0;
+   right: 0;
+   z-index: 1000;
+   transition: all 0.3s ease;
 }
 
 .header.scrolled {

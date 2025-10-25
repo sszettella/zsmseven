@@ -312,15 +312,18 @@ tbody tr:last-child td {
 
 /* Header - Unified styles for all pages */
 .header {
-  background: white;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-  color: var(--text-dark);
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  transition: all 0.3s ease;
+   background: white;
+   box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+   color: var(--text-dark);
+   position: fixed;
+   width: 100%;
+   max-width: 1000px;
+   margin: 0 auto;
+   top: 0;
+   left: 0;
+   right: 0;
+   z-index: 1000;
+   transition: all 0.3s ease;
 }
 
 .header.scrolled {
@@ -444,22 +447,20 @@ header nav,
 
 /* Contact button */
 .contact-btn {
-  background: linear-gradient(45deg, var(--primary-orange), var(--dark-orange));
-  color: white !important;
-  padding: 0.75rem 1.5rem !important;
-  border-radius: 25px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 122, 0, 0.3);
+   background: linear-gradient(135deg, var(--primary-orange), var(--dark-orange));
+   color: white !important;
+   padding: 0.5rem 1.25rem;
+   border-radius: 6px;
+   font-weight: 600;
+   font-size: 0.875rem;
+   transition: all 0.2s ease;
+   box-shadow: 0 2px 8px rgba(255, 122, 0, 0.25);
 }
 
 .contact-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 122, 0, 0.4);
-}
-
-.contact-btn::after {
-  display: none;
+   transform: translateY(-1px);
+   box-shadow: 0 4px 12px rgba(255, 122, 0, 0.35);
+   color: white !important;
 }
 
 /* Content Containers */

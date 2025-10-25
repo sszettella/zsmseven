@@ -10,6 +10,57 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./static/styles.css">
+    <style>
+        :root {
+            --primary-blue: #1565C0;
+            --dark-blue: #0D47A1;
+            --primary-orange: #FF7A00;
+            --dark-orange: #FF5722;
+            --text-dark: #333;
+            --text-light: #666;
+            --background-light: #f8f9fa;
+            --border-color: #e9ecef;
+        }
+
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 1rem;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                border: 1px solid var(--border-color);
+            }
+
+            #hamburger {
+                display: block;
+                background: none;
+                border: none;
+                color: var(--text-dark);
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .nav-links {
+                display: flex;
+            }
+            #hamburger {
+                display: none;
+            }
+        }
+    </style>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QFRQ05SBEZ"></script>
     <script>
@@ -156,6 +207,11 @@
         } else {
             header.classList.remove('scrolled');
         }
+    });
+
+    // Hamburger menu toggle
+    document.getElementById('hamburger').addEventListener('click', function() {
+        document.querySelector('.nav-links').classList.toggle('active');
     });
 </script>
 <script src="./static/scripts.js" defer></script>

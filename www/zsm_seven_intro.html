@@ -363,12 +363,6 @@
 <p>Ready to ride the wave? Model the ZSM Seven on platforms like Robinhood or consult an advisor. The future isn't predictable—it's programmable.</p>
     </div>
 </div>
-<div class="toc-box">
-    <h2>Latest</h2>
-    <ul>
-    <!-- Latest posts would go here -->
-    </ul>
-</div>
 <footer>
 <div class="disclaimer">
 <p>This website provides market insights and is not intended as financial advice. Investments involve risk, and past performance does not guarantee future results. Consult a professional advisor.</p>
@@ -400,7 +394,8 @@
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('nav-links');
 
-    hamburger.addEventListener('click', function() {
+    hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
         hamburger.classList.toggle('active');
         navLinks.classList.toggle('active');
     });

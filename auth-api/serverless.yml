@@ -113,20 +113,8 @@ resources:
 plugins:
   - serverless-esbuild
   - serverless-offline
-  - serverless-domain-manager
 
 custom:
-  customDomain:
-    domainName: ${self:custom.domain.${self:provider.stage}}
-    basePath: 'api'
-    stage: ${self:provider.stage}
-    createRoute53Record: true
-    endpointType: REGIONAL
-
-  domain:
-    dev: api.zsmproperties.com
-    prod: api.zsmproperties.com
-
   esbuild:
     bundle: true
     minify: false

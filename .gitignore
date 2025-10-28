@@ -1,4 +1,4 @@
-static_site/
+
 automation/xai_api_key
 automation/post_prompt.txt
 automation/validate_post_prompt.txt
@@ -9,3 +9,4 @@ api/aws_key
 node_modules
 .serverless/
 aws_credentials
+.DS_Store

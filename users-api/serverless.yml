@@ -1,4 +1,4 @@
-service: zsmseven-auth-api
+service: zsmseven-users-api
 
 frameworkVersion: '3'
 
@@ -9,7 +9,6 @@ provider:
   region: us-east-1
   environment:
     USERS_TABLE: users-${self:provider.stage}
-    BLACKLIST_TABLE: token-blacklist-${self:provider.stage}
     JWT_SECRET: ${env:JWT_SECRET, 'LJCIuri7XhEJZne4KvTzbqPzyEfmPFYC9a4ISxhfu3U='}
     JWT_REFRESH_SECRET: ${env:JWT_REFRESH_SECRET, 'MnGsOxlkWGp10VEf9t9zG00GSgvnsJ15obbdumz+gm4='}
     JWT_EXPIRES_IN: '1h'
@@ -28,54 +27,13 @@ provider:
           Resource:
             - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
             - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}/index/*
-            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.BLACKLIST_TABLE}
-            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.BLACKLIST_TABLE}/index/*
 
 functions:
-  login:
-    handler: dist/handlers/login.handler
+  listUsers:
+    handler: dist/handlers/listUsers.handler
     events:
       - http:
-          path: login
-          method: post
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
-
-  register:
-    handler: dist/handlers/register.handler
-    events:
-      - http:
-          path: register
-          method: post
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
-
-  refreshToken:
-    handler: dist/handlers/refreshToken.handler
-    events:
-      - http:
-          path: refresh
-          method: post
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
-
-  getMe:
-    handler: dist/handlers/getMe.handler
-    events:
-      - http:
-          path: me
+          path: /
           method: get
           cors:
             origin: '*'
@@ -84,11 +42,24 @@ functions:
               - Authorization
             allowCredentials: false
 
-  logout:
-    handler: dist/handlers/logout.handler
+  getUser:
+    handler: dist/handlers/getUser.handler
     events:
       - http:
-          path: logout
+          path: /{id}
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  createUser:
+    handler: dist/handlers/createUser.handler
+    events:
+      - http:
+          path: /
           method: post
           cors:
             origin: '*'
@@ -97,43 +68,34 @@ functions:
               - Authorization
             allowCredentials: false
 
-resources:
-  Resources:
-    UsersTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${self:provider.environment.USERS_TABLE}
-        BillingMode: PAY_PER_REQUEST
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-          - AttributeName: email
-            AttributeType: S
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        GlobalSecondaryIndexes:
-          - IndexName: EmailIndex
-            KeySchema:
-              - AttributeName: email
-                KeyType: HASH
-            Projection:
-              ProjectionType: ALL
+  updateUser:
+    handler: dist/handlers/updateUser.handler
+    events:
+      - http:
+          path: /{id}
+          method: put
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
 
-    TokenBlacklistTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${self:provider.environment.BLACKLIST_TABLE}
-        BillingMode: PAY_PER_REQUEST
-        AttributeDefinitions:
-          - AttributeName: token
-            AttributeType: S
-        KeySchema:
-          - AttributeName: token
-            KeyType: HASH
-        TimeToLiveSpecification:
-          AttributeName: expiresAt
-          Enabled: true
+  deleteUser:
+    handler: dist/handlers/deleteUser.handler
+    events:
+      - http:
+          path: /{id}
+          method: delete
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+# Note: We don't define the UsersTable resource here because it's already
+# created by the auth-api service. Both services share the same users table.
 
 plugins:
   - serverless-esbuild

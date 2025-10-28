@@ -8,3 +8,4 @@ __pycache__/
 api/aws_key
 node_modules
 .serverless/
+aws_credentials

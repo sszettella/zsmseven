@@ -41,16 +41,6 @@ jobs:
           cd auth-api
           npm run build
 
-      - name: Create custom domain mapping (if needed)
-        run: |
-          cd auth-api
-          echo "Creating domain mapping for /auth base path..."
-          serverless create_domain --stage prod || echo "✓ Domain mapping already exists"
-        env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
-        continue-on-error: true
-
       - name: Deploy Auth API
         run: |
           cd auth-api
@@ -58,6 +48,22 @@ jobs:
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+
+      - name: Map custom domain (if needed)
+        run: |
+          cd auth-api
+          # Get the API Gateway REST API ID
+          API_ID=$(aws apigateway get-rest-apis --query "items[?name=='zsmseven-auth-api-prod'].id" --output text --region us-east-1)
+          echo "API Gateway ID: $API_ID"
+
+          # Try to create/update base path mapping
+          aws apigateway create-base-path-mapping \
+            --domain-name api.zsmproperties.com \
+            --rest-api-id "$API_ID" \
+            --stage prod \
+            --base-path auth \
+            --region us-east-1 2>&1 || echo "✓ Base path mapping already exists or updated"
+        continue-on-error: true
 
       - name: Display deployment info
         run: |

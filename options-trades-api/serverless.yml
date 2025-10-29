@@ -189,6 +189,7 @@ custom:
     stage: ${self:provider.stage}
     createRoute53Record: true
     endpointType: REGIONAL
+    autoDomain: false
 
   domain:
     dev: api.zsmproperties.com

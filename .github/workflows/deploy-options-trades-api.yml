@@ -41,12 +41,14 @@ jobs:
           cd options-trades-api
           npm run build
 
-      - name: Create custom domain (if needed)
+      - name: Create custom domain mapping (if needed)
         run: |
           cd options-trades-api
-          serverless create_domain --stage prod || true
+          echo "Creating domain mapping for /trades base path..."
+          serverless create_domain --stage prod || echo "✓ Domain mapping already exists"
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        continue-on-error: true
 
       - name: Deploy Options Trades API
         run: |

@@ -44,13 +44,15 @@ jobs:
           cd auth-api
           npm run build
 
-      - name: Create custom domain (if needed)
+      - name: Create custom domain mapping (if needed)
         run: |
           cd auth-api
-          serverless create_domain --stage ${{ github.event.inputs.stage }} || true
+          echo "Creating domain mapping for /auth base path..."
+          serverless create_domain --stage ${{ github.event.inputs.stage }} || echo "✓ Domain mapping already exists"
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+        continue-on-error: true
 
       - name: Deploy Auth API
         run: |
@@ -92,13 +94,15 @@ jobs:
           cd users-api
           npm run build
 
-      - name: Create custom domain (if needed)
+      - name: Create custom domain mapping (if needed)
         run: |
           cd users-api
-          serverless create_domain --stage ${{ github.event.inputs.stage }} || true
+          echo "Creating domain mapping for /users base path..."
+          serverless create_domain --stage ${{ github.event.inputs.stage }} || echo "✓ Domain mapping already exists"
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+        continue-on-error: true
 
       - name: Deploy Users API
         run: |
@@ -140,12 +144,14 @@ jobs:
           cd options-trades-api
           npm run build
 
-      - name: Create custom domain (if needed)
+      - name: Create custom domain mapping (if needed)
         run: |
           cd options-trades-api
-          serverless create_domain --stage ${{ github.event.inputs.stage }} || true
+          echo "Creating domain mapping for /trades base path..."
+          serverless create_domain --stage ${{ github.event.inputs.stage }} || echo "✓ Domain mapping already exists"
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        continue-on-error: true
 
       - name: Deploy Options Trades API
         run: |

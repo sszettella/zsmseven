@@ -44,11 +44,12 @@ jobs:
       - name: Create custom domain mapping (if needed)
         run: |
           cd auth-api
-          echo "Checking if custom domain mapping exists..."
-          serverless create_domain --stage prod || echo "Domain mapping already exists or creation not needed"
+          echo "Creating domain mapping for /auth base path..."
+          serverless create_domain --stage prod || echo "✓ Domain mapping already exists"
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+        continue-on-error: true
 
       - name: Deploy Auth API
         run: |

@@ -1,12 +1,12 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { getTradesByUserId, getAllTrades } from '../utils/dynamodb';
+import { getTradesByUserId } from '../utils/dynamodb';
 import { extractTokenFromHeader, verifyAccessToken } from '../utils/jwt';
 import { createSuccessResponse, createErrorResponse } from '../utils/response';
-import { UserRole, TradeStatus } from '../types';
+import { TradeStatus } from '../types';
 
 /**
  * GET /api/trades
- * Get all trades for authenticated user (or all trades if admin)
+ * Get all trades for authenticated user
  * Query parameters:
  * - status: Filter by "open" or "closed"
  * - symbol: Filter by stock symbol
@@ -53,16 +53,9 @@ export const handler = async (
       ...(portfolioId && { portfolioId })
     };
 
-    let trades;
-    if (payload.role === UserRole.ADMIN) {
-      // Admin users can see all trades
-      console.log('[LIST_TRADES] Fetching all trades (admin)');
-      trades = await getAllTrades(filters);
-    } else {
-      // Regular users see only their trades
-      console.log('[LIST_TRADES] Fetching trades for user:', payload.userId);
-      trades = await getTradesByUserId(payload.userId, filters);
-    }
+    // All users (including admins) see only their own trades
+    console.log('[LIST_TRADES] Fetching trades for user:', payload.userId);
+    const trades = await getTradesByUserId(payload.userId, filters);
 
     console.log('[LIST_TRADES] Found', trades.length, 'trades');
 

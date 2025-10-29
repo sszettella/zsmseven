@@ -41,7 +41,7 @@ export const handler = async (
     }
 
     // Get position ID from path
-    const positionId = event.pathParameters?.id;
+    const positionId = event.pathParameters?.positionId;
     if (!positionId) {
       return createErrorResponse('Position ID is required', 400);
     }

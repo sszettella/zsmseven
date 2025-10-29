@@ -38,7 +38,7 @@ export const handler = async (
     }
 
     // Get portfolio ID from path
-    const portfolioId = event.pathParameters?.id;
+    const portfolioId = event.pathParameters?.portfolioId;
     if (!portfolioId) {
       return createErrorResponse('Portfolio ID is required', 400);
     }

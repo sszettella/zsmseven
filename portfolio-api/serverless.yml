@@ -39,7 +39,7 @@ functions:
     handler: dist/handlers/listPortfolios.handler
     events:
       - http:
-          path: /portfolios
+          path: /
           method: get
           cors:
             origin: '*'
@@ -52,7 +52,7 @@ functions:
     handler: dist/handlers/createPortfolio.handler
     events:
       - http:
-          path: /portfolios
+          path: /
           method: post
           cors:
             origin: '*'
@@ -65,7 +65,7 @@ functions:
     handler: dist/handlers/getPortfolio.handler
     events:
       - http:
-          path: /portfolios/{portfolioId}
+          path: /{portfolioId}
           method: get
           cors:
             origin: '*'
@@ -78,7 +78,7 @@ functions:
     handler: dist/handlers/updatePortfolio.handler
     events:
       - http:
-          path: /portfolios/{portfolioId}
+          path: /{portfolioId}
           method: put
           cors:
             origin: '*'
@@ -91,7 +91,7 @@ functions:
     handler: dist/handlers/deletePortfolio.handler
     events:
       - http:
-          path: /portfolios/{portfolioId}
+          path: /{portfolioId}
           method: delete
           cors:
             origin: '*'
@@ -108,7 +108,7 @@ functions:
     handler: dist/handlers/listPositions.handler
     events:
       - http:
-          path: /portfolios/{portfolioId}/positions
+          path: /{portfolioId}/positions
           method: get
           cors:
             origin: '*'
@@ -121,7 +121,7 @@ functions:
     handler: dist/handlers/createPosition.handler
     events:
       - http:
-          path: /portfolios/{portfolioId}/positions
+          path: /{portfolioId}/positions
           method: post
           cors:
             origin: '*'
@@ -173,7 +173,7 @@ functions:
     handler: dist/handlers/updatePositionPrices.handler
     events:
       - http:
-          path: /portfolios/{portfolioId}/positions/prices
+          path: /{portfolioId}/positions/prices
           method: patch
           cors:
             origin: '*'

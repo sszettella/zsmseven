@@ -1,0 +1,269 @@
+service: zsmseven-portfolio-api
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: ${opt:stage, 'dev'}
+  region: us-east-1
+  environment:
+    PORTFOLIOS_TABLE: user-portfolios-${self:provider.stage}
+    POSITIONS_TABLE: portfolio-positions-${self:provider.stage}
+    TRADES_TABLE: options-trades-${self:provider.stage}
+    JWT_SECRET: ${env:JWT_SECRET, 'LJCIuri7XhEJZne4KvTzbqPzyEfmPFYC9a4ISxhfu3U='}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PORTFOLIOS_TABLE}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.PORTFOLIOS_TABLE}/index/*
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POSITIONS_TABLE}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POSITIONS_TABLE}/index/*
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TRADES_TABLE}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TRADES_TABLE}/index/*
+
+functions:
+  # ================================
+  # PORTFOLIO ENDPOINTS (/portfolios)
+  # ================================
+
+  listPortfolios:
+    handler: dist/handlers/listPortfolios.handler
+    events:
+      - http:
+          path: /portfolios
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  createPortfolio:
+    handler: dist/handlers/createPortfolio.handler
+    events:
+      - http:
+          path: /portfolios
+          method: post
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  getPortfolio:
+    handler: dist/handlers/getPortfolio.handler
+    events:
+      - http:
+          path: /portfolios/{portfolioId}
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  updatePortfolio:
+    handler: dist/handlers/updatePortfolio.handler
+    events:
+      - http:
+          path: /portfolios/{portfolioId}
+          method: put
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  deletePortfolio:
+    handler: dist/handlers/deletePortfolio.handler
+    events:
+      - http:
+          path: /portfolios/{portfolioId}
+          method: delete
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  # ================================
+  # POSITION ENDPOINTS
+  # ================================
+
+  listPositions:
+    handler: dist/handlers/listPositions.handler
+    events:
+      - http:
+          path: /portfolios/{portfolioId}/positions
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  createPosition:
+    handler: dist/handlers/createPosition.handler
+    events:
+      - http:
+          path: /portfolios/{portfolioId}/positions
+          method: post
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  getPosition:
+    handler: dist/handlers/getPosition.handler
+    events:
+      - http:
+          path: /positions/{positionId}
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  updatePosition:
+    handler: dist/handlers/updatePosition.handler
+    events:
+      - http:
+          path: /positions/{positionId}
+          method: put
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  deletePosition:
+    handler: dist/handlers/deletePosition.handler
+    events:
+      - http:
+          path: /positions/{positionId}
+          method: delete
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  updatePositionPrices:
+    handler: dist/handlers/updatePositionPrices.handler
+    events:
+      - http:
+          path: /portfolios/{portfolioId}/positions/prices
+          method: patch
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+# ================================
+# DYNAMODB TABLES
+# ================================
+
+resources:
+  Resources:
+    PortfoliosTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.PORTFOLIOS_TABLE}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: UserIdIndex
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+          - IndexName: UserNameIndex
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: name
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+
+    PositionsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.POSITIONS_TABLE}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: portfolioId
+            AttributeType: S
+          - AttributeName: ticker
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: PortfolioIdIndex
+            KeySchema:
+              - AttributeName: portfolioId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+          - IndexName: PortfolioTickerIndex
+            KeySchema:
+              - AttributeName: portfolioId
+                KeyType: HASH
+              - AttributeName: ticker
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+
+# ================================
+# PLUGINS & CUSTOM CONFIG
+# ================================
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
+
+custom:
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: true
+    exclude:
+      - aws-sdk
+    target: node20
+    platform: node

@@ -1,0 +1,70 @@
+name: Deploy Portfolio API
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'portfolio-api/**'
+  workflow_dispatch:
+
+jobs:
+  deploy-portfolio-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Serverless Framework
+        run: npm install -g serverless@3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Install dependencies
+        run: |
+          cd portfolio-api
+          npm install
+
+      - name: Build TypeScript
+        run: |
+          cd portfolio-api
+          npm run build
+
+      - name: Deploy Portfolio API
+        run: |
+          cd portfolio-api
+          serverless deploy --stage prod
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
+      - name: Map custom domain (if needed)
+        run: |
+          cd portfolio-api
+          # Get the API Gateway REST API ID
+          API_ID=$(aws apigateway get-rest-apis --query "items[?name=='zsmseven-portfolio-api-prod'].id" --output text --region us-east-1)
+          echo "API Gateway ID: $API_ID"
+
+          # Try to create/update base path mapping
+          aws apigateway create-base-path-mapping \
+            --domain-name api.zsmproperties.com \
+            --rest-api-id "$API_ID" \
+            --stage prod \
+            --base-path portfolios \
+            --region us-east-1 2>&1 || echo "✓ Base path mapping already exists or updated"
+        continue-on-error: true
+
+      - name: Display deployment info
+        run: |
+          cd portfolio-api
+          serverless info --stage prod

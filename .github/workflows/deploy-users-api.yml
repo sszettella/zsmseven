@@ -1,15 +1,15 @@
-name: Deploy Auth API
+name: Deploy Users API
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'auth-api/**'
+      - 'users-api/**'
   workflow_dispatch:
 
 jobs:
-  deploy-auth-api:
+  deploy-users-api:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,26 +33,25 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd auth-api
+          cd users-api
           npm install
 
       - name: Build TypeScript
         run: |
-          cd auth-api
+          cd users-api
           npm run build
 
-      - name: Create custom domain mapping (if needed)
+      - name: Create custom domain (if needed)
         run: |
-          cd auth-api
-          echo "Checking if custom domain mapping exists..."
-          serverless create_domain --stage prod || echo "Domain mapping already exists or creation not needed"
+          cd users-api
+          serverless create_domain --stage prod || true
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
 
-      - name: Deploy Auth API
+      - name: Deploy Users API
         run: |
-          cd auth-api
+          cd users-api
           serverless deploy --stage prod
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
@@ -60,5 +59,5 @@ jobs:
 
       - name: Display deployment info
         run: |
-          cd auth-api
+          cd users-api
           serverless info --stage prod

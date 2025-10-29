@@ -1,4 +1,4 @@
-service: zsmseven-auth-api
+service: zsmseven-options-trades-api
 
 frameworkVersion: '3'
 
@@ -8,12 +8,9 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: us-east-1
   environment:
+    TRADES_TABLE: options-trades-${self:provider.stage}
     USERS_TABLE: users-${self:provider.stage}
-    BLACKLIST_TABLE: token-blacklist-${self:provider.stage}
     JWT_SECRET: ${env:JWT_SECRET, 'LJCIuri7XhEJZne4KvTzbqPzyEfmPFYC9a4ISxhfu3U='}
-    JWT_REFRESH_SECRET: ${env:JWT_REFRESH_SECRET, 'MnGsOxlkWGp10VEf9t9zG00GSgvnsJ15obbdumz+gm4='}
-    JWT_EXPIRES_IN: '1h'
-    JWT_REFRESH_EXPIRES_IN: '7d'
   iam:
     role:
       statements:
@@ -26,56 +23,16 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource:
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TRADES_TABLE}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TRADES_TABLE}/index/*
             - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
-            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}/index/*
-            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.BLACKLIST_TABLE}
-            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.BLACKLIST_TABLE}/index/*
 
 functions:
-  login:
-    handler: dist/handlers/login.handler
+  listTrades:
+    handler: dist/handlers/listTrades.handler
     events:
       - http:
-          path: login
-          method: post
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
-
-  register:
-    handler: dist/handlers/register.handler
-    events:
-      - http:
-          path: register
-          method: post
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
-
-  refreshToken:
-    handler: dist/handlers/refreshToken.handler
-    events:
-      - http:
-          path: refresh
-          method: post
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
-
-  getMe:
-    handler: dist/handlers/getMe.handler
-    events:
-      - http:
-          path: me
+          path: /
           method: get
           cors:
             origin: '*'
@@ -84,12 +41,77 @@ functions:
               - Authorization
             allowCredentials: false
 
-  logout:
-    handler: dist/handlers/logout.handler
+  listOpenTrades:
+    handler: dist/handlers/listOpenTrades.handler
     events:
       - http:
-          path: logout
+          path: /open
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  getTrade:
+    handler: dist/handlers/getTrade.handler
+    events:
+      - http:
+          path: /{id}
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  createTrade:
+    handler: dist/handlers/createTrade.handler
+    events:
+      - http:
+          path: /
           method: post
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  closeTrade:
+    handler: dist/handlers/closeTrade.handler
+    events:
+      - http:
+          path: /{id}/close
+          method: put
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  updateTrade:
+    handler: dist/handlers/updateTrade.handler
+    events:
+      - http:
+          path: /{id}
+          method: put
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  deleteTrade:
+    handler: dist/handlers/deleteTrade.handler
+    events:
+      - http:
+          path: /{id}
+          method: delete
           cors:
             origin: '*'
             headers:
@@ -99,41 +121,52 @@ functions:
 
 resources:
   Resources:
-    UsersTable:
+    OptionsTradesTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.USERS_TABLE}
+        TableName: ${self:provider.environment.TRADES_TABLE}
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
-          - AttributeName: email
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: status
+            AttributeType: S
+          - AttributeName: symbol
+            AttributeType: S
+          - AttributeName: portfolioId
             AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
         GlobalSecondaryIndexes:
-          - IndexName: EmailIndex
+          - IndexName: UserIdIndex
             KeySchema:
-              - AttributeName: email
+              - AttributeName: userId
                 KeyType: HASH
             Projection:
               ProjectionType: ALL
-
-    TokenBlacklistTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${self:provider.environment.BLACKLIST_TABLE}
-        BillingMode: PAY_PER_REQUEST
-        AttributeDefinitions:
-          - AttributeName: token
-            AttributeType: S
-        KeySchema:
-          - AttributeName: token
-            KeyType: HASH
-        TimeToLiveSpecification:
-          AttributeName: expiresAt
-          Enabled: true
+          - IndexName: UserStatusIndex
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: status
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: SymbolIndex
+            KeySchema:
+              - AttributeName: symbol
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+          - IndexName: PortfolioIdIndex
+            KeySchema:
+              - AttributeName: portfolioId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
 
 plugins:
   - serverless-esbuild
@@ -152,7 +185,7 @@ custom:
 
   customDomain:
     domainName: ${self:custom.domain.${self:provider.stage}}
-    basePath: 'auth'
+    basePath: 'trades'
     stage: ${self:provider.stage}
     createRoute53Record: true
     endpointType: REGIONAL

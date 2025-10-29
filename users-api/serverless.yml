@@ -100,6 +100,7 @@ functions:
 plugins:
   - serverless-esbuild
   - serverless-offline
+  - serverless-domain-manager
 
 custom:
   esbuild:
@@ -110,3 +111,14 @@ custom:
       - aws-sdk
     target: node20
     platform: node
+
+  customDomain:
+    domainName: ${self:custom.domain.${self:provider.stage}}
+    basePath: 'users'
+    stage: ${self:provider.stage}
+    createRoute53Record: true
+    endpointType: REGIONAL
+
+  domain:
+    dev: api.zsmproperties.com
+    prod: api.zsmproperties.com

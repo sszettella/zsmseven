@@ -1,0 +1,33 @@
+{
+  "name": "zsmseven-backend-processing-api",
+  "version": "1.0.0",
+  "description": "Backend processing service for portfolio ticker updates and analysis",
+  "main": "index.js",
+  "scripts": {
+    "deploy:dev": "serverless deploy --stage dev",
+    "deploy:prod": "serverless deploy --stage prod",
+    "remove:dev": "serverless remove --stage dev",
+    "remove:prod": "serverless remove --stage prod",
+    "logs:processTickers:dev": "serverless logs -f processTickers --stage dev",
+    "logs:processTickers:prod": "serverless logs -f processTickers --stage prod",
+    "logs:processTicker:dev": "serverless logs -f processTicker --stage dev",
+    "logs:processTicker:prod": "serverless logs -f processTicker --stage prod",
+    "logs:analyzePortfolio:dev": "serverless logs -f analyzePortfolio --stage dev",
+    "logs:analyzePortfolio:prod": "serverless logs -f analyzePortfolio --stage prod"
+  },
+  "keywords": [
+    "serverless",
+    "aws",
+    "lambda",
+    "dynamodb",
+    "portfolio",
+    "backend-processing"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless": "^3.38.0",
+    "serverless-python-requirements": "^6.1.0",
+    "serverless-dotenv-plugin": "^6.0.0"
+  }
+}

@@ -1,0 +1,95 @@
+name: Deploy Backend Processing API
+
+on:
+  push:
+    branches:
+      - develop  # Triggers deployment to dev
+      - main     # Triggers deployment to prod
+    paths:
+      - 'backend-processing-api/**'
+      - '.github/workflows/deploy-backend-processing-api.yml'
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: 'Deployment stage (dev or prod)'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - prod
+
+jobs:
+  deploy:
+    name: Deploy Backend Processing API
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Determine deployment stage
+        id: determine_stage
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "stage=${{ github.event.inputs.stage }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "stage=prod" >> $GITHUB_OUTPUT
+          else
+            echo "stage=dev" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install Node dependencies
+        working-directory: backend-processing-api
+        run: npm install
+
+      - name: Install Python dependencies
+        working-directory: backend-processing-api
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Deploy to AWS - ${{ steps.determine_stage.outputs.stage }}
+        working-directory: backend-processing-api
+        env:
+          POLYGON_API_KEY: ${{ secrets.POLYGON_API_KEY }}
+          XAI_API_URL: ${{ secrets.XAI_API_URL }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+        run: |
+          npx serverless deploy --stage ${{ steps.determine_stage.outputs.stage }} --verbose
+
+      - name: Deployment Summary
+        run: |
+          echo "### Backend Processing API Deployment Complete! :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Stage:** ${{ steps.determine_stage.outputs.stage }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Region:** us-east-1" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "#### Functions Deployed:" >> $GITHUB_STEP_SUMMARY
+          echo "- processTickers (Scheduled: Tue-Sat 4:30 AM UTC)" >> $GITHUB_STEP_SUMMARY
+          echo "- processTicker (SQS Trigger)" >> $GITHUB_STEP_SUMMARY
+          echo "- analyzePortfolio (Scheduled: Tue-Sat 6:00 AM UTC)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "#### Resources:" >> $GITHUB_STEP_SUMMARY
+          echo "- SQS Queue: ticker-processing-queue-${{ steps.determine_stage.outputs.stage }}" >> $GITHUB_STEP_SUMMARY
+          echo "- DynamoDB Tables:" >> $GITHUB_STEP_SUMMARY
+          echo "  - ticker-data-${{ steps.determine_stage.outputs.stage }}" >> $GITHUB_STEP_SUMMARY
+          echo "  - portfolio-analyses-${{ steps.determine_stage.outputs.stage }}" >> $GITHUB_STEP_SUMMARY

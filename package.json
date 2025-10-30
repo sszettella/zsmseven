@@ -2,5 +2,9 @@
   "devDependencies": {
     "serverless-domain-manager": "^8.0.0",
     "serverless-python-requirements": "^6.1.2"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.920.0",
+    "@aws-sdk/lib-dynamodb": "^3.920.0"
   }
 }

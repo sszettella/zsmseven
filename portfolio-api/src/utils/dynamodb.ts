@@ -103,6 +103,12 @@ export const getPortfolioByUserIdAndName = async (
   return portfolios.length > 0 ? portfolios[0] : null;
 };
 
+export const getDefaultPortfolio = async (userId: string): Promise<Portfolio | null> => {
+  const portfolios = await getPortfoliosByUserId(userId);
+  const defaultPortfolio = portfolios.find(p => p.isDefault);
+  return defaultPortfolio || null;
+};
+
 export const unsetDefaultPortfolio = async (userId: string): Promise<void> => {
   // Get all portfolios for the user
   const portfolios = await getPortfoliosByUserId(userId);

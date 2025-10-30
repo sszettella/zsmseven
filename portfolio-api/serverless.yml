@@ -61,6 +61,19 @@ functions:
               - Authorization
             allowCredentials: false
 
+  getDefaultPortfolio:
+    handler: dist/handlers/getDefaultPortfolio.handler
+    events:
+      - http:
+          path: /default
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
   getPortfolio:
     handler: dist/handlers/getPortfolio.handler
     events:
@@ -134,7 +147,7 @@ functions:
     handler: dist/handlers/getPosition.handler
     events:
       - http:
-          path: /positions/{positionId}
+          path: /{portfolioId}/positions/{positionId}
           method: get
           cors:
             origin: '*'
@@ -147,7 +160,7 @@ functions:
     handler: dist/handlers/updatePosition.handler
     events:
       - http:
-          path: /positions/{positionId}
+          path: /{portfolioId}/positions/{positionId}
           method: put
           cors:
             origin: '*'
@@ -160,7 +173,7 @@ functions:
     handler: dist/handlers/deletePosition.handler
     events:
       - http:
-          path: /positions/{positionId}
+          path: /{portfolioId}/positions/{positionId}
           method: delete
           cors:
             origin: '*'
@@ -257,8 +270,17 @@ resources:
 plugins:
   - serverless-esbuild
   - serverless-offline
+  - serverless-domain-manager
 
 custom:
+  customDomain:
+    domainName: api.zsmproperties.com
+    basePath: 'portfolios'
+    stage: ${self:provider.stage}
+    createRoute53Record: false
+    endpointType: 'regional'
+    securityPolicy: tls_1_2
+    apiType: rest
   esbuild:
     bundle: true
     minify: false

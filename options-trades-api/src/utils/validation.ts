@@ -164,6 +164,35 @@ export const validateUpdateTradeRequest = (body: any): ValidationError[] => {
     }
   }
 
+  // Closing transaction fields (optional, for updating closed trades)
+  if (body.closeAction !== undefined && !Object.values(ClosingAction).includes(body.closeAction)) {
+    errors.push({ field: 'closeAction', message: 'Close action must be "buy_to_close" or "sell_to_close"' });
+  }
+
+  if (body.closePremium !== undefined) {
+    if (typeof body.closePremium !== 'number') {
+      errors.push({ field: 'closePremium', message: 'Close premium must be a number' });
+    } else if (body.closePremium < 0.01) {
+      errors.push({ field: 'closePremium', message: 'Close premium must be at least 0.01' });
+    }
+  }
+
+  if (body.closeCommission !== undefined) {
+    if (typeof body.closeCommission !== 'number') {
+      errors.push({ field: 'closeCommission', message: 'Close commission must be a number' });
+    } else if (body.closeCommission < 0) {
+      errors.push({ field: 'closeCommission', message: 'Close commission must be 0 or greater' });
+    }
+  }
+
+  if (body.closeTradeDate !== undefined) {
+    if (typeof body.closeTradeDate !== 'string') {
+      errors.push({ field: 'closeTradeDate', message: 'Close trade date must be a string' });
+    } else if (!isValidISODate(body.closeTradeDate)) {
+      errors.push({ field: 'closeTradeDate', message: 'Close trade date must be in YYYY-MM-DD format' });
+    }
+  }
+
   return errors;
 };
 

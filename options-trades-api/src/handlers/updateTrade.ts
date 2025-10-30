@@ -3,13 +3,13 @@ import { getTrade, updateTrade } from '../utils/dynamodb';
 import { extractTokenFromHeader, verifyAccessToken } from '../utils/jwt';
 import { createSuccessResponse, createErrorResponse } from '../utils/response';
 import { validateUpdateTradeRequest } from '../utils/validation';
-import { calculateOpenTotalCost } from '../utils/calculations';
+import { calculateOpenTotalCost, calculateCloseTotalCost, calculateProfitLoss } from '../utils/calculations';
 import { TradeStatus, UserRole, UpdateTradeRequest } from '../types';
 
 /**
  * PUT /api/trades/:id
- * Update an open trade (edit opening transaction details)
- * Cannot update closed trades
+ * Update a trade (edit opening and/or closing transaction details)
+ * Can update both open and closed trades
  */
 export const handler = async (
   event: APIGatewayProxyEvent
@@ -81,12 +81,6 @@ export const handler = async (
       return createErrorResponse('Forbidden - You do not have access to this trade', 403);
     }
 
-    // Verify trade is open (cannot update closed trades)
-    if (trade.status !== TradeStatus.OPEN) {
-      console.log('[UPDATE_TRADE] Cannot update closed trade');
-      return createErrorResponse('Cannot update a closed trade', 400, 'TRADE_CLOSED');
-    }
-
     // Update trade fields
     const updatedTrade = {
       ...trade,
@@ -101,17 +95,22 @@ export const handler = async (
       ...(body.openCommission !== undefined && { openCommission: body.openCommission }),
       ...(body.openTradeDate && { openTradeDate: body.openTradeDate }),
       ...(body.notes !== undefined && { notes: body.notes }),
+      // Closing transaction fields (for closed trades)
+      ...(body.closeAction && { closeAction: body.closeAction }),
+      ...(body.closePremium !== undefined && { closePremium: body.closePremium }),
+      ...(body.closeCommission !== undefined && { closeCommission: body.closeCommission }),
+      ...(body.closeTradeDate && { closeTradeDate: body.closeTradeDate }),
       updatedAt: new Date().toISOString()
     };
 
-    // Recalculate openTotalCost if any cost-related fields changed
-    const costFieldsChanged =
+    // Recalculate openTotalCost if any opening cost-related fields changed
+    const openCostFieldsChanged =
       body.openAction !== undefined ||
       body.openQuantity !== undefined ||
       body.openPremium !== undefined ||
       body.openCommission !== undefined;
 
-    if (costFieldsChanged) {
+    if (openCostFieldsChanged) {
       updatedTrade.openTotalCost = calculateOpenTotalCost(
         updatedTrade.openAction,
         updatedTrade.openQuantity,
@@ -119,6 +118,36 @@ export const handler = async (
         updatedTrade.openCommission
       );
       console.log('[UPDATE_TRADE] Recalculated openTotalCost:', updatedTrade.openTotalCost);
+    }
+
+    // Recalculate closeTotalCost and profitLoss if any closing cost-related fields changed
+    const closeCostFieldsChanged =
+      body.closeAction !== undefined ||
+      body.closePremium !== undefined ||
+      body.closeCommission !== undefined ||
+      openCostFieldsChanged; // Also recalc if open fields changed
+
+    if (closeCostFieldsChanged && updatedTrade.status === TradeStatus.CLOSED) {
+      // Ensure we have all closing fields
+      if (updatedTrade.closeAction && updatedTrade.closePremium !== undefined &&
+          updatedTrade.closeCommission !== undefined) {
+
+        updatedTrade.closeTotalCost = calculateCloseTotalCost(
+          updatedTrade.closeAction,
+          updatedTrade.openQuantity, // closeQuantity equals openQuantity
+          updatedTrade.closePremium,
+          updatedTrade.closeCommission
+        );
+        console.log('[UPDATE_TRADE] Recalculated closeTotalCost:', updatedTrade.closeTotalCost);
+
+        // Recalculate profit/loss
+        updatedTrade.profitLoss = calculateProfitLoss(
+          updatedTrade.openAction,
+          updatedTrade.openTotalCost,
+          updatedTrade.closeTotalCost
+        );
+        console.log('[UPDATE_TRADE] Recalculated profitLoss:', updatedTrade.profitLoss);
+      }
     }
 
     // Save to database

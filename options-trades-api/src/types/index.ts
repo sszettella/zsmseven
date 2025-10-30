@@ -87,6 +87,11 @@ export interface UpdateTradeRequest {
   openCommission?: number;
   openTradeDate?: string;
   notes?: string;
+  // Closing transaction fields (for updating closed trades)
+  closeAction?: ClosingAction;
+  closePremium?: number;
+  closeCommission?: number;
+  closeTradeDate?: string;
 }
 
 export interface CloseTradeRequest {

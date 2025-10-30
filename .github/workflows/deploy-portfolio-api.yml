@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - develop
     paths:
       - 'portfolio-api/**'
   workflow_dispatch:
@@ -44,11 +45,18 @@ jobs:
       - name: Deploy Portfolio API
         run: |
           cd portfolio-api
-          serverless deploy --stage prod
+          STAGE=${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+          serverless deploy --stage $STAGE
         env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_SECRET: ${{ github.ref == 'refs/heads/main' && secrets.PROD_JWT_SECRET || secrets.DEV_JWT_SECRET }}
 
       - name: Display deployment info
         run: |
           cd portfolio-api
-          serverless info --stage prod
+          STAGE=${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+          serverless info --stage $STAGE
+          echo ""
+          echo "Deployment complete!"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Stage: $STAGE"
+          echo "Domain: ${{ github.ref == 'refs/heads/main' && 'https://api.zsm7.com/portfolios' || 'https://api.zsmproperties.com/portfolios' }}"

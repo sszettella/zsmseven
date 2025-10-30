@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - develop
     paths:
       - 'options-trades-api/**'
   workflow_dispatch:
@@ -44,27 +45,18 @@ jobs:
       - name: Deploy Options Trades API
         run: |
           cd options-trades-api
-          serverless deploy --stage prod
+          STAGE=${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+          serverless deploy --stage $STAGE
         env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-
-      - name: Map custom domain (if needed)
-        run: |
-          cd options-trades-api
-          # Get the API Gateway REST API ID
-          API_ID=$(aws apigateway get-rest-apis --query "items[?name=='zsmseven-options-trades-api-prod'].id" --output text --region us-east-1)
-          echo "API Gateway ID: $API_ID"
-
-          # Try to create/update base path mapping
-          aws apigateway create-base-path-mapping \
-            --domain-name api.zsmproperties.com \
-            --rest-api-id "$API_ID" \
-            --stage prod \
-            --base-path trades \
-            --region us-east-1 2>&1 || echo "✓ Base path mapping already exists or updated"
-        continue-on-error: true
+          JWT_SECRET: ${{ github.ref == 'refs/heads/main' && secrets.PROD_JWT_SECRET || secrets.DEV_JWT_SECRET }}
 
       - name: Display deployment info
         run: |
           cd options-trades-api
-          serverless info --stage prod
+          STAGE=${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+          serverless info --stage $STAGE
+          echo ""
+          echo "Deployment complete!"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Stage: $STAGE"
+          echo "Domain: ${{ github.ref == 'refs/heads/main' && 'https://api.zsm7.com/trades' || 'https://api.zsmproperties.com/trades' }}"

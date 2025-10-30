@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - develop
     paths:
       - 'auth-api/**'
   workflow_dispatch:
@@ -44,12 +45,19 @@ jobs:
       - name: Deploy Auth API
         run: |
           cd auth-api
-          serverless deploy --stage prod
+          STAGE=${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+          serverless deploy --stage $STAGE
         env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+          JWT_SECRET: ${{ github.ref == 'refs/heads/main' && secrets.PROD_JWT_SECRET || secrets.DEV_JWT_SECRET }}
+          JWT_REFRESH_SECRET: ${{ github.ref == 'refs/heads/main' && secrets.PROD_JWT_REFRESH_SECRET || secrets.DEV_JWT_REFRESH_SECRET }}
 
       - name: Display deployment info
         run: |
           cd auth-api
-          serverless info --stage prod
+          STAGE=${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+          serverless info --stage $STAGE
+          echo ""
+          echo "Deployment complete!"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Stage: $STAGE"
+          echo "Domain: ${{ github.ref == 'refs/heads/main' && 'https://api.zsm7.com/auth' || 'https://api.zsmproperties.com/auth' }}"

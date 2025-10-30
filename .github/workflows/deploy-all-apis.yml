@@ -1,14 +1,19 @@
 name: Deploy All APIs
 
 on:
+  push:
+    branches:
+      - main
+      - develop
   workflow_dispatch:
     inputs:
       stage:
-        description: 'Deployment stage'
-        required: true
-        default: 'prod'
+        description: 'Deployment stage (auto-detected from branch if triggered by push)'
+        required: false
+        default: 'auto'
         type: choice
         options:
+          - auto
           - dev
           - prod
 
@@ -44,23 +49,20 @@ jobs:
           cd auth-api
           npm run build
 
-      - name: Create custom domain mapping (if needed)
-        run: |
-          cd auth-api
-          echo "Creating domain mapping for /auth base path..."
-          serverless create_domain --stage ${{ github.event.inputs.stage }} || echo "✓ Domain mapping already exists"
-        env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
-        continue-on-error: true
-
       - name: Deploy Auth API
         run: |
           cd auth-api
-          serverless deploy --stage ${{ github.event.inputs.stage }}
+          # Determine stage: use input if manual dispatch, otherwise use branch
+          if [ "${{ github.event.inputs.stage }}" = "auto" ] || [ -z "${{ github.event.inputs.stage }}" ]; then
+            STAGE=${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+          else
+            STAGE=${{ github.event.inputs.stage }}
+          fi
+          echo "Deploying to stage: $STAGE"
+          serverless deploy --stage $STAGE
         env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+          JWT_SECRET: ${{ (github.event.inputs.stage == 'prod' || github.ref == 'refs/heads/main') && secrets.PROD_JWT_SECRET || secrets.DEV_JWT_SECRET }}
+          JWT_REFRESH_SECRET: ${{ (github.event.inputs.stage == 'prod' || github.ref == 'refs/heads/main') && secrets.PROD_JWT_REFRESH_SECRET || secrets.DEV_JWT_REFRESH_SECRET }}
 
   deploy-users-api:
     runs-on: ubuntu-latest
@@ -94,23 +96,20 @@ jobs:
           cd users-api
           npm run build
 
-      - name: Create custom domain mapping (if needed)
-        run: |
-          cd users-api
-          echo "Creating domain mapping for /users base path..."
-          serverless create_domain --stage ${{ github.event.inputs.stage }} || echo "✓ Domain mapping already exists"
-        env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
-        continue-on-error: true
-
       - name: Deploy Users API
         run: |
           cd users-api
-          serverless deploy --stage ${{ github.event.inputs.stage }}
+          # Determine stage: use input if manual dispatch, otherwise use branch
+          if [ "${{ github.event.inputs.stage }}" = "auto" ] || [ -z "${{ github.event.inputs.stage }}" ]; then
+            STAGE=${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+          else
+            STAGE=${{ github.event.inputs.stage }}
+          fi
+          echo "Deploying to stage: $STAGE"
+          serverless deploy --stage $STAGE
         env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+          JWT_SECRET: ${{ (github.event.inputs.stage == 'prod' || github.ref == 'refs/heads/main') && secrets.PROD_JWT_SECRET || secrets.DEV_JWT_SECRET }}
+          JWT_REFRESH_SECRET: ${{ (github.event.inputs.stage == 'prod' || github.ref == 'refs/heads/main') && secrets.PROD_JWT_REFRESH_SECRET || secrets.DEV_JWT_REFRESH_SECRET }}
 
   deploy-options-trades-api:
     runs-on: ubuntu-latest
@@ -144,21 +143,19 @@ jobs:
           cd options-trades-api
           npm run build
 
-      - name: Create custom domain mapping (if needed)
-        run: |
-          cd options-trades-api
-          echo "Creating domain mapping for /trades base path..."
-          serverless create_domain --stage ${{ github.event.inputs.stage }} || echo "✓ Domain mapping already exists"
-        env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-        continue-on-error: true
-
       - name: Deploy Options Trades API
         run: |
           cd options-trades-api
-          serverless deploy --stage ${{ github.event.inputs.stage }}
+          # Determine stage: use input if manual dispatch, otherwise use branch
+          if [ "${{ github.event.inputs.stage }}" = "auto" ] || [ -z "${{ github.event.inputs.stage }}" ]; then
+            STAGE=${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+          else
+            STAGE=${{ github.event.inputs.stage }}
+          fi
+          echo "Deploying to stage: $STAGE"
+          serverless deploy --stage $STAGE
         env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_SECRET: ${{ (github.event.inputs.stage == 'prod' || github.ref == 'refs/heads/main') && secrets.PROD_JWT_SECRET || secrets.DEV_JWT_SECRET }}
 
   deploy-portfolio-api:
     runs-on: ubuntu-latest
@@ -192,22 +189,19 @@ jobs:
           cd portfolio-api
           npm run build
 
-      - name: Remove existing base path mapping (if exists)
-        run: |
-          cd portfolio-api
-          # Try to delete existing base path mapping to avoid conflicts
-          aws apigateway delete-base-path-mapping \
-            --domain-name api.zsmproperties.com \
-            --base-path portfolios \
-            --region us-east-1 2>&1 || echo "✓ No existing base path mapping to remove"
-        continue-on-error: true
-
       - name: Deploy Portfolio API
         run: |
           cd portfolio-api
-          serverless deploy --stage ${{ github.event.inputs.stage }}
+          # Determine stage: use input if manual dispatch, otherwise use branch
+          if [ "${{ github.event.inputs.stage }}" = "auto" ] || [ -z "${{ github.event.inputs.stage }}" ]; then
+            STAGE=${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+          else
+            STAGE=${{ github.event.inputs.stage }}
+          fi
+          echo "Deploying to stage: $STAGE"
+          serverless deploy --stage $STAGE
         env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_SECRET: ${{ (github.event.inputs.stage == 'prod' || github.ref == 'refs/heads/main') && secrets.PROD_JWT_SECRET || secrets.DEV_JWT_SECRET }}
 
   deploy-summary:
     runs-on: ubuntu-latest
@@ -215,9 +209,27 @@ jobs:
     steps:
       - name: Deployment Summary
         run: |
-          echo "✅ All APIs deployed successfully to ${{ github.event.inputs.stage }}!"
+          # Determine stage and domain
+          if [ "${{ github.event.inputs.stage }}" = "auto" ] || [ -z "${{ github.event.inputs.stage }}" ]; then
+            STAGE=${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+            DOMAIN=${{ github.ref == 'refs/heads/main' && 'api.zsm7.com' || 'api.zsmproperties.com' }}
+          else
+            STAGE=${{ github.event.inputs.stage }}
+            if [ "$STAGE" = "prod" ]; then
+              DOMAIN="api.zsm7.com"
+            else
+              DOMAIN="api.zsmproperties.com"
+            fi
+          fi
+
+          echo "✅ All APIs deployed successfully!"
           echo ""
-          echo "Auth API: https://api.zsmproperties.com/auth"
-          echo "Users API: https://api.zsmproperties.com/users"
-          echo "Options Trades API: https://api.zsmproperties.com/trades"
-          echo "Portfolio API: https://api.zsmproperties.com/portfolios"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Stage: $STAGE"
+          echo "Domain: $DOMAIN"
+          echo ""
+          echo "API Endpoints:"
+          echo "  Auth API: https://$DOMAIN/auth"
+          echo "  Users API: https://$DOMAIN/users"
+          echo "  Options Trades API: https://$DOMAIN/trades"
+          echo "  Portfolio API: https://$DOMAIN/portfolios"

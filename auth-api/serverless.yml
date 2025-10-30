@@ -38,12 +38,7 @@ functions:
       - http:
           path: login
           method: post
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
+          cors: true
 
   register:
     handler: dist/handlers/register.handler
@@ -51,12 +46,7 @@ functions:
       - http:
           path: register
           method: post
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
+          cors: true
 
   refreshToken:
     handler: dist/handlers/refreshToken.handler
@@ -64,12 +54,7 @@ functions:
       - http:
           path: refresh
           method: post
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
+          cors: true
 
   getMe:
     handler: dist/handlers/getMe.handler
@@ -77,12 +62,7 @@ functions:
       - http:
           path: me
           method: get
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
+          cors: true
 
   logout:
     handler: dist/handlers/logout.handler
@@ -90,12 +70,7 @@ functions:
       - http:
           path: logout
           method: post
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
+          cors: true
 
 resources:
   Resources:

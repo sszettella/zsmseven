@@ -27,3 +27,5 @@ static/scripts.js
 static/styles.css
 static/zsmlogo.jpeg
 JWT_SECRETS
+copy-dev-to-prod.js
+verify-copy.js

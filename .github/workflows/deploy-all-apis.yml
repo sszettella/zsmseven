@@ -192,13 +192,14 @@ jobs:
           cd portfolio-api
           npm run build
 
-      - name: Create custom domain mapping (if needed)
+      - name: Remove existing base path mapping (if exists)
         run: |
           cd portfolio-api
-          echo "Creating domain mapping for /portfolios base path..."
-          serverless create_domain --stage ${{ github.event.inputs.stage }} || echo "✓ Domain mapping already exists"
-        env:
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          # Try to delete existing base path mapping to avoid conflicts
+          aws apigateway delete-base-path-mapping \
+            --domain-name api.zsmproperties.com \
+            --base-path portfolios \
+            --region us-east-1 2>&1 || echo "✓ No existing base path mapping to remove"
         continue-on-error: true
 
       - name: Deploy Portfolio API

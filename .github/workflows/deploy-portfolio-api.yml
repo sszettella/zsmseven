@@ -41,28 +41,22 @@ jobs:
           cd portfolio-api
           npm run build
 
+      - name: Remove existing base path mapping (if exists)
+        run: |
+          cd portfolio-api
+          # Try to delete existing base path mapping to avoid conflicts
+          aws apigateway delete-base-path-mapping \
+            --domain-name api.zsmproperties.com \
+            --base-path portfolios \
+            --region us-east-1 2>&1 || echo "✓ No existing base path mapping to remove"
+        continue-on-error: true
+
       - name: Deploy Portfolio API
         run: |
           cd portfolio-api
           serverless deploy --stage prod
         env:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
-
-      - name: Map custom domain (if needed)
-        run: |
-          cd portfolio-api
-          # Get the API Gateway REST API ID
-          API_ID=$(aws apigateway get-rest-apis --query "items[?name=='zsmseven-portfolio-api-prod'].id" --output text --region us-east-1)
-          echo "API Gateway ID: $API_ID"
-
-          # Try to create/update base path mapping
-          aws apigateway create-base-path-mapping \
-            --domain-name api.zsmproperties.com \
-            --rest-api-id "$API_ID" \
-            --stage prod \
-            --base-path portfolios \
-            --region us-east-1 2>&1 || echo "✓ Base path mapping already exists or updated"
-        continue-on-error: true
 
       - name: Display deployment info
         run: |

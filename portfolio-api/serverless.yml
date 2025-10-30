@@ -41,12 +41,7 @@ functions:
       - http:
           path: /
           method: get
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
+          cors: true
 
   createPortfolio:
     handler: dist/handlers/createPortfolio.handler
@@ -54,12 +49,7 @@ functions:
       - http:
           path: /
           method: post
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
+          cors: true
 
   getDefaultPortfolio:
     handler: dist/handlers/getDefaultPortfolio.handler
@@ -67,12 +57,7 @@ functions:
       - http:
           path: /default
           method: get
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
+          cors: true
 
   getPortfolio:
     handler: dist/handlers/getPortfolio.handler
@@ -80,12 +65,7 @@ functions:
       - http:
           path: /{portfolioId}
           method: get
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
+          cors: true
 
   updatePortfolio:
     handler: dist/handlers/updatePortfolio.handler
@@ -93,12 +73,7 @@ functions:
       - http:
           path: /{portfolioId}
           method: put
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
+          cors: true
 
   deletePortfolio:
     handler: dist/handlers/deletePortfolio.handler
@@ -106,12 +81,7 @@ functions:
       - http:
           path: /{portfolioId}
           method: delete
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
+          cors: true
 
   # ================================
   # POSITION ENDPOINTS
@@ -123,12 +93,7 @@ functions:
       - http:
           path: /{portfolioId}/positions
           method: get
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
+          cors: true
 
   createPosition:
     handler: dist/handlers/createPosition.handler
@@ -136,12 +101,7 @@ functions:
       - http:
           path: /{portfolioId}/positions
           method: post
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
+          cors: true
 
   getPosition:
     handler: dist/handlers/getPosition.handler
@@ -149,12 +109,7 @@ functions:
       - http:
           path: /{portfolioId}/positions/{positionId}
           method: get
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
+          cors: true
 
   updatePosition:
     handler: dist/handlers/updatePosition.handler
@@ -162,12 +117,7 @@ functions:
       - http:
           path: /{portfolioId}/positions/{positionId}
           method: put
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
+          cors: true
 
   deletePosition:
     handler: dist/handlers/deletePosition.handler
@@ -175,12 +125,7 @@ functions:
       - http:
           path: /{portfolioId}/positions/{positionId}
           method: delete
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
+          cors: true
 
   updatePositionPrices:
     handler: dist/handlers/updatePositionPrices.handler
@@ -188,12 +133,7 @@ functions:
       - http:
           path: /{portfolioId}/positions/prices
           method: patch
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - Authorization
-            allowCredentials: false
+          cors: true
 
 # ================================
 # DYNAMODB TABLES

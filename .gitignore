@@ -29,3 +29,5 @@ static/zsmlogo.jpeg
 JWT_SECRETS
 copy-dev-to-prod.js
 verify-copy.js
+backend-processing-api/DEPLOYMENT_GUIDE.md
+POLYGON_API_KEY

@@ -70,7 +70,6 @@ jobs:
 
   deploy-users-api:
     runs-on: ubuntu-latest
-    needs: deploy-auth-api
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -117,7 +116,6 @@ jobs:
 
   deploy-options-trades-api:
     runs-on: ubuntu-latest
-    needs: deploy-auth-api
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -163,7 +161,6 @@ jobs:
 
   deploy-portfolio-api:
     runs-on: ubuntu-latest
-    needs: deploy-auth-api
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -207,9 +204,79 @@ jobs:
         env:
           JWT_SECRET: ${{ (github.event.inputs.stage == 'prod' || github.ref == 'refs/heads/main') && secrets.PROD_JWT_SECRET || secrets.DEV_JWT_SECRET }}
 
+  deploy-backend-processing-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Install Node dependencies
+        working-directory: backend-processing-api
+        run: npm install
+
+      - name: Install Python dependencies
+        working-directory: backend-processing-api
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Deploy Backend Processing API
+        working-directory: backend-processing-api
+        env:
+          POLYGON_API_KEY: ${{ secrets.POLYGON_API_KEY }}
+          XAI_API_URL: ${{ secrets.XAI_API_URL }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+        run: |
+          # Determine stage: use input if manual dispatch, otherwise use branch
+          if [ "${{ github.event.inputs.stage }}" = "auto" ] || [ -z "${{ github.event.inputs.stage }}" ]; then
+            STAGE=${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+          else
+            STAGE=${{ github.event.inputs.stage }}
+          fi
+          echo "Deploying to stage: $STAGE"
+
+          # Retry deployment up to 3 times to handle transient CloudFormation changeset errors
+          max_attempts=3
+          attempt=1
+
+          while [ $attempt -le $max_attempts ]; do
+            echo "Deployment attempt $attempt of $max_attempts..."
+
+            if npx serverless deploy --stage $STAGE --verbose; then
+              echo "Deployment successful!"
+              exit 0
+            else
+              if [ $attempt -lt $max_attempts ]; then
+                echo "Deployment failed. Retrying in 10 seconds..."
+                sleep 10
+                attempt=$((attempt + 1))
+              else
+                echo "Deployment failed after $max_attempts attempts."
+                exit 1
+              fi
+            fi
+          done
+
   deploy-summary:
     runs-on: ubuntu-latest
-    needs: [deploy-auth-api, deploy-users-api, deploy-options-trades-api, deploy-portfolio-api]
+    needs: [deploy-auth-api, deploy-users-api, deploy-options-trades-api, deploy-portfolio-api, deploy-backend-processing-api]
     steps:
       - name: Deployment Summary
         run: |
@@ -237,3 +304,6 @@ jobs:
           echo "  Users API: https://$DOMAIN/users"
           echo "  Options Trades API: https://$DOMAIN/trades"
           echo "  Portfolio API: https://$DOMAIN/portfolios"
+          echo ""
+          echo "Background Services:"
+          echo "  Backend Processing API (Lambda functions for ticker data processing)"

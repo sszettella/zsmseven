@@ -1,0 +1,9 @@
+[
+  {
+    "ResourceType": "AWS::SQS::Queue",
+    "LogicalResourceId": "AnalysisQueue",
+    "ResourceIdentifier": {
+      "QueueUrl": "https://sqs.us-east-1.amazonaws.com/076311063214/portfolio-analysis-queue-prod"
+    }
+  }
+]

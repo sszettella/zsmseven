@@ -119,7 +119,7 @@ resources:
         MessageRetentionPeriod: 345600  # 4 days
 
     # SQS Queue for portfolio analysis processing
-    # Created for both dev and prod stages
+    # Managed by CloudFormation for both dev and prod stages
     AnalysisQueue:
       Type: AWS::SQS::Queue
       DeletionPolicy: Retain
@@ -190,6 +190,7 @@ custom:
     prod: !GetAtt PortfolioQueue.Arn
 
   # Stage-specific analysis queue configuration
+  # Both dev and prod use CloudFormation-managed queues
   analysisQueueUrl:
     dev: !GetAtt AnalysisQueue.QueueUrl
     prod: !GetAtt AnalysisQueue.QueueUrl

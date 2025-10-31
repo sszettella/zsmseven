@@ -7,6 +7,7 @@ provider:
   runtime: nodejs20.x
   stage: ${opt:stage, 'dev'}
   region: us-east-1
+  logRetentionInDays: 7
   environment:
     TRADES_TABLE: options-trades-${self:provider.stage}
     USERS_TABLE: users-${self:provider.stage}

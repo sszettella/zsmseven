@@ -73,7 +73,29 @@ jobs:
           XAI_API_URL: ${{ secrets.XAI_API_URL }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
         run: |
-          npx serverless deploy --stage ${{ steps.determine_stage.outputs.stage }} --verbose
+          STAGE=${{ steps.determine_stage.outputs.stage }}
+
+          # Retry deployment up to 3 times to handle transient CloudFormation changeset errors
+          max_attempts=3
+          attempt=1
+
+          while [ $attempt -le $max_attempts ]; do
+            echo "Deployment attempt $attempt of $max_attempts..."
+
+            if npx serverless deploy --stage $STAGE --verbose; then
+              echo "Deployment successful!"
+              exit 0
+            else
+              if [ $attempt -lt $max_attempts ]; then
+                echo "Deployment failed. Retrying in 10 seconds..."
+                sleep 10
+                attempt=$((attempt + 1))
+              else
+                echo "Deployment failed after $max_attempts attempts."
+                exit 1
+              fi
+            fi
+          done
 
       - name: Deployment Summary
         run: |

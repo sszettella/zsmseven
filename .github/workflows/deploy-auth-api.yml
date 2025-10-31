@@ -46,7 +46,28 @@ jobs:
         run: |
           cd auth-api
           STAGE=${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
-          serverless deploy --stage $STAGE
+
+          # Retry deployment up to 3 times to handle transient CloudFormation changeset errors
+          max_attempts=3
+          attempt=1
+
+          while [ $attempt -le $max_attempts ]; do
+            echo "Deployment attempt $attempt of $max_attempts..."
+
+            if serverless deploy --stage $STAGE --verbose; then
+              echo "Deployment successful!"
+              exit 0
+            else
+              if [ $attempt -lt $max_attempts ]; then
+                echo "Deployment failed. Retrying in 10 seconds..."
+                sleep 10
+                attempt=$((attempt + 1))
+              else
+                echo "Deployment failed after $max_attempts attempts."
+                exit 1
+              fi
+            fi
+          done
         env:
           JWT_SECRET: ${{ github.ref == 'refs/heads/main' && secrets.PROD_JWT_SECRET || secrets.DEV_JWT_SECRET }}
           JWT_REFRESH_SECRET: ${{ github.ref == 'refs/heads/main' && secrets.PROD_JWT_REFRESH_SECRET || secrets.DEV_JWT_REFRESH_SECRET }}

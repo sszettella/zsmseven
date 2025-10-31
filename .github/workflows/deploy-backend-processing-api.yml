@@ -107,11 +107,14 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "#### Functions Deployed:" >> $GITHUB_STEP_SUMMARY
           echo "- processTickers (Scheduled: Tue-Sat 4:30 AM UTC)" >> $GITHUB_STEP_SUMMARY
-          echo "- processTicker (SQS Trigger)" >> $GITHUB_STEP_SUMMARY
-          echo "- analyzePortfolio (Scheduled: Tue-Sat 6:00 AM UTC)" >> $GITHUB_STEP_SUMMARY
+          echo "- processTicker (SQS Trigger, Concurrency: 1)" >> $GITHUB_STEP_SUMMARY
+          echo "- analyzePortfolios (Scheduled: Tue-Sat 6:00 AM UTC)" >> $GITHUB_STEP_SUMMARY
+          echo "- analyzePortfolio (SQS Trigger, Concurrency: 5)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "#### Resources:" >> $GITHUB_STEP_SUMMARY
-          echo "- SQS Queue: ticker-processing-queue-${{ steps.determine_stage.outputs.stage }}" >> $GITHUB_STEP_SUMMARY
+          echo "- SQS Queues:" >> $GITHUB_STEP_SUMMARY
+          echo "  - portfolio-queue-${{ steps.determine_stage.outputs.stage }} (ticker processing)" >> $GITHUB_STEP_SUMMARY
+          echo "  - portfolio-analysis-queue-${{ steps.determine_stage.outputs.stage }} (portfolio analysis)" >> $GITHUB_STEP_SUMMARY
           echo "- DynamoDB Tables:" >> $GITHUB_STEP_SUMMARY
           echo "  - ticker-data-${{ steps.determine_stage.outputs.stage }}" >> $GITHUB_STEP_SUMMARY
           echo "  - portfolio-analyses-${{ steps.determine_stage.outputs.stage }}" >> $GITHUB_STEP_SUMMARY

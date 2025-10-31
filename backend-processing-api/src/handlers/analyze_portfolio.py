@@ -167,7 +167,7 @@ def process_portfolio_analysis(portfolio_id):
 
     # Check if analysis already exists for this portfolio, model, and dataAsOf
     existing_analysis = analyses_table.query(
-        KeyConditionExpression=boto3.dynamodb.conditions.Key('portfolioId').eq(portfolio_id),
+        KeyConditionExpression=boto3.dynamodb.conditions.Key('portfolio').eq(portfolio_id),
         FilterExpression=boto3.dynamodb.conditions.Attr('model').eq(MODEL) & boto3.dynamodb.conditions.Attr('dataAsOf').eq(data_as_of)
     )
     if existing_analysis['Items']:
@@ -230,7 +230,7 @@ def process_portfolio_analysis(portfolio_id):
         # Store in DynamoDB
         current_timestamp = datetime.utcnow().isoformat()
         item = {
-            'portfolioId': portfolio_id,
+            'portfolio': portfolio_id,
             'timestamp': current_timestamp,
             'portfolioName': portfolio_name,
             'analysis': analysis,
@@ -251,7 +251,7 @@ def process_portfolio_analysis(portfolio_id):
         current_timestamp = datetime.utcnow().isoformat()
         analyses_table.put_item(
             Item={
-                'portfolioId': portfolio_id,
+                'portfolio': portfolio_id,
                 'timestamp': current_timestamp,
                 'portfolioName': portfolio_name,
                 'analysis': f"Error: {str(e)}",

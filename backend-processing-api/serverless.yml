@@ -108,42 +108,46 @@ resources:
         MessageRetentionPeriod: 345600  # 4 days
 
     # Ticker data table - stores market data
-    # NOTE: This table already exists from the old api/ deployment
-    # Commenting out to avoid conflicts during initial deployment
-    # TickerDataTable:
-    #   Type: AWS::DynamoDB::Table
-    #   Properties:
-    #     TableName: ${self:provider.environment.TICKER_DATA_TABLE}
-    #     BillingMode: PAY_PER_REQUEST
-    #     AttributeDefinitions:
-    #       - AttributeName: ticker
-    #         AttributeType: S
-    #       - AttributeName: timestamp
-    #         AttributeType: S
-    #     KeySchema:
-    #       - AttributeName: ticker
-    #         KeyType: HASH
-    #       - AttributeName: timestamp
-    #         KeyType: RANGE
+    # Only created for prod stage (dev uses existing table from old api/ deployment)
+    TickerDataTable:
+      Type: AWS::DynamoDB::Table
+      Condition: IsProd
+      DeletionPolicy: Retain
+      UpdateReplacePolicy: Retain
+      Properties:
+        TableName: ${self:provider.environment.TICKER_DATA_TABLE}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: ticker
+            AttributeType: S
+          - AttributeName: timestamp
+            AttributeType: S
+        KeySchema:
+          - AttributeName: ticker
+            KeyType: HASH
+          - AttributeName: timestamp
+            KeyType: RANGE
 
     # Portfolio analyses table - stores XAI analysis results
-    # NOTE: This table already exists from the old api/ deployment
-    # Commenting out to avoid conflicts during initial deployment
-    # PortfolioAnalysesTable:
-    #   Type: AWS::DynamoDB::Table
-    #   Properties:
-    #     TableName: ${self:provider.environment.ANALYSES_TABLE}
-    #     BillingMode: PAY_PER_REQUEST
-    #     AttributeDefinitions:
-    #       - AttributeName: portfolio
-    #         AttributeType: S
-    #       - AttributeName: timestamp
-    #         AttributeType: S
-    #     KeySchema:
-    #       - AttributeName: portfolio
-    #         KeyType: HASH
-    #       - AttributeName: timestamp
-    #         KeyType: RANGE
+    # Only created for prod stage (dev uses existing table from old api/ deployment)
+    PortfolioAnalysesTable:
+      Type: AWS::DynamoDB::Table
+      Condition: IsProd
+      DeletionPolicy: Retain
+      UpdateReplacePolicy: Retain
+      Properties:
+        TableName: ${self:provider.environment.ANALYSES_TABLE}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: portfolio
+            AttributeType: S
+          - AttributeName: timestamp
+            AttributeType: S
+        KeySchema:
+          - AttributeName: portfolio
+            KeyType: HASH
+          - AttributeName: timestamp
+            KeyType: RANGE
 
 plugins:
   - serverless-dotenv-plugin

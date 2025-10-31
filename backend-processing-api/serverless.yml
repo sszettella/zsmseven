@@ -154,25 +154,26 @@ resources:
             KeyType: RANGE
 
     # Portfolio analyses table - stores XAI analysis results
-    # Only created for prod stage (dev uses existing table from old api/ deployment)
-    PortfolioAnalysesTable:
-      Type: AWS::DynamoDB::Table
-      Condition: IsProd
-      DeletionPolicy: Retain
-      UpdateReplacePolicy: Retain
-      Properties:
-        TableName: ${self:provider.environment.ANALYSES_TABLE}
-        BillingMode: PAY_PER_REQUEST
-        AttributeDefinitions:
-          - AttributeName: portfolioId
-            AttributeType: S
-          - AttributeName: timestamp
-            AttributeType: S
-        KeySchema:
-          - AttributeName: portfolioId
-            KeyType: HASH
-          - AttributeName: timestamp
-            KeyType: RANGE
+    # Not managed by CloudFormation - uses existing table with 'portfolio' key
+    # (CloudFormation tried to create with 'portfolioId' key which would require replacement)
+    # PortfolioAnalysesTable:
+    #   Type: AWS::DynamoDB::Table
+    #   Condition: IsProd
+    #   DeletionPolicy: Retain
+    #   UpdateReplacePolicy: Retain
+    #   Properties:
+    #     TableName: ${self:provider.environment.ANALYSES_TABLE}
+    #     BillingMode: PAY_PER_REQUEST
+    #     AttributeDefinitions:
+    #       - AttributeName: portfolioId
+    #         AttributeType: S
+    #       - AttributeName: timestamp
+    #         AttributeType: S
+    #     KeySchema:
+    #       - AttributeName: portfolioId
+    #         KeyType: HASH
+    #       - AttributeName: timestamp
+    #         KeyType: RANGE
 
 plugins:
   - serverless-dotenv-plugin

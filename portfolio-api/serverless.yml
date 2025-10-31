@@ -11,6 +11,7 @@ provider:
     PORTFOLIOS_TABLE: user-portfolios-${self:provider.stage}
     POSITIONS_TABLE: portfolio-positions-${self:provider.stage}
     TRADES_TABLE: options-trades-${self:provider.stage}
+    ANALYSES_TABLE: portfolio-analyses-${self:provider.stage}
     JWT_SECRET: ${env:JWT_SECRET, 'LJCIuri7XhEJZne4KvTzbqPzyEfmPFYC9a4ISxhfu3U='}
   iam:
     role:
@@ -30,6 +31,11 @@ provider:
             - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.POSITIONS_TABLE}/index/*
             - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TRADES_TABLE}
             - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TRADES_TABLE}/index/*
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+          Resource:
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ANALYSES_TABLE}
 
 functions:
   # ================================
@@ -82,6 +88,14 @@ functions:
       - http:
           path: /{portfolioId}
           method: delete
+          cors: true
+
+  getPortfolioAnalysis:
+    handler: dist/handlers/getPortfolioAnalysis.handler
+    events:
+      - http:
+          path: /{portfolioId}/analysis
+          method: get
           cors: true
 
   # ================================

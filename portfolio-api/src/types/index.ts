@@ -113,3 +113,15 @@ export interface APIResponse<T = any> {
   };
   body: string;
 }
+
+export interface PortfolioAnalysis {
+  portfolioId: string;
+  timestamp: string;
+  portfolioName: string;
+  analysis: string;
+  parsed_data?: string;
+  prompt?: string;
+  model: string;
+  dataAsOf: string;
+  error?: string;
+}

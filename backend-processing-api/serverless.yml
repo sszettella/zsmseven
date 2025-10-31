@@ -14,7 +14,7 @@ provider:
     PORTFOLIOS_TABLE: user-portfolios-${self:provider.stage}
     POSITIONS_TABLE: portfolio-positions-${self:provider.stage}
     ANALYSES_TABLE: portfolio-analyses-${self:provider.stage}
-    SQS_QUEUE_URL: https://sqs.us-east-1.amazonaws.com/076311063214/portfolio-queue-${self:provider.stage}
+    SQS_QUEUE_URL: ${self:custom.sqsQueueUrl.${self:provider.stage}}
     XAI_API_URL: ${env:XAI_API_URL}
     XAI_API_KEY: ${env:XAI_API_KEY}
   iam:
@@ -46,7 +46,7 @@ provider:
             - sqs:ReceiveMessage
             - sqs:DeleteMessage
             - sqs:GetQueueAttributes
-          Resource: arn:aws:sqs:${self:provider.region}:076311063214:portfolio-queue-${self:provider.stage}
+          Resource: ${self:custom.sqsQueueArn.${self:provider.stage}}
         - Effect: Allow
           Action:
             - lambda:InvokeFunction
@@ -71,7 +71,7 @@ functions:
     reservedConcurrency: 1
     events:
       - sqs:
-          arn: arn:aws:sqs:us-east-1:076311063214:portfolio-queue-${self:provider.stage}
+          arn: ${self:custom.sqsQueueArn.${self:provider.stage}}
           batchSize: 1
 
   # Analyze portfolio using XAI
@@ -88,17 +88,24 @@ functions:
             portfolio_name: "ZSM Seven"
 
 resources:
+  Conditions:
+    IsProd: !Equals
+      - ${self:provider.stage}
+      - prod
+
   Resources:
     # SQS Queue for ticker processing
-    # NOTE: Using existing portfolio-queue from old api/ deployment
-    # Commenting out to avoid conflicts during initial deployment
-    # TickerProcessingQueue:
-    #   Type: AWS::SQS::Queue
-    #   DeletionPolicy: Retain
-    #   Properties:
-    #     QueueName: ticker-processing-queue-${self:provider.stage}
-    #     VisibilityTimeout: 300
-    #     MessageRetentionPeriod: 1209600  # 14 days
+    # Only created for prod stage (dev uses existing queue from old api/ deployment)
+    # DeletionPolicy: Retain ensures queue is not deleted when stack is removed
+    PortfolioQueue:
+      Type: AWS::SQS::Queue
+      Condition: IsProd
+      DeletionPolicy: Retain
+      UpdateReplacePolicy: Retain
+      Properties:
+        QueueName: portfolio-queue-${self:provider.stage}
+        VisibilityTimeout: 300
+        MessageRetentionPeriod: 345600  # 4 days
 
     # Ticker data table - stores market data
     # NOTE: This table already exists from the old api/ deployment
@@ -145,6 +152,17 @@ plugins:
 useDotenv: true
 
 custom:
+  # Stage-specific SQS queue configuration
+  # Dev uses existing queue from old api/ deployment
+  # Prod uses CloudFormation-managed queue
+  sqsQueueUrl:
+    dev: https://sqs.us-east-1.amazonaws.com/076311063214/portfolio-queue-dev
+    prod: !GetAtt PortfolioQueue.QueueUrl
+
+  sqsQueueArn:
+    dev: arn:aws:sqs:us-east-1:076311063214:portfolio-queue-dev
+    prod: !GetAtt PortfolioQueue.Arn
+
   pythonRequirements:
     dockerizePip: false
     slim: true

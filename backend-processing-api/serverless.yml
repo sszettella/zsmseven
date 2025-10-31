@@ -103,6 +103,8 @@ resources:
     IsProd: !Equals
       - ${self:provider.stage}
       - prod
+    IsDev: !Not
+      - !Condition IsProd
 
   Resources:
     # SQS Queue for ticker processing
@@ -119,9 +121,10 @@ resources:
         MessageRetentionPeriod: 345600  # 4 days
 
     # SQS Queue for portfolio analysis processing
-    # Managed by CloudFormation for both dev and prod stages
+    # Only created for dev (prod uses existing orphaned queue)
     AnalysisQueue:
       Type: AWS::SQS::Queue
+      Condition: IsDev
       DeletionPolicy: Retain
       UpdateReplacePolicy: Retain
       Properties:
@@ -190,14 +193,14 @@ custom:
     prod: !GetAtt PortfolioQueue.Arn
 
   # Stage-specific analysis queue configuration
-  # Both dev and prod use CloudFormation-managed queues
+  # Dev uses CloudFormation, prod references existing orphaned queue
   analysisQueueUrl:
     dev: !GetAtt AnalysisQueue.QueueUrl
-    prod: !GetAtt AnalysisQueue.QueueUrl
+    prod: https://sqs.us-east-1.amazonaws.com/076311063214/portfolio-analysis-queue-prod
 
   analysisQueueArn:
     dev: !GetAtt AnalysisQueue.Arn
-    prod: !GetAtt AnalysisQueue.Arn
+    prod: arn:aws:sqs:us-east-1:076311063214:portfolio-analysis-queue-prod
 
   pythonRequirements:
     dockerizePip: false

@@ -5,6 +5,10 @@ on:
     branches:
       - main
       - develop
+    paths:
+      # Only trigger deploy-all automatically when workflow files change
+      # Individual API workflows handle their own targeted deployments
+      - '.github/workflows/**'
   workflow_dispatch:
     inputs:
       stage:

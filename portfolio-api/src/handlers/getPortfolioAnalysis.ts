@@ -21,9 +21,9 @@ async function getPortfolioAnalyses(
 ): Promise<PortfolioAnalysis[]> {
   const params = {
     TableName: ANALYSES_TABLE,
-    KeyConditionExpression: 'portfolioId = :portfolioId',
+    KeyConditionExpression: 'portfolio = :portfolio',
     ExpressionAttributeValues: {
-      ':portfolioId': portfolioId,
+      ':portfolio': portfolioId,
     },
     ScanIndexForward: false, // Most recent first
     ...(limit && { Limit: limit }),
@@ -103,20 +103,30 @@ export const handler = async (
     // Filter fields based on includeDetails
     const response = analyses.map(analysis => {
       const baseResponse: any = {
-        portfolioId: analysis.portfolioId,
+        portfolioId: (analysis as any).portfolio || analysis.portfolioId,
         timestamp: analysis.timestamp,
         portfolioName: analysis.portfolioName,
         model: analysis.model,
         dataAsOf: analysis.dataAsOf,
       };
 
+      // Parse parsed_data if it's a string
+      let parsedData = analysis.parsed_data;
+      if (typeof parsedData === 'string') {
+        try {
+          parsedData = JSON.parse(parsedData);
+        } catch (e) {
+          console.log('[GET_PORTFOLIO_ANALYSIS] Failed to parse parsed_data:', e);
+        }
+      }
+
       if (includeDetails) {
         baseResponse.analysis = analysis.analysis;
         baseResponse.prompt = analysis.prompt;
-        baseResponse.parsed_data = analysis.parsed_data;
+        baseResponse.parsed_data = parsedData;
       } else {
         // Only include parsed data for summary view
-        baseResponse.parsed_data = analysis.parsed_data;
+        baseResponse.parsed_data = parsedData;
       }
 
       if (analysis.error) {
